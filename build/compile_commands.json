@@ -1,0 +1,67 @@
+[
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/IndexBuffer.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/IndexBuffer.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/IndexBuffer.cpp"
+},
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/SdlEventHandler.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/SdlEventHandler.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/SdlEventHandler.cpp"
+},
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/Shader.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/Shader.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/Shader.cpp"
+},
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/VertexBuffer.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/VertexBuffer.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/VertexBuffer.cpp"
+},
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/main.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/main.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/main.cpp"
+},
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/utils.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/utils.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/utils.cpp"
+},
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/cameras/Camera.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/cameras/Camera.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/cameras/Camera.cpp"
+},
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/cameras/FlyingCamera.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/cameras/FlyingCamera.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/cameras/FlyingCamera.cpp"
+},
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/cameras/FpsCamera.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/cameras/FpsCamera.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/cameras/FpsCamera.cpp"
+},
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/gui/Gui.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/gui/Gui.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/gui/Gui.cpp"
+},
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/gui/GuiScreen.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/gui/GuiScreen.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/gui/GuiScreen.cpp"
+},
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/models/Mesh.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/models/Mesh.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/models/Mesh.cpp"
+},
+{
+  "directory": "/home/jan/visual-studio-code-workspace/OpenGL/build",
+  "command": "/bin/x86_64-linux-gnu-g++-11  -isystem /usr/include/SDL2 -g -std=gnu++2a -o CMakeFiles/OpenGLProject.dir/src/models/Model.cpp.o -c /home/jan/visual-studio-code-workspace/OpenGL/src/models/Model.cpp",
+  "file": "/home/jan/visual-studio-code-workspace/OpenGL/src/models/Model.cpp"
+}
+]
