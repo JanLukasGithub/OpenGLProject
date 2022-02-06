@@ -6,3 +6,7 @@
 
 # vscode files
 /.vscode/
+
+# eclipse files
+/.classpath
+/.project
