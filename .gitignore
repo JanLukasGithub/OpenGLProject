@@ -8,5 +8,6 @@
 /.vscode/
 
 # eclipse files
-/.classpath
+/.cproject
 /.project
+/.settings/
