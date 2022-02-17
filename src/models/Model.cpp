@@ -409,7 +409,6 @@ Model::~Model() {
 	for (unsigned int i = 0; i < m_meshes.size(); i++) {
 		delete m_meshes[i];
 	}
-	delete m_scene;
 }
 
 void Model::render() {
