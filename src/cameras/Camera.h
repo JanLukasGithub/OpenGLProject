@@ -39,12 +39,12 @@ public:
 
 	virtual void translate(glm::vec3 vec3);
 
-	virtual void handleInputs(SdlEventHandler *handler, float32 delta);
+	virtual void handleInputs(SdlEventHandler* handler, float32 delta);
 
 protected:
-	glm::vec3 position{0.0f};
+	glm::vec3 position{ 0.0f };
 	glm::mat4 projection;
-	glm::mat4 view{1.0f};
+	glm::mat4 view{ 1.0f };
 	glm::mat4 viewProj;
 };
 

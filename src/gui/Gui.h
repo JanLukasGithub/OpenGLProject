@@ -18,8 +18,8 @@ class Gui;
 
 class Gui {
 public:
-	Gui() : m_zLevel{0.0f} {}
-	Gui(float zLevel) : m_zLevel{zLevel} {}
+	Gui() : m_zLevel{ 0.0f } {}
+	Gui(float zLevel) : m_zLevel{ zLevel } {}
 	virtual ~Gui() {}
 
 	virtual void draw() {}

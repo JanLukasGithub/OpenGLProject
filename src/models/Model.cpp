@@ -7,17 +7,17 @@
 
 #include "Model.h"
 
-// Ignore "member should be initialized in initializer list" warning
+ // Ignore "member should be initialized in initializer list" warning
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
-Model::Model(const char *filename, Shader *shader) {
+Model::Model(const char* filename, Shader* shader) {
 	if (strcmp(getFileExtension(filename), "bmf") == 0)
 		readModelFromBmfFile(filename, shader, glm::vec3(0.0f, 0.0f, 0.0f));
 	else
 		readModelFromFile(filename, shader, glm::vec3(0.0f, 0.0f, 0.0f));
 }
 
-Model::Model(const char *filename, Shader *shader, glm::vec3 offset) {
+Model::Model(const char* filename, Shader* shader, glm::vec3 offset) {
 	if (strcmp(getFileExtension(filename), "bmf") == 0)
 		readModelFromBmfFile(filename, shader, offset);
 	else
@@ -26,7 +26,7 @@ Model::Model(const char *filename, Shader *shader, glm::vec3 offset) {
 #pragma GCC diagnostic pop
 
 // Reads bmf files
-void Model::readModelFromBmfFile(const char *filename, Shader *shader, glm::vec3 offset) {
+void Model::readModelFromBmfFile(const char* filename, Shader* shader, glm::vec3 offset) {
 	std::ifstream input = std::ifstream(filename, std::ios::in | std::ios::binary);
 	if (!input.is_open()) {
 		std::cout << "Error reading model file " << filename << "!" << std::endl;
@@ -35,20 +35,20 @@ void Model::readModelFromBmfFile(const char *filename, Shader *shader, glm::vec3
 
 	// Materials
 	uint64 numMaterials = 0;
-	input.read((char*) &numMaterials, sizeof(numMaterials));
+	input.read((char*)&numMaterials, sizeof(numMaterials));
 	m_materials.reserve(numMaterials);
 
 	for (uint64 i = 0; i < numMaterials; i++) {
 		Material mat = { };
-		input.read((char*) &mat, sizeof(BMFMaterial));
+		input.read((char*)&mat, sizeof(BMFMaterial));
 
 		int64 diffuseMapNameLength = 0;
-		input.read((char*) &diffuseMapNameLength, sizeof(diffuseMapNameLength));
+		input.read((char*)&diffuseMapNameLength, sizeof(diffuseMapNameLength));
 		std::string diffuseMapName(diffuseMapNameLength, '\0');
 		input.read(diffuseMapName.data(), diffuseMapNameLength);
 
 		int64 normalMapNameLength = 0;
-		input.read((char*) &normalMapNameLength, sizeof(normalMapNameLength));
+		input.read((char*)&normalMapNameLength, sizeof(normalMapNameLength));
 		std::string normalMapName(normalMapNameLength, '\0');
 		input.read(normalMapName.data(), normalMapNameLength);
 
@@ -108,7 +108,7 @@ void Model::readModelFromBmfFile(const char *filename, Shader *shader, glm::vec3
 
 	// Meshes
 	uint64 numMeshes = 0;
-	input.read((char*) &numMeshes, sizeof(numMeshes));
+	input.read((char*)&numMeshes, sizeof(numMeshes));
 	m_meshes.reserve(numMeshes);
 
 	for (uint64 i = 0; i < numMeshes; i++) {
@@ -116,32 +116,32 @@ void Model::readModelFromBmfFile(const char *filename, Shader *shader, glm::vec3
 		uint64 materialIndex = 0;
 		uint64 numVertices = 0;
 		// Dynamically allocated to ensure the variable lives after exiting function
-		std::vector<Vertex> *vertices = new std::vector<Vertex>();
+		std::vector<Vertex>* vertices = new std::vector<Vertex>();
 
 		uint64 numIndices = 0;
 		// Dynamically allocated to ensure the variable lives after exiting function
-		std::vector<uint32> *indices = new std::vector<uint32>();
+		std::vector<uint32>* indices = new std::vector<uint32>();
 
-		input.read((char*) &materialIndex, sizeof(materialIndex));
-		input.read((char*) &numVertices, sizeof(numVertices));
-		input.read((char*) &numIndices, sizeof(numIndices));
+		input.read((char*)&materialIndex, sizeof(materialIndex));
+		input.read((char*)&numVertices, sizeof(numVertices));
+		input.read((char*)&numIndices, sizeof(numIndices));
 
 		for (uint64 j = 0; j < numVertices; j++) {
 			Vertex vertex;
-			input.read((char*) &vertex.position.x, sizeof(float));
-			input.read((char*) &vertex.position.y, sizeof(float));
-			input.read((char*) &vertex.position.z, sizeof(float));
+			input.read((char*)&vertex.position.x, sizeof(float));
+			input.read((char*)&vertex.position.y, sizeof(float));
+			input.read((char*)&vertex.position.z, sizeof(float));
 
-			input.read((char*) &vertex.normal.x, sizeof(float));
-			input.read((char*) &vertex.normal.y, sizeof(float));
-			input.read((char*) &vertex.normal.z, sizeof(float));
+			input.read((char*)&vertex.normal.x, sizeof(float));
+			input.read((char*)&vertex.normal.y, sizeof(float));
+			input.read((char*)&vertex.normal.z, sizeof(float));
 
-			input.read((char*) &vertex.tangent.x, sizeof(float));
-			input.read((char*) &vertex.tangent.y, sizeof(float));
-			input.read((char*) &vertex.tangent.z, sizeof(float));
+			input.read((char*)&vertex.tangent.x, sizeof(float));
+			input.read((char*)&vertex.tangent.y, sizeof(float));
+			input.read((char*)&vertex.tangent.z, sizeof(float));
 
-			input.read((char*) &vertex.textureCoords.x, sizeof(float));
-			input.read((char*) &vertex.textureCoords.y, sizeof(float));
+			input.read((char*)&vertex.textureCoords.x, sizeof(float));
+			input.read((char*)&vertex.textureCoords.y, sizeof(float));
 
 			vertex.position.x += offset.x;
 			vertex.position.y += offset.y;
@@ -151,11 +151,11 @@ void Model::readModelFromBmfFile(const char *filename, Shader *shader, glm::vec3
 		}
 		for (uint64 j = 0; j < numIndices; j++) {
 			uint32 index;
-			input.read((char*) &index, sizeof(uint32));
+			input.read((char*)&index, sizeof(uint32));
 			indices->push_back(index);
 		}
 
-		Mesh *mesh = new Mesh(vertices, indices, m_materials[materialIndex], shader);
+		Mesh* mesh = new Mesh(vertices, indices, m_materials[materialIndex], shader);
 
 		m_meshes.push_back(mesh);
 	}
@@ -164,7 +164,7 @@ void Model::readModelFromBmfFile(const char *filename, Shader *shader, glm::vec3
 }
 
 // Reads model files using assimp
-void Model::readModelFromFile(const char *filename, Shader *shader, glm::vec3 offset) {
+void Model::readModelFromFile(const char* filename, Shader* shader, glm::vec3 offset) {
 	// Assimp will do the work for us
 	Assimp::Importer importer;
 
@@ -185,7 +185,7 @@ void Model::readModelFromFile(const char *filename, Shader *shader, glm::vec3 of
 	processNodes(scene, scene->mRootNode, shader);
 }
 
-void Model::processMaterials(const aiScene* scene, const char *path) {
+void Model::processMaterials(const aiScene* scene, const char* path) {
 	// Get the amount of materials and make enough space for them in the vector to save time
 	uint32 numMaterials = scene->mNumMaterials;
 	m_materials.reserve(numMaterials);
@@ -195,7 +195,7 @@ void Model::processMaterials(const aiScene* scene, const char *path) {
 		// Material struct
 		Material mat = { };
 		// Material from assimp
-		aiMaterial *aiMaterial = scene->mMaterials[i];
+		aiMaterial* aiMaterial = scene->mMaterials[i];
 
 		// Load diffuse color
 		aiColor3D diffuse(0.0f, 0.0f, 0.0f);
@@ -245,7 +245,7 @@ void Model::processMaterials(const aiScene* scene, const char *path) {
 
 		// Load the diffuse map name; in case none exists use the default one
 		if (numDiffuseMaps > 0) {
-			aiString diffuseMapNameBuffer { };
+			aiString diffuseMapNameBuffer{ };
 			if (numDiffuseMaps > 1)
 				debugOutputEndl("More than one diffuse texture present!");
 			aiMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &diffuseMapNameBuffer);
@@ -257,7 +257,7 @@ void Model::processMaterials(const aiScene* scene, const char *path) {
 
 		// Load the normal map name; in case none exists use the default one
 		if (numNormalMaps > 0) {
-			aiString normalMapNameBuffer { };
+			aiString normalMapNameBuffer{ };
 			if (numNormalMaps > 1)
 				debugOutputEndl("More than one normal map present!");
 			aiMaterial->GetTexture(aiTextureType_NORMALS, 0, &normalMapNameBuffer);
@@ -337,10 +337,10 @@ void Model::processMaterials(const aiScene* scene, const char *path) {
 	}
 }
 
-void Model::processNodes(const aiScene* scene, aiNode *node, Shader *shader) {
+void Model::processNodes(const aiScene* scene, aiNode* node, Shader* shader) {
 	// Process the meshes from this node
 	for (uint32_t i = 0; i < node->mNumMeshes; i++) {
-		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		processMesh(mesh, shader);
 	}
 
@@ -350,15 +350,15 @@ void Model::processNodes(const aiScene* scene, aiNode *node, Shader *shader) {
 	}
 }
 
-void Model::processMesh(aiMesh *mesh, Shader *shader) {
+void Model::processMesh(aiMesh* mesh, Shader* shader) {
 	// Index of the material, materials were loaded already
 	uint64 materialIndex = mesh->mMaterialIndex;
 	uint64 numVertices = mesh->mNumVertices;
 	// Dynamically allocated to ensure the variable lives after exiting function
-	std::vector<Vertex> *vertices = new std::vector<Vertex>();
+	std::vector<Vertex>* vertices = new std::vector<Vertex>();
 
 	// Dynamically allocated to ensure the variable lives after exiting function
-	std::vector<uint32> *indices = new std::vector<uint32>();
+	std::vector<uint32>* indices = new std::vector<uint32>();
 
 	// Get the indices -------------------------------------------------------------------------------------------
 	// Iterate over faces

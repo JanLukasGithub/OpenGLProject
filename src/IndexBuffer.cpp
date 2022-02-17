@@ -8,9 +8,9 @@
 #include "IndexBuffer.h"
 
 IndexBuffer::IndexBuffer(void* data, uint64 numIndices, uint8 elementSize) {
-    glGenBuffers(1, &bufferId);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * elementSize, data, GL_STATIC_DRAW);
+	glGenBuffers(1, &bufferId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * elementSize, data, GL_STATIC_DRAW);
 }
 
 IndexBuffer::~IndexBuffer() {

@@ -46,11 +46,11 @@ struct Material {
 	GLuint normalMap;
 
 public:
-	Material(const Material& m) noexcept : diffuse{m.diffuse}, specular{m.specular}, emissive{m.emissive}, shininess{m.shininess}, diffuseMapName{m.diffuseMapName},
-											normalMapName{m.normalMapName}, diffuseMap{m.diffuseMap}, normalMap{m.normalMap} {}
+	Material(const Material& m) noexcept : diffuse{ m.diffuse }, specular{ m.specular }, emissive{ m.emissive }, shininess{ m.shininess }, diffuseMapName{ m.diffuseMapName },
+		normalMapName{ m.normalMapName }, diffuseMap{ m.diffuseMap }, normalMap{ m.normalMap } {}
 
-	Material() noexcept : diffuse{glm::vec3(0.0f)}, specular{glm::vec3(0.0f)}, emissive{glm::vec3(0.0f)}, shininess{0.0f}, diffuseMapName{std::string()},
-							normalMapName{std::string()}, diffuseMap{0}, normalMap{0} {}
+	Material() noexcept : diffuse{ glm::vec3(0.0f) }, specular{ glm::vec3(0.0f) }, emissive{ glm::vec3(0.0f) }, shininess{ 0.0f }, diffuseMapName{ std::string() },
+		normalMapName{ std::string() }, diffuseMap{ 0 }, normalMap{ 0 } {}
 };
 
 class Mesh {

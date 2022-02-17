@@ -7,10 +7,10 @@
 
 #include "Camera.h"
 
-Camera::Camera(float fov, float width, float height) : projection{glm::perspective(fov / 2.0f, width / height, 0.1f, 1000.0f)}, viewProj{projection * view} {}
+Camera::Camera(float fov, float width, float height) : projection{ glm::perspective(fov / 2.0f, width / height, 0.1f, 1000.0f) }, viewProj{ projection * view } {}
 
-Camera::Camera(float fov, float width, float height, float near, float far) : projection{glm::perspective(fov / 2.0f, width / height, near, far)},
-			viewProj{projection * view} {}
+Camera::Camera(float fov, float width, float height, float near, float far) : projection{ glm::perspective(fov / 2.0f, width / height, near, far) },
+viewProj{ projection * view } {}
 
 Camera::~Camera() {
 }
@@ -35,5 +35,5 @@ void Camera::translate(glm::vec3 vec3) {
 // Ignore parameters not being used as this function does nothing
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
-void Camera::handleInputs(SdlEventHandler *handler, float32 delta) {}
+void Camera::handleInputs(SdlEventHandler* handler, float32 delta) {}
 #pragma GCC diagnostic pop

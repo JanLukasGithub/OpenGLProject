@@ -27,7 +27,7 @@ public:
 	void update(const char* vertexShaderFileName, const char* fragmentShaderFileName);
 
 	GLuint getShaderId() {
-	    return shaderId;
+		return shaderId;
 	}
 private:
 	GLuint compile(std::string shaderSource, GLenum type);

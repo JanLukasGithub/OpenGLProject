@@ -20,7 +20,7 @@ class SdlEventHandler;
 
 class SdlEventHandler {
 public:
-    // Handles the SDL Event. Only call if update has been called this frame already!
+	// Handles the SDL Event. Only call if update has been called this frame already!
 	void handleSdlEvent(const SDL_Event event, float32 delta);
 
 	// Call this once per frame before doing anything else with the class

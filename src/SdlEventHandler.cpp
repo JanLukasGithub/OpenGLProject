@@ -58,23 +58,23 @@ bool SdlEventHandler::mouseButtonJustReleased(uint8 button) {
 void SdlEventHandler::handleSdlEvent(const SDL_Event event, float32 delta) {
 	// Handle key down, key up, mouse motion, mouse button down and mouse button up events
 	switch (event.type) {
-		case SDL_KEYDOWN:
-			updateKeyboardInputs(event.key.keysym.sym, true);
-			break;
-		case SDL_KEYUP:
-			updateKeyboardInputs(event.key.keysym.sym, false);
-			break;
-		case SDL_MOUSEMOTION:
-			updateMouseMovement(event.motion.xrel, event.motion.yrel);
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			updateMouseInputs(event.button.button, true);
-			break;
-		case SDL_MOUSEBUTTONUP:
-			updateMouseInputs(event.button.button, false);
-			break;
-		default:
-			break;
+	case SDL_KEYDOWN:
+		updateKeyboardInputs(event.key.keysym.sym, true);
+		break;
+	case SDL_KEYUP:
+		updateKeyboardInputs(event.key.keysym.sym, false);
+		break;
+	case SDL_MOUSEMOTION:
+		updateMouseMovement(event.motion.xrel, event.motion.yrel);
+		break;
+	case SDL_MOUSEBUTTONDOWN:
+		updateMouseInputs(event.button.button, true);
+		break;
+	case SDL_MOUSEBUTTONUP:
+		updateMouseInputs(event.button.button, false);
+		break;
+	default:
+		break;
 	}
 }
 

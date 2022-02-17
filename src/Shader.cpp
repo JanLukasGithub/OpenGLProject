@@ -66,9 +66,9 @@ std::string Shader::parse(const char* filename) {
 }
 
 GLuint Shader::createShader(const char* vertexShaderFileName, const char* fragmentShaderFileName) {
-	debugOutputEndl("Creating shader...");
+    debugOutputEndl("Creating shader...");
 
-	std::chrono::high_resolution_clock::time_point startTime = std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point startTime = std::chrono::high_resolution_clock::now();
 
     std::string vertexShaderSource = parse(vertexShaderFileName);
     std::string fragmentShaderSource = parse(fragmentShaderFileName);
@@ -88,17 +88,17 @@ GLuint Shader::createShader(const char* vertexShaderFileName, const char* fragme
     glDeleteShader(vs);
     glDeleteShader(fs);
 
-	std::chrono::high_resolution_clock::time_point endTime = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> time_span = endTime - startTime;
+    std::chrono::high_resolution_clock::time_point endTime = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> time_span = endTime - startTime;
 
-	debugOutput("Created shader in "); debugOutput(time_span.count()); debugOutputEndl("ms!");
+    debugOutput("Created shader in "); debugOutput(time_span.count()); debugOutputEndl("ms!");
 
     return program;
 }
 
 void Shader::update(const char* vertexShaderFileName, const char* fragmentShaderFileName) {
-	this->unbind();
-	shaderId = createShader(vertexShaderFileName, fragmentShaderFileName);
-	this->bind();
+    this->unbind();
+    shaderId = createShader(vertexShaderFileName, fragmentShaderFileName);
+    this->bind();
 }
 

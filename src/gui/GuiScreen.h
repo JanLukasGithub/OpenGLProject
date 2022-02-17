@@ -12,7 +12,7 @@
 
 #include <SDL2/SDL.h>
 
-class GuiScreen: public Gui {
+class GuiScreen : public Gui {
 public:
 	GuiScreen(SDL_Window* window);
 	GuiScreen(SDL_Window* window, float zLevel);
@@ -23,19 +23,19 @@ public:
 	int getHeight() {
 		return m_height;
 	}
-	
+
 	void setHeight(int height) {
 		m_height = height;
 	}
-	
+
 	int getWidth() {
 		return m_width;
 	}
-	
+
 	void setWidth(int width) {
 		m_width = width;
 	}
-	
+
 	virtual void drawScreen() {}
 
 	void draw() override {

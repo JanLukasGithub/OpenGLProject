@@ -22,7 +22,7 @@ void Font::initFont(const char* filename) {
     std::vector<byte> tmpBitmap = std::vector<byte>(PH_PW * PH_PW);
 
     // Read file to the buffer
-    file.read((char*) ttfBuffer.data(), fileSize);
+    file.read((char*)ttfBuffer.data(), fileSize);
 
     stbtt_BakeFontBitmap(ttfBuffer.data(), 0, 32.0f, tmpBitmap.data(), PH_PW, PH_PW, FIRST_CHAR, NUM_CHARS, m_cdata);
 
@@ -47,7 +47,7 @@ void Font::initFont(const char* filename) {
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(FontVertex), 0);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(FontVertex), (const void*) offsetof(FontVertex, texture_coords));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(FontVertex), (const void*)offsetof(FontVertex, texture_coords));
     // Unbind vertex array
     glBindVertexArray(0);
 }
@@ -83,7 +83,7 @@ void Font::drawString(float x, float y, const char* text, Shader* fontShader) {
         if (*text >= FIRST_CHAR && *text < FIRST_CHAR + NUM_CHARS) {
             // Get the quad
             stbtt_aligned_quad q;
-            stbtt_GetBakedQuad(m_cdata, PH_PW, PH_PW, *text-FIRST_CHAR, &x, &y, &q, 1);
+            stbtt_GetBakedQuad(m_cdata, PH_PW, PH_PW, *text - FIRST_CHAR, &x, &y, &q, 1);
 
             vData[0].position = glm::vec2(q.x0, q.y0); vData[0].texture_coords = glm::vec2(q.s0, q.t0);
             vData[1].position = glm::vec2(q.x1, q.y0); vData[1].texture_coords = glm::vec2(q.s1, q.t0);
@@ -95,7 +95,7 @@ void Font::drawString(float x, float y, const char* text, Shader* fontShader) {
             vData += 6;
             numVertices += 6;
         }
-        
+
         ++text;
     }
 

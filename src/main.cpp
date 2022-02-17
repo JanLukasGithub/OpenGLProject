@@ -5,7 +5,7 @@
  *      Author: jan
  */
 
-// Standard library
+ // Standard library
 #include <filesystem>
 #include <iostream>
 #include <cmath>
@@ -80,7 +80,7 @@ const char* getExtensionFromModelName(std::string filenameNoExtension) {
 		return ".fbx";
 	} else if (std::filesystem::exists(filenameNoExtension + ".FBX")) {
 		return ".FBX";
-	} 
+	}
 	// bmf has least priority as it may not support features of the other formats
 	else if (std::filesystem::exists(filenameNoExtension + ".bmf")) {
 		return ".bmf";
@@ -88,13 +88,13 @@ const char* getExtensionFromModelName(std::string filenameNoExtension) {
 	return "";
 }
 
-void openGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const void *userParam) {
+void openGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
 	std::cout << "[OpenGL]: " << message << std::endl;
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
 	// Init SDL, the window, OpenGL and GLEW
-	SDL_Window *window;
+	SDL_Window* window;
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
@@ -115,12 +115,12 @@ int main(int argc, char **argv) {
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
 #endif
 
-	//uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP;
+	// uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP;
 	uint32 flags = SDL_WINDOW_OPENGL;
 
 	window = SDL_CreateWindow("C++ OpenGL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, flags);
 	// Can be stored, but is currently not used for anything
-//	SDL_GLContext glContext = SDL_GL_CreateContext(window);
+	//	SDL_GLContext glContext = SDL_GL_CreateContext(window);
 	SDL_GL_CreateContext(window);
 
 	// Return errors
@@ -131,11 +131,12 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 
-	int *windowWidth = nullptr, *windowHeight = nullptr;
+	int* windowWidth = nullptr, * windowHeight = nullptr;
 
 	SDL_GetWindowSize(window, windowWidth, windowHeight);
 
-	debugOutput("OpenGL Version: "); debugOutputEndl(glGetString(GL_VERSION));
+	debugOutput("OpenGL Version: ");
+	debugOutputEndl(glGetString(GL_VERSION));
 
 	// Give debug output if wanted
 #ifdef _DEBUG
@@ -148,74 +149,74 @@ int main(int argc, char **argv) {
 	Shader* fontShader = new Shader("src/shaders/font.vs", "src/shaders/font.fs");
 
 	// Load the shaders
-	Shader *shader = new Shader("src/shaders/basic.vs", "src/shaders/basic.fs");
+	Shader* shader = new Shader("src/shaders/basic.vs", "src/shaders/basic.fs");
 	shader->bind();
 
-	DirectionalLight sun {
-	// Direction uniform location
-	        glGetUniformLocation(shader->getShaderId(), "u_directionalLight.direction"),
-	        // Direction
-	        glm::vec3(-1.0f),
-	        // Color
-	        glm::vec3(0.8f, 0.8f, 0.8f),
-	        // Ambient color
-	        glm::vec3(0.16f, 0.16f, 0.16f) };
+	DirectionalLight sun{
+		// Direction uniform location
+		glGetUniformLocation(shader->getShaderId(), "u_directionalLight.direction"),
+		// Direction
+		glm::vec3(-1.0f),
+		// Color
+		glm::vec3(0.8f, 0.8f, 0.8f),
+		// Ambient color
+		glm::vec3(0.16f, 0.16f, 0.16f) };
 	// Give uniforms the colors
-	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.diffuse"), 1, (float*) &sun.color.r);
-	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.specular"), 1, (float*) &sun.color.r);
-	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.ambient"), 1, (float*) &sun.ambientColor.r);
+	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.diffuse"), 1, (float*)&sun.color.r);
+	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.specular"), 1, (float*)&sun.color.r);
+	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.ambient"), 1, (float*)&sun.ambientColor.r);
 
-	PointLight pointLight {
-	// Position uniform location
-	        glGetUniformLocation(shader->getShaderId(), "u_pointLight.position"),
-	        // Position
-	        glm::vec4(0.0f, 0.0f, 10.0f, 1.0f),
-	        // Color
-	        glm::vec3(0.2f, 0.2f, 1.0f),
-	        // Ambient color
-	        glm::vec3(0.04f, 0.04f, 0.2f),
-	        // Linear attenuation
-	        0.027f,
-	        // Quadratic attenuation
-	        0.0026f };
+	PointLight pointLight{
+		// Position uniform location
+		glGetUniformLocation(shader->getShaderId(), "u_pointLight.position"),
+		// Position
+		glm::vec4(0.0f, 0.0f, 10.0f, 1.0f),
+		// Color
+		glm::vec3(0.2f, 0.2f, 1.0f),
+		// Ambient color
+		glm::vec3(0.04f, 0.04f, 0.2f),
+		// Linear attenuation
+		0.027f,
+		// Quadratic attenuation
+		0.0026f };
 	// Give uniforms the colors
-	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_pointLight.diffuse"), 1, (float*) &pointLight.color.r);
-	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_pointLight.specular"), 1, (float*) &pointLight.color.r);
-	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_pointLight.ambient"), 1, (float*) &pointLight.ambientColor.r);
+	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_pointLight.diffuse"), 1, (float*)&pointLight.color.r);
+	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_pointLight.specular"), 1, (float*)&pointLight.color.r);
+	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_pointLight.ambient"), 1, (float*)&pointLight.ambientColor.r);
 	// Give uniforms the linear and quadratic values
 	glUniform1f(glGetUniformLocation(shader->getShaderId(), "u_pointLight.linear"), pointLight.linear);
 	glUniform1f(glGetUniformLocation(shader->getShaderId(), "u_pointLight.quadratic"), pointLight.quadratic);
 
-	SpotLight flashlight {
-	// Position uniform location
-	        glGetUniformLocation(shader->getShaderId(), "u_spotLight.position"),
-	        // Direction uniform location
-	        glGetUniformLocation(shader->getShaderId(), "u_spotLight.direction"),
-	        // Position
-	        glm::vec3(0.0f, 0.0f, 0.0f),
-	        // Direction
-	        glm::vec3(0.0f, 0.0f, 1.0f),
-	        // Color
-	        glm::vec3(1.0f, 1.0f, 1.0f),
-	        // Ambient color
-	        glm::vec3(0.2f, 0.2f, 0.2f),
-	        // Linear attenuation
-	        0.027f,
-	        // Quadratic attenuation
-	        0.0026f,
-	        // Inner cone
-	        1.0f,
-	        // Outer cone
-	        0.9f };
+	SpotLight flashlight{
+		// Position uniform location
+		glGetUniformLocation(shader->getShaderId(), "u_spotLight.position"),
+		// Direction uniform location
+		glGetUniformLocation(shader->getShaderId(), "u_spotLight.direction"),
+		// Position
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		// Direction
+		glm::vec3(0.0f, 0.0f, 1.0f),
+		// Color
+		glm::vec3(1.0f, 1.0f, 1.0f),
+		// Ambient color
+		glm::vec3(0.2f, 0.2f, 0.2f),
+		// Linear attenuation
+		0.027f,
+		// Quadratic attenuation
+		0.0026f,
+		// Inner cone
+		1.0f,
+		// Outer cone
+		0.9f };
 
 	// This spot light behaves like a flash light, it's always at the same point relative to the camera, so we don't need to update its position and direction
-	glUniform3fv(flashlight.positionUniformLocation, 1, (float*) &flashlight.position.x);
-	glUniform3fv(flashlight.directionUniformLocation, 1, (float*) &flashlight.direction.x);
+	glUniform3fv(flashlight.positionUniformLocation, 1, (float*)&flashlight.position.x);
+	glUniform3fv(flashlight.directionUniformLocation, 1, (float*)&flashlight.direction.x);
 
 	// Give uniforms the colors
-	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_spotLight.diffuse"), 1, (float*) &flashlight.color.r);
-	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_spotLight.specular"), 1, (float*) &flashlight.color.r);
-	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_spotLight.ambient"), 1, (float*) &flashlight.ambientColor.r);
+	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_spotLight.diffuse"), 1, (float*)&flashlight.color.r);
+	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_spotLight.specular"), 1, (float*)&flashlight.color.r);
+	glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_spotLight.ambient"), 1, (float*)&flashlight.ambientColor.r);
 
 	// Give uniforms the attenuation
 	glUniform1f(glGetUniformLocation(shader->getShaderId(), "u_spotLight.linear"), flashlight.linear);
@@ -251,7 +252,7 @@ int main(int argc, char **argv) {
 	uint64 lastCounter = SDL_GetPerformanceCounter();
 	float32 delta = 0.0f;
 	uint32 FPS = 0;
-	IndependentTimer timer{std::chrono::seconds(1)};
+	IndependentTimer oneSecondTimer{ std::chrono::seconds(1) };
 
 	// Model matrix
 	glm::mat4 modelMatrix = glm::mat4(1.0f);
@@ -269,10 +270,10 @@ int main(int argc, char **argv) {
 	int invModelViewUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_invModelView");
 
 	// Wireframe mode for debugging
-//	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	// Input and Event handling
-	SdlEventHandler *handler = new SdlEventHandler();
+	SdlEventHandler* handler = new SdlEventHandler();
 
 	bool isEscMenuOpen = false;
 
@@ -312,25 +313,25 @@ int main(int argc, char **argv) {
 			// Set values of "constant" uniforms
 
 			// Give uniforms the colors
-			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.diffuse"), 1, (float*) &sun.color.r);
-			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.specular"), 1, (float*) &sun.color.r);
-			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.ambient"), 1, (float*) &sun.ambientColor.r);
+			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.diffuse"), 1, (float*)&sun.color.r);
+			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.specular"), 1, (float*)&sun.color.r);
+			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.ambient"), 1, (float*)&sun.ambientColor.r);
 
 			// Give uniforms the colors
-			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_pointLight.diffuse"), 1, (float*) &pointLight.color.r);
-			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_pointLight.specular"), 1, (float*) &pointLight.color.r);
-			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_pointLight.ambient"), 1, (float*) &pointLight.ambientColor.r);
+			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_pointLight.diffuse"), 1, (float*)&pointLight.color.r);
+			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_pointLight.specular"), 1, (float*)&pointLight.color.r);
+			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_pointLight.ambient"), 1, (float*)&pointLight.ambientColor.r);
 			// Give uniforms the linear and quadratic values
 			glUniform1f(glGetUniformLocation(shader->getShaderId(), "u_pointLight.linear"), pointLight.linear);
 			glUniform1f(glGetUniformLocation(shader->getShaderId(), "u_pointLight.quadratic"), pointLight.quadratic);
 
 			// This spot light behaves like a flash light, it's always at the same point relative to the camera, so we don't need to update its position and direction
-			glUniform3fv(flashlight.positionUniformLocation, 1, (float*) &flashlight.position.x);
-			glUniform3fv(flashlight.directionUniformLocation, 1, (float*) &flashlight.direction.x);
+			glUniform3fv(flashlight.positionUniformLocation, 1, (float*)&flashlight.position.x);
+			glUniform3fv(flashlight.directionUniformLocation, 1, (float*)&flashlight.direction.x);
 			// Give uniforms the colors
-			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_spotLight.diffuse"), 1, (float*) &flashlight.color.r);
-			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_spotLight.specular"), 1, (float*) &flashlight.color.r);
-			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_spotLight.ambient"), 1, (float*) &flashlight.ambientColor.r);
+			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_spotLight.diffuse"), 1, (float*)&flashlight.color.r);
+			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_spotLight.specular"), 1, (float*)&flashlight.color.r);
+			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_spotLight.ambient"), 1, (float*)&flashlight.ambientColor.r);
 			// Give uniforms the attenuation
 			glUniform1f(glGetUniformLocation(shader->getShaderId(), "u_spotLight.linear"), flashlight.linear);
 			glUniform1f(glGetUniformLocation(shader->getShaderId(), "u_spotLight.quadratic"), flashlight.quadratic);
@@ -357,9 +358,10 @@ int main(int argc, char **argv) {
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 
-		if (!isEscMenuOpen);
-			// Rotate model
-//			modelMatrix = glm::rotate(modelMatrix, 1.0f * delta, glm::vec3(0, 1, 0));
+		if (!isEscMenuOpen)
+			;
+		// Rotate model
+		//			modelMatrix = glm::rotate(modelMatrix, 1.0f * delta, glm::vec3(0, 1, 0));
 
 		// Bind the shader
 		shader->bind();
@@ -370,13 +372,13 @@ int main(int argc, char **argv) {
 
 		// Transform sun direction and change the uniform value
 		glm::vec4 transformedSunDirection = glm::transpose(glm::inverse(camera.getView())) * glm::vec4(sun.direction, 1.0f);
-		glUniform3fv(sun.directionUniformLocation, 1, (float*) &transformedSunDirection.x);
+		glUniform3fv(sun.directionUniformLocation, 1, (float*)&transformedSunDirection.x);
 
 		// Rotate point light and change the uniform value
 		glm::mat4 pointLightMatrix = glm::rotate(glm::mat4(1.0f), delta, { 0.0f, 1.0f, 0.0f });
 		pointLight.position = pointLight.position * pointLightMatrix;
-		glm::vec3 transformedPointLightPosition = (glm::vec3) (camera.getView() * pointLight.position);
-		glUniform3fv(pointLight.positionUniformLocation, 1, (float*) &transformedPointLightPosition.x);
+		glm::vec3 transformedPointLightPosition = (glm::vec3)(camera.getView() * pointLight.position);
+		glUniform3fv(pointLight.positionUniformLocation, 1, (float*)&transformedPointLightPosition.x);
 
 		// Change the modelUniform value
 		glUniformMatrix4fv(modelViewProjUniformLocation, 1, GL_FALSE, &modelViewProj[0][0]);
@@ -391,7 +393,7 @@ int main(int argc, char **argv) {
 
 		// Use fontShader for rendering text
 		fontShader->bind();
-		
+
 		int w, h;
 		SDL_GetWindowSize(window, &w, &h);
 		glm::mat4 ortho = glm::ortho(0.0f, (float)w, (float)h, 0.0f);
@@ -413,11 +415,11 @@ int main(int argc, char **argv) {
 		// More FPS stuff
 		uint64 endCounter = SDL_GetPerformanceCounter();
 		uint64 counterElapsed = endCounter - lastCounter;
-		delta = ((float32) counterElapsed) / ((float32) perfCounterFrequency);
+		delta = ((float32)counterElapsed) / ((float32)perfCounterFrequency);
 
 		// Only update FPS once a second
-		if (timer.hasTimeElapsed()) {
-			FPS = (uint32) ((float32) perfCounterFrequency / (float32) counterElapsed);
+		if (oneSecondTimer.hasTimeElapsed()) {
+			FPS = (uint32)((float32)perfCounterFrequency / (float32)counterElapsed);
 			debugOutputEndl(FPS);
 		}
 		lastCounter = endCounter;
@@ -433,7 +435,6 @@ int main(int argc, char **argv) {
 	}
 
 	return 0;
-
 }
 
 #pragma GCC diagnostic pop // Disable unused parameter and no function forward declaration warnings

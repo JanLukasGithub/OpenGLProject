@@ -44,13 +44,13 @@ struct Vertex {
 };
 
 /* Example: "../folder/name.extension" -> "name.extension" */
-const char* getFilename(const char *path);
+const char* getFilename(const char* path);
 
 /* Example: "../folder/name.extension" -> "extension" */
-const char* getFileExtension(const char *path);
+const char* getFileExtension(const char* path);
 
 /* Example: "../folder/name.extension" -> "../folder/" */
-const char* getFilePath(const char *path);
+const char* getFilePath(const char* path);
 
 /* Only prints out information if compiled with debug flags.
  * Automatically adds a std::endl at the end */

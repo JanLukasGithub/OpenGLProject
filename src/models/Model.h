@@ -19,15 +19,15 @@
 class Model {
 public:
 	// Reads the model from filename and initializes it with shader
-	Model(const char *filename, Shader *shader);
+	Model(const char* filename, Shader* shader);
 	// Reads the model from filename, initializes it with shader and adds the offset to it's coordinates
-	Model(const char *filename, Shader *shader, glm::vec3 offset);
+	Model(const char* filename, Shader* shader, glm::vec3 offset);
 
 	// Reads model from bmf file
-	void readModelFromBmfFile(const char *filename, Shader *shader, glm::vec3 offset);
+	void readModelFromBmfFile(const char* filename, Shader* shader, glm::vec3 offset);
 
 	// Reads model from file using assimp
-	void readModelFromFile(const char *filename, Shader *shader, glm::vec3 offset);
+	void readModelFromFile(const char* filename, Shader* shader, glm::vec3 offset);
 
 	virtual ~Model();
 
@@ -39,9 +39,9 @@ private:
 	// Processes the materials
 	void processMaterials(const aiScene* scene, const char* path);
 	// Processes the nodes recursively
-	void processNodes(const aiScene* scene, aiNode *node, Shader *shader);
+	void processNodes(const aiScene* scene, aiNode* node, Shader* shader);
 	// Processes the mesh
-	void processMesh(aiMesh *mesh, Shader *shader);
+	void processMesh(aiMesh* mesh, Shader* shader);
 };
 
 #endif /* MODELS_MODEL_H_ */

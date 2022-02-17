@@ -36,18 +36,18 @@ void FpsCamera::update() {
 
 void FpsCamera::moveFront(float amount) {
 	Camera::translate(
-	        glm::normalize(glm::vec3(1.0f, 0.0f, 1.0f) * lookAt) * amount
-	                * cameraSpeed);
+		glm::normalize(glm::vec3(1.0f, 0.0f, 1.0f) * lookAt) * amount
+		* cameraSpeed);
 	update();
 }
 
 void FpsCamera::moveRight(float amount) {
 	Camera::translate(
-	        glm::normalize(glm::cross(lookAt, up)) * amount * cameraSpeed);
+		glm::normalize(glm::cross(lookAt, up)) * amount * cameraSpeed);
 	update();
 }
 
-void FpsCamera::handleInputs(SdlEventHandler *handler, float32 delta) {
+void FpsCamera::handleInputs(SdlEventHandler* handler, float32 delta) {
 	// Move the camera
 	if (handler->keyPressed(SDLK_w))
 		moveFront(delta);
