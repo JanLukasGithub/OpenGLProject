@@ -352,6 +352,8 @@ int main(int argc, char **argv) {
 			// Rotate model
 //			modelMatrix = glm::rotate(modelMatrix, 1.0f * delta, glm::vec3(0, 1, 0));
 
+		// Bind the shader
+		shader->bind();
 		// View things
 		modelViewProj = camera.getViewProjection() * modelMatrix;
 		glm::mat4 modelView = camera.getView() * modelMatrix;
@@ -373,12 +375,12 @@ int main(int argc, char **argv) {
 		glUniformMatrix4fv(invModelViewUniformLocation, 1, GL_FALSE, &invModelView[0][0]);
 
 		// Render
-		shader->bind();
 		for (unsigned int i = 0; i < models.size(); i++) {
 			models[i]->render();
 		}
 		shader->unbind();
 
+		// Use fontShader for rendering text
 		fontShader->bind();
 		
 		int w, h;
