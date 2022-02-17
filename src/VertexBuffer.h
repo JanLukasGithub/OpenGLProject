@@ -14,7 +14,7 @@
 
 class VertexBuffer {
 public:
-	VertexBuffer(void* data, uint64 numVertices);
+	VertexBuffer(void* data, uint64 numVertices, bool *hasNormalMap);
 	virtual ~VertexBuffer();
 
 	VertexBuffer* bind();

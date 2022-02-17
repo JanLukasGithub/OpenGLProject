@@ -8,8 +8,8 @@
 #include "Mesh.h"
 
 Mesh::Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, Material material, Shader* shader) :  m_numIndices{indices->size()},
-				m_vbo {new VertexBuffer(vertices->data(), vertices->size())}, m_ibo{new IndexBuffer(indices->data(), m_numIndices, sizeof(indices[0]))},
-				m_shader{shader}, m_material{material}, m_vertices{vertices}, m_indices{indices},
+				m_vbo {new VertexBuffer(vertices->data(), vertices->size(), &m_hasNormalMap)}, m_ibo{new IndexBuffer(indices->data(), m_numIndices, sizeof(indices[0]))},
+				m_shader{shader}, m_material{material}, m_vertices{vertices}, m_indices{indices}, m_hasNormalMap{material.normalMapName.compare("assets/models/default/normal.tga") == 0},
 				m_diffuseLocation{glGetUniformLocation(m_shader->getShaderId(), "u_material.diffuse")},
 				m_specularLocation{glGetUniformLocation(m_shader->getShaderId(), "u_material.specular")},
 				m_emissiveLocation{glGetUniformLocation(m_shader->getShaderId(), "u_material.emissive")},

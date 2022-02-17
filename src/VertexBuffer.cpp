@@ -7,7 +7,7 @@
 
 #include "VertexBuffer.h"
 
-VertexBuffer::VertexBuffer(void* data, uint64 numVertices) {
+VertexBuffer::VertexBuffer(void* data, uint64 numVertices, bool *hasNormalMap) {
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
@@ -26,6 +26,9 @@ VertexBuffer::VertexBuffer(void* data, uint64 numVertices) {
 
 	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(struct Vertex, textureCoords));
+
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 1, GL_BOOL, GL_FALSE, sizeof(bool), (void*) hasNormalMap);
 
 	glBindVertexArray(0);
 }
