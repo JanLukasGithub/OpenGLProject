@@ -237,7 +237,7 @@ int main(int argc, char **argv) {
 	models.push_back(new Model((filenameNoExtension + extension).c_str(), shader));
 
 	Font font;
-	font.initFont("fonts/OpenSans-Regular.ttf");
+	font.initFont("assets/fonts/OpenSans-Regular.ttf");
 
 	// FPS count stuff
 	uint64 perfCounterFrequency = SDL_GetPerformanceFrequency();
