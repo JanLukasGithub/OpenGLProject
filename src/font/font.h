@@ -6,10 +6,10 @@
 #include <vector>
 #include <cstring>
 
-#include "../lib/stb_truetype.h"
+#include "../../lib/stb_truetype.h"
 
-#include "utils.h"
-#include "Shader.h"
+#include "../utils.h"
+#include "../Shader.h"
 
 constexpr int FIRST_CHAR = 32;
 constexpr int NUM_CHARS = 96;

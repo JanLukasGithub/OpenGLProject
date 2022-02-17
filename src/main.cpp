@@ -65,7 +65,7 @@
 #include "cameras/FlyingCamera.h"
 #include "SdlEventHandler.h"
 #include "models/Model.h"
-#include "font.h"
+#include "font/font.h"
 
 // These functions are at the beginning of the file, so no forward declaration is needed and the corresponding warning can be ignored
 #pragma GCC diagnostic push
