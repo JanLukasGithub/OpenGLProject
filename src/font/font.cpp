@@ -17,24 +17,21 @@ void Font::initFont(const char* filename) {
     fileSize = file.tellg();
     file.seekg(0, std::ios::beg);
 
-    // Buffers to store data in. Allocate on heap to avoid stackoverflows
-    std::vector<byte>* ttfBuffer = new std::vector<byte>(fileSize);
-    std::vector<byte>* tmpBitmap = new std::vector<byte>(PH_PW * PH_PW);
+    // Buffers to store data in
+    std::vector<byte> ttfBuffer = std::vector<byte>(fileSize);
+    std::vector<byte> tmpBitmap = std::vector<byte>(PH_PW * PH_PW);
 
     // Read file to the buffer
-    file.read((char*) ttfBuffer->data(), fileSize);
-    stbtt_BakeFontBitmap(ttfBuffer->data(), 0, 32.0f, tmpBitmap->data(), PH_PW, PH_PW, FIRST_CHAR, NUM_CHARS, m_cdata);
+    file.read((char*) ttfBuffer.data(), fileSize);
+
+    stbtt_BakeFontBitmap(ttfBuffer.data(), 0, 32.0f, tmpBitmap.data(), PH_PW, PH_PW, FIRST_CHAR, NUM_CHARS, m_cdata);
 
     // Generate OpenGL texture
     glGenTextures(1, &m_fontTexture);
     glBindTexture(GL_TEXTURE_2D, m_fontTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, PH_PW, PH_PW, 0, GL_ALPHA, GL_UNSIGNED_BYTE, tmpBitmap);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, PH_PW, PH_PW, 0, GL_ALPHA, GL_UNSIGNED_BYTE, tmpBitmap.data());
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
-
-    // Data is now stored in VRAM, delete RAM version
-    delete tmpBitmap;
-    delete ttfBuffer;
 
     // Generate vertex array
     glGenVertexArrays(1, &m_fontVao);
