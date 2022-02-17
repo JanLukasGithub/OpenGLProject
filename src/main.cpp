@@ -73,14 +73,16 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
 const char* getExtensionFromModelName(std::string filenameNoExtension) {
-	if (std::filesystem::exists(filenameNoExtension + ".bmf")) {
-		return ".bmf";
-	} else if (std::filesystem::exists(filenameNoExtension + ".obj")) {
+	if (std::filesystem::exists(filenameNoExtension + ".obj")) {
 		return ".obj";
 	} else if (std::filesystem::exists(filenameNoExtension + ".fbx")) {
 		return ".fbx";
 	} else if (std::filesystem::exists(filenameNoExtension + ".FBX")) {
 		return ".FBX";
+	} 
+	// bmf has least priority as it may not support features of the other formats
+	else if (std::filesystem::exists(filenameNoExtension + ".bmf")) {
+		return ".bmf";
 	}
 	return "";
 }
