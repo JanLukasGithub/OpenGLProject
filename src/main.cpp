@@ -66,6 +66,7 @@
 #include "SdlEventHandler.h"
 #include "models/Model.h"
 #include "font/font.h"
+#include "timer/timer.h"
 
 // These functions are at the beginning of the file, so no forward declaration is needed and the corresponding warning can be ignored
 #pragma GCC diagnostic push
@@ -250,7 +251,7 @@ int main(int argc, char **argv) {
 	uint64 lastCounter = SDL_GetPerformanceCounter();
 	float32 delta = 0.0f;
 	uint32 FPS = 0;
-	float32 onceASecondTimer = 0.0f;
+	IndependentTimer timer{std::chrono::seconds(1)};
 
 	// Model matrix
 	glm::mat4 modelMatrix = glm::mat4(1.0f);
@@ -270,7 +271,7 @@ int main(int argc, char **argv) {
 	// Wireframe mode for debugging
 //	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-// Input and Event handling
+	// Input and Event handling
 	SdlEventHandler *handler = new SdlEventHandler();
 
 	bool isEscMenuOpen = false;
@@ -413,11 +414,9 @@ int main(int argc, char **argv) {
 		uint64 endCounter = SDL_GetPerformanceCounter();
 		uint64 counterElapsed = endCounter - lastCounter;
 		delta = ((float32) counterElapsed) / ((float32) perfCounterFrequency);
-		onceASecondTimer += delta;
 
 		// Only update FPS once a second
-		if (onceASecondTimer > 1.0f) {
-			onceASecondTimer = 0.0f;
+		if (timer.hasTimeElapsed()) {
 			FPS = (uint32) ((float32) perfCounterFrequency / (float32) counterElapsed);
 			debugOutputEndl(FPS);
 		}

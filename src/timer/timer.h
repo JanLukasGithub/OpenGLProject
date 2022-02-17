@@ -7,12 +7,14 @@
 
 // Abstract Timer interface
 class Timer {
+public:
     // Checks if the specified time has elapsed. If it has and reset is set, the timer will be reset.
     virtual bool hasTimeElapsed(bool reset) noexcept = 0;
 };
 
 // Timer that needs to be updated regularly
 class UpdateTimer : Timer {
+public:
     // Timer.hasTimeElapsed() will return true every timeToElaps seconds
     UpdateTimer(const float64 timeToElaps) noexcept;
 
@@ -28,6 +30,7 @@ private:
 
 // Timer that doesn't need to be updated regularly
 class IndependentTimer : Timer {
+public:
     // Timer.hasTimeElapsed() will return true every timeToElaps seconds
     IndependentTimer(const std::chrono::duration<double> timeToElaps) noexcept;
 
