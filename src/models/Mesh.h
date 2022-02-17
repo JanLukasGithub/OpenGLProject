@@ -93,6 +93,7 @@ private:
 	int m_shininessLocation;
 	int m_diffuseMapLocation;
 	int m_normalMapLocation;
+	int m_hasNormalMapLocation;
 };
 
 #endif /* MESH_H_ */
