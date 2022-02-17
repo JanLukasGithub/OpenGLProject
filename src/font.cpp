@@ -19,11 +19,11 @@ void Font::initFont(const char* filename) {
 
     // Buffers to store data in
     std::vector<byte>* ttfBuffer = new std::vector<byte>(fileSize);
-    std::vector<byte>* tmpBitmap = new std::vector<byte>();
+    std::vector<byte>* tmpBitmap = new std::vector<byte>(PH_PW * PH_PW);
 
     // Read file to the buffer
-    file.read((char*) &(*ttfBuffer)[0], fileSize);
-    stbtt_BakeFontBitmap(&(*ttfBuffer)[0], 0, 32.0f, &(*tmpBitmap)[0], PH_PW, PH_PW, FIRST_CHAR, NUM_CHARS, m_cdata);
+    file.read((char*) ttfBuffer->data(), fileSize);
+    stbtt_BakeFontBitmap(ttfBuffer->data(), 0, 32.0f, tmpBitmap->data(), PH_PW, PH_PW, FIRST_CHAR, NUM_CHARS, m_cdata);
 
     // Generate OpenGL texture
     glGenTextures(1, &m_fontTexture);
