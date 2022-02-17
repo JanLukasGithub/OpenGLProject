@@ -249,6 +249,8 @@ int main(int argc, char **argv) {
 	uint64 perfCounterFrequency = SDL_GetPerformanceFrequency();
 	uint64 lastCounter = SDL_GetPerformanceCounter();
 	float32 delta = 0.0f;
+	uint32 FPS = 0;
+	float32 onceASecondTimer = 0.0f;
 
 	// Model matrix
 	glm::mat4 modelMatrix = glm::mat4(1.0f);
@@ -398,7 +400,7 @@ int main(int argc, char **argv) {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_DEPTH_TEST);
 
-		font.drawString(20.0f, 20.0f, "Ganymede", fontShader);
+		font.drawString(20.0f, 20.0f, std::to_string(FPS).c_str(), fontShader);
 
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
@@ -411,10 +413,14 @@ int main(int argc, char **argv) {
 		uint64 endCounter = SDL_GetPerformanceCounter();
 		uint64 counterElapsed = endCounter - lastCounter;
 		delta = ((float32) counterElapsed) / ((float32) perfCounterFrequency);
+		onceASecondTimer += delta;
 
-		// This variable has no use when using Release Build Configuration, disable the corresponding warning
-		uint32 FPS = (uint32) ((float32) perfCounterFrequency / (float32) counterElapsed);
-		debugOutputEndl(FPS);
+		// Only update FPS once a second
+		if (onceASecondTimer > 1.0f) {
+			onceASecondTimer = 0.0f;
+			FPS = (uint32) ((float32) perfCounterFrequency / (float32) counterElapsed);
+			debugOutputEndl(FPS);
+		}
 		lastCounter = endCounter;
 	}
 
