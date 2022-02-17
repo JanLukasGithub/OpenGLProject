@@ -73,14 +73,16 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
 const char* getExtensionFromModelName(std::string filenameNoExtension) {
-	if (std::filesystem::exists(filenameNoExtension + ".bmf")) {
-		return ".bmf";
-	} else if (std::filesystem::exists(filenameNoExtension + ".obj")) {
+	if (std::filesystem::exists(filenameNoExtension + ".obj")) {
 		return ".obj";
 	} else if (std::filesystem::exists(filenameNoExtension + ".fbx")) {
 		return ".fbx";
 	} else if (std::filesystem::exists(filenameNoExtension + ".FBX")) {
 		return ".FBX";
+	} 
+	// bmf has least priority as it may not support features of the other formats
+	else if (std::filesystem::exists(filenameNoExtension + ".bmf")) {
+		return ".bmf";
 	}
 	return "";
 }
@@ -225,11 +227,15 @@ int main(int argc, char **argv) {
 	// Create the models vector
 	std::vector<Model*> models;
 
-	// Load the desired model
-	std::cout << "Please input the name of the model you want to load" << std::endl;
-
 	std::string modelname = std::string();
-	std::cin >> modelname;
+	if (argc < 2) {
+		// Load the desired model
+		std::cout << "Please input the name of the model you want to load" << std::endl;
+
+		std::cin >> modelname;
+	} else {
+		modelname = std::string(argv[1]);
+	}
 
 	std::string filenameNoExtension = "assets/models/" + modelname + "/" + modelname;
 	const char* extension = getExtensionFromModelName(filenameNoExtension);

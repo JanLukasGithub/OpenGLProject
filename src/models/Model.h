@@ -36,12 +36,10 @@ private:
 	std::vector<Mesh*> m_meshes;
 	std::vector<Material> m_materials;
 
-	const aiScene *m_scene { nullptr };
-
 	// Processes the materials
-	void processMaterials(const char* path);
+	void processMaterials(const aiScene* scene, const char* path);
 	// Processes the nodes recursively
-	void processNodes(aiNode *node, Shader *shader);
+	void processNodes(const aiScene* scene, aiNode *node, Shader *shader);
 	// Processes the mesh
 	void processMesh(aiMesh *mesh, Shader *shader);
 };

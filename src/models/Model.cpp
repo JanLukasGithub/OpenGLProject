@@ -169,10 +169,10 @@ void Model::readModelFromFile(const char *filename, Shader *shader, glm::vec3 of
 	Assimp::Importer importer;
 
 	// Read the file
-	m_scene = importer.ReadFile(filename, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph | aiProcess_JoinIdenticalVertices | aiProcess_ImproveCacheLocality);
+	const aiScene* scene = importer.ReadFile(filename, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph | aiProcess_JoinIdenticalVertices | aiProcess_ImproveCacheLocality);
 
 	// Check for success
-	if (!m_scene || (m_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !m_scene->mRootNode) {
+	if (!scene || (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !scene->mRootNode) {
 		std::cout << "Error while loading the model with assimp: " << importer.GetErrorString() << std::endl;
 		throw new std::exception();
 	}
@@ -180,14 +180,14 @@ void Model::readModelFromFile(const char *filename, Shader *shader, glm::vec3 of
 	// Notify user
 	debugOutputEndl("Loading model from file...");
 	// Process the materials
-	processMaterials(filename);
+	processMaterials(scene, filename);
 	// Process the nodes recursively
-	processNodes(m_scene->mRootNode, shader);
+	processNodes(scene, scene->mRootNode, shader);
 }
 
-void Model::processMaterials(const char *path) {
+void Model::processMaterials(const aiScene* scene, const char *path) {
 	// Get the amount of materials and make enough space for them in the vector to save time
-	uint32 numMaterials = m_scene->mNumMaterials;
+	uint32 numMaterials = scene->mNumMaterials;
 	m_materials.reserve(numMaterials);
 
 	// Process every material
@@ -195,7 +195,7 @@ void Model::processMaterials(const char *path) {
 		// Material struct
 		Material mat = { };
 		// Material from assimp
-		aiMaterial *aiMaterial = m_scene->mMaterials[i];
+		aiMaterial *aiMaterial = scene->mMaterials[i];
 
 		// Load diffuse color
 		aiColor3D diffuse(0.0f, 0.0f, 0.0f);
@@ -337,16 +337,16 @@ void Model::processMaterials(const char *path) {
 	}
 }
 
-void Model::processNodes(aiNode *node, Shader *shader) {
+void Model::processNodes(const aiScene* scene, aiNode *node, Shader *shader) {
 	// Process the meshes from this node
 	for (uint32_t i = 0; i < node->mNumMeshes; i++) {
-		aiMesh *mesh = m_scene->mMeshes[node->mMeshes[i]];
+		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
 		processMesh(mesh, shader);
 	}
 
 	// Process the next node recursively
 	for (uint32_t i = 0; i < node->mNumChildren; i++) {
-		processNodes(node->mChildren[i], shader);
+		processNodes(scene, node->mChildren[i], shader);
 	}
 }
 
@@ -409,7 +409,6 @@ Model::~Model() {
 	for (unsigned int i = 0; i < m_meshes.size(); i++) {
 		delete m_meshes[i];
 	}
-	delete m_scene;
 }
 
 void Model::render() {
