@@ -65,6 +65,7 @@
 #include "cameras/FlyingCamera.h"
 #include "SdlEventHandler.h"
 #include "models/Model.h"
+#include "font/font.h"
 
 // These functions are at the beginning of the file, so no forward declaration is needed and the corresponding warning can be ignored
 #pragma GCC diagnostic push
@@ -139,6 +140,9 @@ int main(int argc, char **argv) {
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glDebugMessageCallback(openGLDebugCallback, 0);
 #endif
+
+	// Load the font shaders
+	Shader* fontShader = new Shader("src/shaders/font.vs", "src/shaders/font.fs");
 
 	// Load the shaders
 	Shader *shader = new Shader("src/shaders/basic.vs", "src/shaders/basic.fs");
@@ -232,6 +236,9 @@ int main(int argc, char **argv) {
 
 	models.push_back(new Model((filenameNoExtension + extension).c_str(), shader));
 
+	Font font;
+	font.initFont("assets/fonts/OpenSans-Regular.ttf");
+
 	// FPS count stuff
 	uint64 perfCounterFrequency = SDL_GetPerformanceFrequency();
 	uint64 lastCounter = SDL_GetPerformanceCounter();
@@ -279,8 +286,10 @@ int main(int argc, char **argv) {
 		}
 
 		if (handler->keyJustPressed(SDLK_r)) {
+			fontShader->update("src/shaders/font.vs", "src/shaders/font.fs");
+
 			// Update shader
-			shader->update("shaders/basic.vs", "shaders/basic.fs");
+			shader->update("src/shaders/basic.vs", "src/shaders/basic.fs");
 
 			// Update uniform locations
 			sun.directionUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_directionalLight.direction");
@@ -343,6 +352,8 @@ int main(int argc, char **argv) {
 			// Rotate model
 //			modelMatrix = glm::rotate(modelMatrix, 1.0f * delta, glm::vec3(0, 1, 0));
 
+		// Bind the shader
+		shader->bind();
 		// View things
 		modelViewProj = camera.getViewProjection() * modelMatrix;
 		glm::mat4 modelView = camera.getView() * modelMatrix;
@@ -367,6 +378,25 @@ int main(int argc, char **argv) {
 		for (unsigned int i = 0; i < models.size(); i++) {
 			models[i]->render();
 		}
+		shader->unbind();
+
+		// Use fontShader for rendering text
+		fontShader->bind();
+		
+		int w, h;
+		SDL_GetWindowSize(window, &w, &h);
+		glm::mat4 ortho = glm::ortho(0.0f, (float)w, (float)h, 0.0f);
+		glUniformMatrix4fv(glGetUniformLocation(fontShader->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &ortho[0][0]);
+		glDisable(GL_CULL_FACE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDisable(GL_DEPTH_TEST);
+
+		font.drawString(20.0f, 20.0f, "Ganymede", fontShader);
+
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
+		fontShader->unbind();
 
 		// Display things you just made and use other buffer for the next frame
 		SDL_GL_SwapWindow(window);
@@ -385,6 +415,7 @@ int main(int argc, char **argv) {
 	// OS should do this but bad OSes like Windows exist
 	delete handler;
 	delete shader;
+	delete fontShader;
 
 	for (unsigned int i = 0; i < models.size(); i++) {
 		delete models[i];

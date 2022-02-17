@@ -30,6 +30,7 @@ void Model::readModelFromBmfFile(const char *filename, Shader *shader, glm::vec3
 	std::ifstream input = std::ifstream(filename, std::ios::in | std::ios::binary);
 	if (!input.is_open()) {
 		std::cout << "Error reading model file " << filename << "!" << std::endl;
+		throw std::exception();
 	}
 
 	// Materials
