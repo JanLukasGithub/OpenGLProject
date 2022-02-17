@@ -17,7 +17,7 @@ void Font::initFont(const char* filename) {
     fileSize = file.tellg();
     file.seekg(0, std::ios::beg);
 
-    // Buffers to store data in
+    // Buffers to store data in. Allocate on heap to avoid stackoverflows
     std::vector<byte>* ttfBuffer = new std::vector<byte>(fileSize);
     std::vector<byte>* tmpBitmap = new std::vector<byte>(PH_PW * PH_PW);
 
