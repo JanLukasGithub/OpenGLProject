@@ -57,6 +57,7 @@ void Font::initFont(const char* filename) {
 
 void Font::drawString(float x, float y, const char* text, Shader* fontShader) {
     glBindVertexArray(m_fontVao);
+    glBindBuffer(GL_ARRAY_BUFFER, m_fontVertexBufferId);
 
     uint32 len = strlen(text);
 
