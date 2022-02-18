@@ -75,8 +75,9 @@ private:
 	// Currently not finished, DON'T USE
 	Mesh(const Mesh& mesh);
 
-	// If there's a normal map
+	// If there's a diffuse/normal map
 	bool m_hasNormalMap;
+	bool m_hasDiffuseMap;
 
 	uint64 m_numIndices;
 	VertexBuffer* m_vbo;
@@ -94,6 +95,7 @@ private:
 	int m_diffuseMapLocation;
 	int m_normalMapLocation;
 	int m_hasNormalMapLocation;
+	int m_hasDiffuseMapLocation;
 };
 
 #endif /* MESH_H_ */

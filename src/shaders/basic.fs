@@ -56,6 +56,7 @@ uniform PointLight u_pointLight;
 uniform SpotLight u_spotLight;
 uniform sampler2D u_diffuseMap;
 uniform sampler2D u_normalMap;
+uniform bool u_hasDiffuseMap;
 
 void main() {
 	// Vector from fragment to camera (camera always at 0,0,0)
@@ -66,7 +67,10 @@ void main() {
 	normal = normalize(normal * 2.0 - 1.0);
 	normal = normalize(v_tbn * normal);
 	
-	vec4 diffuseColor = texture(u_diffuseMap, v_textureCoords);
+	vec4 diffuseColor = vec4(u_material.diffuse, 1.0);
+	if (u_hasDiffuseMap) {
+		diffuseColor = texture(u_diffuseMap, v_textureCoords);
+	}
 	if (diffuseColor.w < 0.9) {
 		discard;
 	}
