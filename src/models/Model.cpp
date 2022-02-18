@@ -251,7 +251,7 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 			aiMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &diffuseMapNameBuffer);
 			mat.diffuseMapName = std::string(getFilePath(path)) + diffuseMapNameBuffer.C_Str();
 		} else {
-			debugOutputEndl("Using default diffuse map!");
+			debugOutputEndl("No diffuse map, using default diffuse map!");
 			mat.diffuseMapName = std::string("assets/models/default/diffuse.tga");
 		}
 
@@ -263,7 +263,7 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 			aiMaterial->GetTexture(aiTextureType_NORMALS, 0, &normalMapNameBuffer);
 			mat.normalMapName = std::string(std::string(getFilePath(path)) + normalMapNameBuffer.C_Str());
 		} else {
-			debugOutputEndl("Using default normal map!");
+			debugOutputEndl("No normal map, using default normal map!");
 			mat.normalMapName = std::string("assets/models/default/normal.tga");
 		}
 
