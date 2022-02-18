@@ -217,17 +217,14 @@ int main(int argc, char** argv) {
 	std::string modelname = std::string();
 	if (argc < 2) {
 		// Load the desired model
-		std::cout << "Please input the name of the model you want to load" << std::endl;
+		std::cout << "Please input the filename of the model you want to load" << std::endl;
 
 		std::cin >> modelname;
 	} else {
 		modelname = std::string(argv[1]);
 	}
 
-	std::string filenameNoExtension = "assets/models/" + modelname + "/" + modelname;
-	const char* extension = getExtensionFromModelName(filenameNoExtension);
-
-	models.push_back(new Model((filenameNoExtension + extension).c_str(), shader));
+	models.push_back(new Model((modelname).c_str(), shader));
 
 	Font font;
 	font.initFont("assets/fonts/OpenSans-Regular.ttf");
