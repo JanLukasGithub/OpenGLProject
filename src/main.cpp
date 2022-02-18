@@ -73,21 +73,6 @@
 #pragma GCC diagnostic ignored "-Wmissing-declarations"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-const char* getExtensionFromModelName(std::string filenameNoExtension) {
-	if (std::filesystem::exists(filenameNoExtension + ".obj")) {
-		return ".obj";
-	} else if (std::filesystem::exists(filenameNoExtension + ".fbx")) {
-		return ".fbx";
-	} else if (std::filesystem::exists(filenameNoExtension + ".FBX")) {
-		return ".FBX";
-	}
-	// bmf has least priority as it may not support features of the other formats
-	else if (std::filesystem::exists(filenameNoExtension + ".bmf")) {
-		return ".bmf";
-	}
-	return "";
-}
-
 void openGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
 	std::cout << "[OpenGL]: " << message << std::endl;
 }

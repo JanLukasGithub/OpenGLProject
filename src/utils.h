@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <cstring>
 #include <iostream>
+#include <filesystem>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wvolatile"
@@ -51,6 +52,9 @@ const char* getFileExtension(const char* path);
 
 /* Example: "../folder/name.extension" -> "../folder/" */
 const char* getFilePath(const char* path);
+
+/* Example: "../folder/name" -> "../folder/name.obj" -> ".obj" */
+const char* getExtensionFromModelName(std::string& filenameNoExtension);
 
 /* Only prints out information if compiled with debug flags.
  * Automatically adds a std::endl at the end */
