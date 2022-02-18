@@ -403,7 +403,7 @@ int main(int argc, char** argv) {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_DEPTH_TEST);
 
-		font.drawString(20.0f, 20.0f, std::to_string(FPS).c_str(), fontShader);
+		font.drawString(5.0f, 20.0f, std::to_string(FPS).c_str(), fontShader);
 
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
