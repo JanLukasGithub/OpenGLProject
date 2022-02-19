@@ -79,7 +79,6 @@ void openGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
 
 int main(int argc, char** argv) {
 	// Init SDL, the window, OpenGL and GLEW
-	SDL_Window* window;
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
@@ -103,9 +102,10 @@ int main(int argc, char** argv) {
 	// uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP;
 	uint32 flags = SDL_WINDOW_OPENGL;
 
-	window = SDL_CreateWindow("C++ OpenGL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, flags);
+	// Create the window
+	SDL_Window* window = SDL_CreateWindow("C++ OpenGL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, flags);
 	// Can be stored, but is currently not used for anything
-	//	SDL_GLContext glContext = SDL_GL_CreateContext(window);
+	// SDL_GLContext glContext = SDL_GL_CreateContext(window);
 	SDL_GL_CreateContext(window);
 
 	// Return errors
