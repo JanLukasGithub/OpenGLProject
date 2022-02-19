@@ -19,7 +19,7 @@ public:
 
         FlyingCamera(float fov, float width, float height);
 
-        void handleInputs(SdlEventHandler* handler, float32 delta) override;
+        virtual void handleInputs(SdlEventHandler* handler, float32 delta) override;
 
         // Negative amount means moving down
         void moveUp(float amount);
