@@ -238,7 +238,7 @@ int main(int argc, char** argv) {
 
 	// Model matrix
 	glm::mat4 modelMatrix = glm::mat4(1.0f);
-	modelMatrix = glm::scale(modelMatrix, glm::vec3(1.2f));
+	modelMatrix = glm::scale(modelMatrix, glm::vec3(1.0f));
 
 	// Camera object
 	FlyingCamera camera(90.0f, 800, 600);
