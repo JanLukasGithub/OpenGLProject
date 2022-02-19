@@ -46,6 +46,7 @@ public:
 
     Camera& getCamera() { return m_camera; };
 
+    // Idk why but the camera has to be initialized here apparently :shrug:
     OpenGLRenderer() : m_camera{ FlyingCamera(90.0f, 800, 600) } {}
     virtual ~OpenGLRenderer();
 private:
