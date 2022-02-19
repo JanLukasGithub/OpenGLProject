@@ -26,7 +26,7 @@
 
 class OpenGLRenderer : Renderer {
 public:
-    // Initializes rendering. After calling this, you should be able to render anything without more initializing to do
+    // Initializes rendering
     virtual void init() override;
     // Resets rendering. Enables you to "hot swap" shaders or potentially recover from rendering issues
     virtual void reset() override;
