@@ -20,29 +20,13 @@
 
 // STB Image
 #define STB_IMAGE_IMPLEMENTATION
-// Ignore warnings from this file
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-conversion"
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#pragma GCC diagnostic ignored "-Wcast-qual"
-#pragma GCC diagnostic ignored "-Wswitch-default"
-#pragma GCC diagnostic ignored "-Wconversion"
-#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #include "../lib/stb_image.h"
-#pragma GCC diagnostic pop
 #undef STB_IMAGE_IMPLEMENTATION
 
 // Glm
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wvolatile"
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wsign-conversion"
-
 #include "../lib/glm/glm.hpp"
 #include "../lib/glm/ext/matrix_transform.hpp"
 #include "../lib/glm/gtc/matrix_transform.hpp"
-
-#pragma GCC diagnostic pop
 
 // SDL
 #define SDL_MAIN_HANDLED
@@ -67,11 +51,6 @@
 #include "models/Model.h"
 #include "font/font.h"
 #include "timer/timer.h"
-
-// These functions are at the beginning of the file, so no forward declaration is needed and the corresponding warning can be ignored
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmissing-declarations"
-#pragma GCC diagnostic ignored "-Wunused-parameter"
 
 void openGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
 	std::cout << "[OpenGL]: " << message << std::endl;
@@ -414,5 +393,3 @@ int main(int argc, char** argv) {
 
 	return 0;
 }
-
-#pragma GCC diagnostic pop // Disable unused parameter and no function forward declaration warnings
