@@ -40,11 +40,14 @@ public:
     virtual void endFrame() override;
 
     // FPS are calculated each time endFrame() is called
-    virtual uint32 getFPS() override { return m_FPS; };
+    virtual uint32 getFPS() override { return m_FPS; }
     // Delta is calculated each time endFrame() is called
-    virtual float32 getDelta() override { return m_delta; };
+    virtual float32 getDelta() override { return m_delta; }
 
-    Camera& getCamera() { return m_camera; };
+    Shader* getShader3d() { return m_shader3d; }
+    Shader* getShaderFont() { return m_shaderFont; }
+
+    Camera& getCamera() { return m_camera; }
 
     // Idk why but the camera has to be initialized here apparently :shrug:
     OpenGLRenderer() : m_camera{ FlyingCamera(90.0f, 800, 600) } {}
