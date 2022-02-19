@@ -50,12 +50,12 @@ public:
     OpenGLRenderer() : m_camera{ FlyingCamera(90.0f, 800, 600) } {}
     virtual ~OpenGLRenderer();
 private:
-    // No move constructor
+    // Private move constructor
     OpenGLRenderer(OpenGLRenderer& renderer) : m_camera{ FlyingCamera(90.0f, 800, 600) } {}
-    // No assignment operator
+    // Private assignment operator
     OpenGLRenderer& operator=(const OpenGLRenderer& renderer) {}
 
-    // Initializes the lights
+    // (Re-)Initializes the lights
     void initLights();
 
     // Dynamically allocated
