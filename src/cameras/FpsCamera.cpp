@@ -62,6 +62,4 @@ void FpsCamera::handleInputs(SdlEventHandler* handler, float32 delta) {
 		moveRight(delta);
 
 	onMouseMoved(handler->mouseXMovement(), handler->mouseYMovement());
-
-	Camera::handleInputs(handler, delta);
 }

@@ -21,9 +21,9 @@ public:
 
 	void onMouseMoved(float xRel, float yRel);
 
-	void update() override;
+	virtual void update() override;
 
-	void handleInputs(SdlEventHandler* handler, float32 delta) override;
+	virtual void handleInputs(SdlEventHandler* handler, float32 delta) override;
 
 	// Negative amount means moving backwards, multiplies by cameraSpeed on it's own
 	void moveFront(float amount);

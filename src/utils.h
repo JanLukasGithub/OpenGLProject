@@ -13,12 +13,7 @@
 #include <iostream>
 #include <filesystem>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wvolatile"
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wsign-conversion"
 #include "../lib/glm/glm.hpp"
-#pragma GCC diagnostic pop
 
 typedef int8_t int8;
 typedef int16_t int16;
