@@ -363,8 +363,6 @@ int main(int argc, char** argv) {
 
 		font.drawString(5.0f, 20.0f, std::to_string(FPS).c_str(), fontShader);
 
-		glEnable(GL_CULL_FACE);
-		glEnable(GL_DEPTH_TEST);
 		fontShader->unbind();
 
 		// Display things you just made and use other buffer for the next frame
