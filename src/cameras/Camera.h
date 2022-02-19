@@ -10,13 +10,8 @@ class Camera;
 #ifndef CAMERAS_CAMERA_H_
 #define CAMERAS_CAMERA_H_
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wvolatile"
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wsign-conversion"
 #include "../../lib/glm/glm.hpp"
 #include "../../lib/glm/gtc/matrix_transform.hpp"
-#pragma GCC diagnostic pop
 
 #include "../utils.h"
 
