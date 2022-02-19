@@ -278,9 +278,9 @@ int main(int argc, char** argv) {
 		}
 
 		if (handler->keyJustPressed(SDLK_r)) {
-			fontShader->update("src/shaders/font.vs", "src/shaders/font.fs");
 
-			// Update shader
+			// Update shaders
+			fontShader->update("src/shaders/font.vs", "src/shaders/font.fs");
 			shader->update("src/shaders/basic.vs", "src/shaders/basic.fs");
 
 			// Update uniform locations
@@ -291,8 +291,6 @@ int main(int argc, char** argv) {
 			modelViewProjUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_modelViewProj");
 			modelViewUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_modelView");
 			invModelViewUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_invModelView");
-
-			// Set values of "constant" uniforms
 
 			// Give uniforms the colors
 			glUniform3fv(glGetUniformLocation(shader->getShaderId(), "u_directionalLight.diffuse"), 1, (float*)&sun.color.r);
