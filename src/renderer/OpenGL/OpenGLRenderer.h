@@ -21,7 +21,6 @@
 
 #include "../renderer.h"
 #include "../../Shader.h"
-#include "../../utils.h"
 #include "../../lights/Lights.h"
 #include "../../cameras/FlyingCamera.h"
 
@@ -41,9 +40,9 @@ public:
     virtual void endFrame() override;
 
     // FPS are calculated each time endFrame() is called
-    virtual uint32 getFPS() override;
+    virtual uint32 getFPS() override { return m_FPS; };
     // Delta is calculated each time endFrame() is called
-    virtual float32 getDelta() override;
+    virtual float32 getDelta() override { return m_delta; };
 
     Camera& getCamera() { return m_camera; };
 
@@ -53,7 +52,7 @@ private:
     // Private move constructor
     OpenGLRenderer(OpenGLRenderer& renderer) : m_camera{ FlyingCamera(90.0f, 800, 600) } {}
     // Private assignment operator
-    OpenGLRenderer& operator=(const OpenGLRenderer& renderer) {}
+    OpenGLRenderer& operator=(const OpenGLRenderer& renderer) { return *this; }
 
     // (Re-)Initializes the lights
     void initLights();
@@ -64,8 +63,8 @@ private:
 
     // Not dynamically allocated
     SDL_Window* m_window;
-    int* m_windowWidth = nullptr;
-    int* m_windowHeight = nullptr;
+    int m_windowWidth{ 0 };
+    int m_windowHeight{ 0 };
 
     // Can't see without a camera
     Camera m_camera;
@@ -90,5 +89,8 @@ private:
     int m_modelViewUniformLocation;
     int m_invModelViewUniformLocation;
 };
+
+// Display debug messages
+void openGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 
 #endif

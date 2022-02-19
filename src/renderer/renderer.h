@@ -1,6 +1,8 @@
 #ifndef RENDERER_H_
 #define RENDERER_H_
 
+#include "../utils.h"
+
 class Renderer {
 public:
     // Initializes rendering. After calling this, you should be able to render anything without more initializing to do

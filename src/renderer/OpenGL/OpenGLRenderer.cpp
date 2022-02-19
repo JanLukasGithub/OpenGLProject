@@ -44,7 +44,7 @@ void OpenGLRenderer::init() {
         throw std::exception();
     }
 
-    SDL_GetWindowSize(m_window, m_windowWidth, m_windowHeight);
+    SDL_GetWindowSize(m_window, &m_windowWidth, &m_windowHeight);
 
     debugOutput("OpenGL Version: ");
     debugOutputEndl(glGetString(GL_VERSION));
@@ -213,7 +213,7 @@ void OpenGLRenderer::setupFontRender() {
     // Use fontShader for rendering text
     m_shaderFont->bind();
 
-    glm::mat4 ortho = glm::ortho(0.0f, (float)*m_windowWidth, (float)*m_windowHeight, 0.0f);
+    glm::mat4 ortho = glm::ortho(0.0f, (float)m_windowWidth, (float)m_windowHeight, 0.0f);
     glUniformMatrix4fv(glGetUniformLocation(m_shaderFont->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &ortho[0][0]);
     glDisable(GL_CULL_FACE);
     glEnable(GL_BLEND);
@@ -231,4 +231,8 @@ void OpenGLRenderer::endFrame() {
     m_delta = ((float32)counterElapsed) / ((float32)m_perfCounterFrequency);
     m_FPS = (uint32)((float32)m_perfCounterFrequency / (float32)counterElapsed);
     m_lastCounter = endCounter;
+}
+
+void openGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
+    std::cout << "[OpenGL]: " << message << std::endl;
 }
