@@ -6,11 +6,8 @@
  */
 
  // Standard library
-#include <filesystem>
 #include <iostream>
-#include <cmath>
 #include <vector>
-#include <fstream>
 #include <string>
 #include <cstring>
 
