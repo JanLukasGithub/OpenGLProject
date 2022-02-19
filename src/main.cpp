@@ -96,9 +96,9 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 
-	int* windowWidth = nullptr, * windowHeight = nullptr;
+	int windowWidth, windowHeight;
 
-	SDL_GetWindowSize(window, windowWidth, windowHeight);
+	SDL_GetWindowSize(window, &windowWidth, &windowHeight);
 
 	debugOutput("OpenGL Version: ");
 	debugOutputEndl(glGetString(GL_VERSION));
@@ -354,7 +354,7 @@ int main(int argc, char** argv) {
 		// Use fontShader for rendering text
 		fontShader->bind();
 
-		glm::mat4 ortho = glm::ortho(0.0f, (float)*windowWidth, (float)*windowHeight, 0.0f);
+		glm::mat4 ortho = glm::ortho(0.0f, (float)windowWidth, (float)windowHeight, 0.0f);
 		glUniformMatrix4fv(glGetUniformLocation(fontShader->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &ortho[0][0]);
 		glDisable(GL_CULL_FACE);
 		glEnable(GL_BLEND);
