@@ -51,10 +51,11 @@
 #include "models/Model.h"
 #include "font/font.h"
 #include "timer/timer.h"
+#include "renderer/OpenGL/OpenGLRenderer.h"
 
-void openGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
-	std::cout << "[OpenGL]: " << message << std::endl;
-}
+// void openGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
+// 	std::cout << "[OpenGL]: " << message << std::endl;
+// }
 
 int main(int argc, char** argv) {
 	// Init SDL, the window, OpenGL and GLEW
