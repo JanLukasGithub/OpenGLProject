@@ -14,6 +14,8 @@
 #include <SDL2/SDL.h>
 #endif
 
+#include <chrono>
+
 // Glm
 #include "../../../lib/glm/glm.hpp"
 #include "../../../lib/glm/ext/matrix_transform.hpp"
@@ -23,6 +25,7 @@
 #include "../../Shader.h"
 #include "../../lights/Lights.h"
 #include "../../cameras/FlyingCamera.h"
+#include "../../timer/timer.h"
 
 class OpenGLRenderer : Renderer {
 public:
@@ -47,7 +50,7 @@ public:
     Shader* getShader3d() { return m_shader3d; }
     Shader* getShaderFont() { return m_shaderFont; }
 
-    Camera& getCamera() { return m_camera; }
+    FlyingCamera& getCamera() { return m_camera; }
 
     // Idk why but the camera has to be initialized here apparently :shrug:
     OpenGLRenderer() : m_camera{ FlyingCamera(90.0f, 800, 600) } {}
@@ -71,7 +74,7 @@ private:
     int m_windowHeight{ 0 };
 
     // Can't see without a camera
-    Camera m_camera;
+    FlyingCamera m_camera;
 
     // Without lights it'd be pretty dark
     DirectionalLight m_sun;
@@ -83,6 +86,7 @@ private:
     uint64 m_lastCounter;
     float32 m_delta{ 0.0f };
     uint32 m_FPS{ 0 };
+    IndependentTimer m_oneSecondTimer{ std::chrono::seconds(1) };
 
     // Model matrix
     glm::mat4 m_modelMatrix{ glm::mat4(1.0f) };

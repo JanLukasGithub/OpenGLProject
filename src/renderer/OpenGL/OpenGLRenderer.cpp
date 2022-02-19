@@ -229,7 +229,8 @@ void OpenGLRenderer::endFrame() {
     uint64 endCounter = SDL_GetPerformanceCounter();
     uint64 counterElapsed = endCounter - m_lastCounter;
     m_delta = ((float32)counterElapsed) / ((float32)m_perfCounterFrequency);
-    m_FPS = (uint32)((float32)m_perfCounterFrequency / (float32)counterElapsed);
+    if (m_oneSecondTimer.hasTimeElapsed())
+        m_FPS = (uint32)((float32)m_perfCounterFrequency / (float32)counterElapsed);
     m_lastCounter = endCounter;
 }
 
