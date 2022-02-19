@@ -374,9 +374,7 @@ int main(int argc, char** argv) {
 		// Use fontShader for rendering text
 		fontShader->bind();
 
-		int w, h;
-		SDL_GetWindowSize(window, &w, &h);
-		glm::mat4 ortho = glm::ortho(0.0f, (float)w, (float)h, 0.0f);
+		glm::mat4 ortho = glm::ortho(0.0f, (float)*windowWidth, (float)*windowHeight, 0.0f);
 		glUniformMatrix4fv(glGetUniformLocation(fontShader->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &ortho[0][0]);
 		glDisable(GL_CULL_FACE);
 		glEnable(GL_BLEND);
