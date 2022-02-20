@@ -1,4 +1,4 @@
-#version 120
+#version 330 core
 
 attribute vec2 a_position;
 attribute vec2 a_texture_coords;

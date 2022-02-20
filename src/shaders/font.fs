@@ -1,4 +1,4 @@
-#version 120
+#version 330 core
 
 varying vec2 v_texture_coords;
 
