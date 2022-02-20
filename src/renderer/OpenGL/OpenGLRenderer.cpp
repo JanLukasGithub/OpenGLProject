@@ -57,8 +57,8 @@ void OpenGLRenderer::init() {
 #endif
 
     // Init shaders
-    m_shader3d = new Shader("src/shaders/basic.vs", "src/shaders/basic.fs");
-    m_shaderFont = new Shader("src/shaders/font.vs", "src/shaders/font.fs");
+    m_shader3d = new Shader("src/shaders/3d.vs", "src/shaders/3d.fs");
+    m_shaderFont = new Shader("src/shaders/2d.vs", "src/shaders/2d.fs");
 
     initLights();
 
