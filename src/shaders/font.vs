@@ -1,9 +1,9 @@
 #version 330 core
 
-attribute vec2 a_position;
-attribute vec2 a_texture_coords;
+layout(location = 0) in vec2 a_position;
+layout(location = 1) in vec2 a_texture_coords;
 
-varying vec2 v_texture_coords;
+out vec2 v_texture_coords;
 
 uniform mat4 u_modelViewProj;
 

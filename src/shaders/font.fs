@@ -1,6 +1,6 @@
 #version 330 core
 
-varying vec2 v_texture_coords;
+in vec2 v_texture_coords;
 
 uniform sampler2D u_texture;
 
