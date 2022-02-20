@@ -23,9 +23,9 @@ struct FontVertex {
 
 struct Font {
     ~Font();
-    void initFont(const char* filename);
+    void initFont(const char* filename, Shader* fontShader);
 
-    void drawString(float x, float y, const char* text, Shader* fontShader);
+    void drawString(float x, float y, const char* text);
 
 private:
     stbtt_bakedchar m_cdata[NUM_CHARS];
@@ -34,6 +34,9 @@ private:
     GLuint m_fontVertexBufferId;
     FontVertex* m_fontVertexBufferData = nullptr;
     uint32 m_fontVertexBufferCapacity;
+
+    // Uniform location
+    int m_textureUniformLocation{ 0 };
 };
 
 #endif

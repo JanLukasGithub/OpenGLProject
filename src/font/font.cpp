@@ -7,7 +7,10 @@ Font::~Font() {
         delete[] m_fontVertexBufferData;
 }
 
-void Font::initFont(const char* filename) {
+void Font::initFont(const char* filename, Shader* fontShader) {
+    // Get texture's uniform location
+    m_textureUniformLocation = glGetUniformLocation(fontShader->getShaderId(), "u_texture");
+
     // Open the file:
     std::streampos fileSize;
     std::ifstream file(filename, std::ios::binary);
@@ -52,7 +55,7 @@ void Font::initFont(const char* filename) {
     glBindVertexArray(0);
 }
 
-void Font::drawString(float x, float y, const char* text, Shader* fontShader) {
+void Font::drawString(float x, float y, const char* text) {
     glBindVertexArray(m_fontVao);
     glBindBuffer(GL_ARRAY_BUFFER, m_fontVertexBufferId);
 
@@ -71,7 +74,7 @@ void Font::drawString(float x, float y, const char* text, Shader* fontShader) {
     // Bind the texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_fontTexture);
-    glUniform1i(glGetUniformLocation(fontShader->getShaderId(), "u_texture"), 0);
+    glUniform1i(m_textureUniformLocation, 0);
 
     // Pointer to data
     FontVertex* vData = m_fontVertexBufferData;

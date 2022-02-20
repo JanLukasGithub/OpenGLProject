@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
 
 	// Load font
 	Font font;
-	font.initFont("assets/fonts/OpenSans-Regular.ttf");
+	font.initFont("assets/fonts/OpenSans-Regular.ttf", renderer->getShaderFont());
 
 	// Handle SDL events (keyboard, mouse, ...)
 	SdlEventHandler* handler = new SdlEventHandler();
@@ -128,7 +128,7 @@ int main(int argc, char** argv) {
 		renderer->setupFontRender();
 
 		// Draw FPS to the screen
-		font.drawString(5.0f, 20.0f, std::to_string(renderer->getFPS()).c_str(), renderer->getShaderFont());
+		font.drawString(5.0f, 20.0f, std::to_string(renderer->getFPS()).c_str());
 
 		// End the frame
 		renderer->endFrame();
