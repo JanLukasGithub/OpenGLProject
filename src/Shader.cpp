@@ -49,7 +49,7 @@ std::string Shader::parse(const char* filename) {
     FILE* file;
     file = fopen(filename, "rb");
     if (file == nullptr) {
-        std::cout << "File " << filename << " could not be read" << std::endl;
+        std::cerr << "File " << filename << " could not be read" << std::endl;
         return 0;
     }
 

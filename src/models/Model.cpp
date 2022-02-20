@@ -29,7 +29,7 @@ Model::Model(const char* filename, Shader* shader, glm::vec3 offset) {
 void Model::readModelFromBmfFile(const char* filename, Shader* shader, glm::vec3 offset) {
 	std::ifstream input = std::ifstream(filename, std::ios::in | std::ios::binary);
 	if (!input.is_open()) {
-		std::cout << "Error reading model file " << filename << "!" << std::endl;
+		std::cerr << "Error reading model file " << filename << "!" << std::endl;
 		throw std::exception();
 	}
 
@@ -64,7 +64,7 @@ void Model::readModelFromBmfFile(const char* filename, Shader* shader, glm::vec3
 		{
 			auto textureBuffer = stbi_load(diffuseMapName.c_str(), &textureWidth, &textureHeight, &bitsPerPixel, 4);
 			if (!textureBuffer) {
-				std::cout << "Couldn't load image at " << diffuseMapName << "! Aborting!" << std::endl;
+				std::cerr << "Couldn't load image at " << diffuseMapName << "! Aborting!" << std::endl;
 				assert(textureBuffer);
 			}
 			assert(mat.diffuseMap);
@@ -85,7 +85,10 @@ void Model::readModelFromBmfFile(const char* filename, Shader* shader, glm::vec3
 
 		{
 			auto textureBuffer = stbi_load(normalMapName.c_str(), &textureWidth, &textureHeight, &bitsPerPixel, 4);
-			assert(textureBuffer);
+			if (!textureBuffer) {
+				std::cerr << "Couldn't load image at " << normalMapName << "! Aborting!" << std::endl;
+				assert(textureBuffer);
+			}
 			assert(mat.normalMap);
 
 			glBindTexture(GL_TEXTURE_2D, mat.normalMap);
@@ -173,7 +176,7 @@ void Model::readModelFromFile(const char* filename, Shader* shader, glm::vec3 of
 
 	// Check for success
 	if (!scene || (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !scene->mRootNode) {
-		std::cout << "Error while loading the model with assimp: " << importer.GetErrorString() << std::endl;
+		std::cerr << "Error while loading the model with assimp: " << importer.GetErrorString() << std::endl;
 		throw new std::exception();
 	}
 
@@ -282,7 +285,7 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 			auto textureBuffer = stbi_load(mat.diffuseMapName.data(), &textureWidth, &textureHeight, &bitsPerPixel, 4);
 			// Check if texture loaded
 			if (!textureBuffer) {
-				std::cout << "Couldn't load image at " << mat.diffuseMapName.data() << "! Aborting!" << std::endl;
+				std::cerr << "Couldn't load image at " << mat.diffuseMapName.data() << "! Aborting!" << std::endl;
 				assert(textureBuffer);
 			}
 			assert(mat.diffuseMap);
@@ -308,7 +311,7 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 			auto textureBuffer = stbi_load(mat.normalMapName.data(), &textureWidth, &textureHeight, &bitsPerPixel, 4);
 			// Check if texture loaded
 			if (!textureBuffer) {
-				std::cout << "Couldn't load image at " << mat.diffuseMapName.data() << "! Aborting!" << std::endl;
+				std::cerr << "Couldn't load image at " << mat.normalMapName.data() << "! Aborting!" << std::endl;
 				assert(textureBuffer);
 			}
 			assert(mat.normalMap);

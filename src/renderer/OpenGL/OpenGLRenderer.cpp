@@ -39,7 +39,7 @@ void OpenGLRenderer::init() {
     // Return errors
     GLenum err = glewInit();
     if (err != GLEW_OK) {
-        std::cout << "Error: " << glewGetErrorString(err) << std::endl;
+        std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
         std::cin.get();
         throw std::exception();
     }
