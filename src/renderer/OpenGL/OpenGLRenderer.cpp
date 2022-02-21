@@ -209,7 +209,7 @@ void OpenGLRenderer::setup3DRender() {
     glUniformMatrix4fv(m_invModelViewUniformLocation, 1, GL_FALSE, &invModelView[0][0]);
 }
 
-void OpenGLRenderer::setupFontRender() {
+void OpenGLRenderer::setup2dRender() {
     // Use fontShader for rendering text
     m_shaderFont->bind();
 

@@ -38,7 +38,7 @@ public:
     // Sets up shader and render library settings for rendering 3d models
     virtual void setup3DRender() override;
     // Sets up shader and render library settings for rendering fonts
-    virtual void setupFontRender() override;
+    virtual void setup2dRender() override;
     // Draws things on the screen
     virtual void endFrame() override;
 

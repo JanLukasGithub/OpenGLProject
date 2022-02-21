@@ -125,7 +125,7 @@ int main(int argc, char** argv) {
 		}
 
 		// Start rendering font
-		renderer->setupFontRender();
+		renderer->setup2dRender();
 
 		// Draw FPS to the screen
 		font.drawString(5.0f, 20.0f, std::to_string(renderer->getFPS()).c_str());
