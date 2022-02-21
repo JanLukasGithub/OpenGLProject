@@ -10,5 +10,5 @@ uniform mat4 u_modelViewProj;
 void main() {
     gl_Position = u_modelViewProj * vec4(a_position, 0.5f, 1.0f);
 
-    a_textureCoords = a_textureCoords;
+    v_textureCoords = a_textureCoords;
 }
