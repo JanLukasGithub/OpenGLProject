@@ -25,7 +25,7 @@ public:
 
 	virtual void draw() {}
 
-	static void drawRectangle(int32 x, int32 y, int32 w, int32 h, int32 color) noexcept;
+	static void drawRectangle(float32 x, float32 y, float32 w, float32 h, int32 color) noexcept;
 
 protected:
 	float m_zLevel;
