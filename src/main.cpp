@@ -135,7 +135,7 @@ int main(int argc, char** argv) {
 		renderer->setup2DRender();
 
 		// Draw a rectangle somewhere
-		Gui::drawRectangle(200, 200, 200, 200, 0xFFFFFFFF);
+		Gui::drawRectangle(100.0f, 100.0f, 100.0f, 100.0f, 0xFFFFFFFF);
 
 		// End the frame
 		renderer->endFrame();
