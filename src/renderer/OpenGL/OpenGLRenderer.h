@@ -50,6 +50,9 @@ public:
     Shader* getShader3d() { return m_shader3d; }
     Shader* getShader2d() { return m_shader2d; }
 
+    int getWindowHeight() { return m_windowHeight; }
+    int getWindowWidth() { return m_windowWidth; }
+
     FlyingCamera& getCamera() { return m_camera; }
 
     // Idk why but the camera has to be initialized here apparently :shrug:
