@@ -37,7 +37,6 @@ private:
 
     // Uniform location
     int m_textureUniformLocation{ 0 };
-    int m_onlyAlphaUniformLocation{ 0 };
 };
 
 #endif

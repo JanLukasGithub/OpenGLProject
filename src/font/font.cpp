@@ -10,7 +10,6 @@ Font::~Font() {
 void Font::initFont(const char* filename, Shader* fontShader) {
     // Get texture's uniform location
     m_textureUniformLocation = glGetUniformLocation(fontShader->getShaderId(), "u_texture");
-    m_onlyAlphaUniformLocation = glGetUniformLocation(fontShader->getShaderId(), "u_onlyAlpha");
 
     // Open the file:
     std::streampos fileSize;
@@ -76,7 +75,6 @@ void Font::drawString(float x, float y, const char* text) {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_fontTexture);
     glUniform1i(m_textureUniformLocation, 0);
-    glUniform1i(m_onlyAlphaUniformLocation, 1);
 
     // Pointer to data
     FontVertex* vData = m_fontVertexBufferData;
