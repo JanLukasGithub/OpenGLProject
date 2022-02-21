@@ -5,6 +5,11 @@
 Font::~Font() {
     if (m_fontVertexBufferData)
         delete[] m_fontVertexBufferData;
+
+    // Delete stuff in vram
+    glDeleteVertexArrays(1, &m_fontVao);
+    glDeleteBuffers(1, &m_fontVertexBufferId);
+    glDeleteTextures(1, &m_fontTexture);
 }
 
 void Font::initFont(const char* filename, Shader* fontShader) {
