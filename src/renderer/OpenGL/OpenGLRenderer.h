@@ -35,10 +35,10 @@ public:
     virtual void reset() override;
     // Resets Screen for rendering the next frame
     virtual void startFrame() override;
-    // Sets up shader and render library settings for rendering 3d models
+    // Sets up shader and OpenGL settings for rendering 3d models
     virtual void setup3DRender() override;
-    // Sets up shader and render library settings for rendering fonts
-    virtual void setup2dRender() override;
+    // Sets up shader and OpenGL settings for rendering fonts
+    virtual void setupFontRender() override;
     // Draws things on the screen
     virtual void endFrame() override;
 
@@ -48,7 +48,7 @@ public:
     virtual float32 getDelta() override { return m_delta; }
 
     Shader* getShader3d() { return m_shader3d; }
-    Shader* getShader2d() { return m_shader2d; }
+    Shader* getShaderFont() { return m_shaderFont; }
 
     int getWindowHeight() { return m_windowHeight; }
     int getWindowWidth() { return m_windowWidth; }
@@ -72,7 +72,7 @@ private:
 
     // Dynamically allocated
     Shader* m_shader3d;
-    Shader* m_shader2d;
+    Shader* m_shaderFont;
 
     // Not dynamically allocated
     SDL_Window* m_window;

@@ -14,6 +14,8 @@ public:
     // Sets up shader and render library settings for rendering 3d models
     virtual void setup3DRender() = 0;
     // Sets up shader and render library settings for rendering fonts
+    virtual void setupFontRender() = 0;
+    // Sets up shader and render library settings for rendering 2d images
     virtual void setup2dRender() = 0;
     // Draws things on the screen
     virtual void endFrame() = 0;

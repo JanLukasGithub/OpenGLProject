@@ -49,6 +49,7 @@
 #include "font/font.h"
 #include "timer/timer.h"
 #include "renderer/OpenGL/OpenGLRenderer.h"
+#include "gui/Gui.h"
 
 int main(int argc, char** argv) {
 	// Renderer
@@ -74,7 +75,7 @@ int main(int argc, char** argv) {
 
 	// Load font
 	Font font;
-	font.initFont("assets/fonts/OpenSans-Regular.ttf", renderer->getShader2d());
+	font.initFont("assets/fonts/OpenSans-Regular.ttf", renderer->getShaderFont());
 
 	// Handle SDL events (keyboard, mouse, ...)
 	SdlEventHandler* handler = new SdlEventHandler();
@@ -125,10 +126,13 @@ int main(int argc, char** argv) {
 		}
 
 		// Start rendering font
-		renderer->setup2dRender();
+		renderer->setupFontRender();
 
 		// Draw FPS to the screen
 		font.drawString(5.0f, 20.0f, std::to_string(renderer->getFPS()).c_str());
+
+		// Draw a rectangle somewhere
+		Gui::drawRectangle(200, 200, 200, 200, 0xFFFFFFFF);
 
 		// End the frame
 		renderer->endFrame();
