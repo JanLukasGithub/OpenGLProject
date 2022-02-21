@@ -131,6 +131,9 @@ int main(int argc, char** argv) {
 		// Draw FPS to the screen
 		font.drawString(5.0f, 20.0f, std::to_string(renderer->getFPS()).c_str());
 
+		// Start rendering 2D stuff
+		renderer->setup2DRender();
+
 		// Draw a rectangle somewhere
 		Gui::drawRectangle(200, 200, 200, 200, 0xFFFFFFFF);
 
