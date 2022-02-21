@@ -51,6 +51,7 @@ public:
 
     Shader* getShader3d() { return m_shader3d; }
     Shader* getShaderFont() { return m_shaderFont; }
+    Shader* getShader2d() { return m_shader2d; }
 
     int getWindowHeight() { return m_windowHeight; }
     int getWindowWidth() { return m_windowWidth; }
