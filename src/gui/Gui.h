@@ -12,6 +12,7 @@ class Gui;
 #include "../utils.h"
 #include "../VertexBuffer.h"
 #include "../IndexBuffer.h"
+#include "../renderer/OpenGL/OpenGLRenderer.h"
 
 #ifndef GUI_GUI_H_
 #define GUI_GUI_H_
@@ -24,7 +25,7 @@ public:
 
 	virtual void draw() {}
 
-	static void drawRectangle(int x, int y, int w, int h);
+	static void drawRectangle(int32 x, int32 y, int32 w, int32 h, int32 color) noexcept;
 
 protected:
 	float m_zLevel;
