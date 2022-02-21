@@ -39,6 +39,8 @@ public:
     virtual void setup3DRender() override;
     // Sets up shader and OpenGL settings for rendering fonts
     virtual void setupFontRender() override;
+    // Sets up shader and OpenGL settings for rendering 2d images
+    virtual void setup2DRender() override;
     // Draws things on the screen
     virtual void endFrame() override;
 

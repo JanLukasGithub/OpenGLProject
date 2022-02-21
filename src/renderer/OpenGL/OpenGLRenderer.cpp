@@ -221,6 +221,18 @@ void OpenGLRenderer::setupFontRender() {
     glDisable(GL_DEPTH_TEST);
 }
 
+void OpenGLRenderer::setup2DRender() {
+    // Use 2D shader for rendering 2D things
+
+
+    glm::mat4 ortho = glm::ortho(0.0f, (float)m_windowWidth, (float)m_windowHeight, 0.0f);
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderFont->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &ortho[0][0]);
+    glDisable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glDisable(GL_DEPTH_TEST);
+}
+
 void OpenGLRenderer::endFrame() {
     // Display things you just made and use other buffer for the next frame
     SDL_GL_SwapWindow(m_window);

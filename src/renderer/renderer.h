@@ -16,7 +16,7 @@ public:
     // Sets up shader and render library settings for rendering fonts
     virtual void setupFontRender() = 0;
     // Sets up shader and render library settings for rendering 2d images
-    virtual void setup2dRender() = 0;
+    virtual void setup2DRender() = 0;
     // Draws things on the screen
     virtual void endFrame() = 0;
 
