@@ -57,7 +57,7 @@ public:
     virtual ~OpenGLRenderer();
 
     // Pointer to the currently active renderer. Set in the constructor
-    static Renderer* activeRenderer;
+    inline static Renderer* activeRenderer;
 private:
     // Private move constructor
     OpenGLRenderer(OpenGLRenderer& renderer) : m_camera{ FlyingCamera(90.0f, 800, 600) } {}
