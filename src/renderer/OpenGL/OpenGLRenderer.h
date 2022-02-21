@@ -75,6 +75,7 @@ private:
     // Dynamically allocated
     Shader* m_shader3d;
     Shader* m_shaderFont;
+    Shader* m_shader2d;
 
     // Not dynamically allocated
     SDL_Window* m_window;

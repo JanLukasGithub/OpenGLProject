@@ -3,6 +3,7 @@
 OpenGLRenderer::~OpenGLRenderer() {
     delete m_shader3d;
     delete m_shaderFont;
+    delete m_shader2d;
 }
 
 void OpenGLRenderer::init() {
@@ -59,6 +60,7 @@ void OpenGLRenderer::init() {
     // Init shaders
     m_shader3d = new Shader("src/shaders/3d.vs", "src/shaders/3d.fs");
     m_shaderFont = new Shader("src/shaders/font.vs", "src/shaders/font.fs");
+    m_shader2d = new Shader("src/shaders/2d.vs", "src/shaders/2d.fs");
 
     initLights();
 
@@ -223,7 +225,7 @@ void OpenGLRenderer::setupFontRender() {
 
 void OpenGLRenderer::setup2DRender() {
     // Use 2D shader for rendering 2D things
-
+    m_shader2d->bind();
 
     glm::mat4 ortho = glm::ortho(0.0f, (float)m_windowWidth, (float)m_windowHeight, 0.0f);
     glUniformMatrix4fv(glGetUniformLocation(m_shaderFont->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &ortho[0][0]);
