@@ -48,7 +48,7 @@ public:
     virtual float32 getDelta() override { return m_delta; }
 
     Shader* getShader3d() { return m_shader3d; }
-    Shader* getShaderFont() { return m_shaderFont; }
+    Shader* getShader2d() { return m_shader2d; }
 
     FlyingCamera& getCamera() { return m_camera; }
 
@@ -69,7 +69,7 @@ private:
 
     // Dynamically allocated
     Shader* m_shader3d;
-    Shader* m_shaderFont;
+    Shader* m_shader2d;
 
     // Not dynamically allocated
     SDL_Window* m_window;

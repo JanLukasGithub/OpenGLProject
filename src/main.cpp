@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
 
 	// Load font
 	Font font;
-	font.initFont("assets/fonts/OpenSans-Regular.ttf", renderer->getShaderFont());
+	font.initFont("assets/fonts/OpenSans-Regular.ttf", renderer->getShader2d());
 
 	// Handle SDL events (keyboard, mouse, ...)
 	SdlEventHandler* handler = new SdlEventHandler();

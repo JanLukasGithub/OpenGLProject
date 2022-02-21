@@ -2,7 +2,7 @@
 
 OpenGLRenderer::~OpenGLRenderer() {
     delete m_shader3d;
-    delete m_shaderFont;
+    delete m_shader2d;
 }
 
 void OpenGLRenderer::init() {
@@ -58,7 +58,7 @@ void OpenGLRenderer::init() {
 
     // Init shaders
     m_shader3d = new Shader("src/shaders/3d.vs", "src/shaders/3d.fs");
-    m_shaderFont = new Shader("src/shaders/2d.vs", "src/shaders/2d.fs");
+    m_shader2d = new Shader("src/shaders/2d.vs", "src/shaders/2d.fs");
 
     initLights();
 
@@ -162,7 +162,7 @@ void OpenGLRenderer::initLights() {
 
 void OpenGLRenderer::reset() {
     m_shader3d->update("src/shaders/basic.vs", "src/shaders/basic.fs");
-    m_shaderFont->update("src/shaders/font.vs", "src/shaders/font.fs");
+    m_shader2d->update("src/shaders/font.vs", "src/shaders/font.fs");
 
     initLights();
 
@@ -211,10 +211,10 @@ void OpenGLRenderer::setup3DRender() {
 
 void OpenGLRenderer::setup2dRender() {
     // Use fontShader for rendering text
-    m_shaderFont->bind();
+    m_shader2d->bind();
 
     glm::mat4 ortho = glm::ortho(0.0f, (float)m_windowWidth, (float)m_windowHeight, 0.0f);
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderFont->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &ortho[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shader2d->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &ortho[0][0]);
     glDisable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
