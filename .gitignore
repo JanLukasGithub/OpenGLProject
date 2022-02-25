@@ -1,6 +1,9 @@
 # binaries
 /OpenGLProject
 
+# Local save games
+/saves
+
 # build files
 /build/
 
