@@ -1,5 +1,5 @@
 # OpenGLProject
-My OpenGL project. Feel free to suggest improvements/new features. All assets and libraries used are free to use, and the code from the Tutorial I used at the start is as well.
+My OpenGL project. Feel free to suggest improvements/new features. All assets and libraries used are free to use, and the code from the Tutorial I used in the beginning is as well.
 
 # Compilation
 Go in the build folder and do `make`.
