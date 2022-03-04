@@ -1,10 +1,3 @@
-/*
- * Mesh.h
- *
- *  Created on: Aug 15, 2021
- *      Author: jan
- */
-
 class Mesh;
 
 #ifndef MESH_H_

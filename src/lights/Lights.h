@@ -1,10 +1,3 @@
-/*
- * Lights.h
- *
- *  Created on: Jan 7, 2022
- *      Author: jan
- */
-
 #ifndef LIGHTS_LIGHTS_H_
 #define LIGHTS_LIGHTS_H_
 

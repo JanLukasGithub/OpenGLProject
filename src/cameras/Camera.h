@@ -1,10 +1,3 @@
-/*
- * Camera.h
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 class Camera;
 
 #ifndef CAMERAS_CAMERA_H_

@@ -1,10 +1,3 @@
-/*
- * IndexBuffer.cpp
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 #include "IndexBuffer.h"
 
 IndexBuffer::IndexBuffer(void* data, uint64 numIndices, uint8 elementSize) {

@@ -1,10 +1,3 @@
-/*
- * FlyingCamera.cpp
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 #include "FlyingCamera.h"
 
 #include "../SdlEventHandler.h"

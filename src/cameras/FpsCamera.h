@@ -1,10 +1,3 @@
-/*
- * FpsCamera.h
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 class FpsCamera;
 
 #ifndef CAMERAS_FPSCAMERA_H_

@@ -1,10 +1,3 @@
-/*
- * VertexBuffer.cpp
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 #include "VertexBuffer.h"
 
 VertexBuffer::VertexBuffer(void* data, uint64 numVertices, bool* hasNormalMap) {

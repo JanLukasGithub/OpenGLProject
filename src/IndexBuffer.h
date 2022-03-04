@@ -1,10 +1,3 @@
-/*
- * IndexBuffer.h
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 #ifndef INDEXBUFFER_H_
 #define INDEXBUFFER_H_
 

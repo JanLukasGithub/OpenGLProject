@@ -1,10 +1,3 @@
-/*
- * typedefs.h
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 #ifndef UTILS_H_
 #define UTILS_H_
 

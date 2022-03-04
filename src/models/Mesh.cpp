@@ -1,10 +1,3 @@
-/*
- * Mesh.cpp
- *
- *  Created on: Aug 15, 2021
- *      Author: jan
- */
-
 #include "Mesh.h"
 
 Mesh::Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, Material material, Shader* shader) : m_numIndices{ indices->size() },

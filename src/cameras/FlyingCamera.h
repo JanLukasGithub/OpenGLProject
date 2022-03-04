@@ -1,10 +1,3 @@
-/*
- * FlyingCamera.h
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 class FlyingCamera;
 
 #ifndef CAMERAS_FLYINGCAMERA_H_

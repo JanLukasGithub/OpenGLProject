@@ -1,10 +1,3 @@
-/*
- * FpsCamera.cpp
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 #include "FpsCamera.h"
 
 #include "../SdlEventHandler.h"

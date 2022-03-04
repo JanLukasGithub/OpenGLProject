@@ -1,10 +1,3 @@
-/*
- * SdlEventHandler.h
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 class SdlEventHandler;
 
 #ifndef SDLEVENTHANDLER_H_

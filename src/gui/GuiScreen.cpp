@@ -1,10 +1,3 @@
-/*
- * GuiScreen.cpp
- *
- *  Created on: Aug 13, 2021
- *      Author: jan
- */
-
 #include "GuiScreen.h"
 
  // Values can't be initialized in initializer list, prevent the warning

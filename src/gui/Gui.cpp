@@ -1,10 +1,3 @@
-/*
- * Gui.cpp
- *
- *  Created on: Aug 13, 2021
- *      Author: jan
- */
-
 #include "Gui.h"
 
 void Gui::drawRectangle(float32 x, float32 y, float32 w, float32 h, int32 color) noexcept {

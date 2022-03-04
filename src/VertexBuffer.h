@@ -1,10 +1,3 @@
-/*
- * VertexBuffer.h
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 #ifndef VERTEXBUFFER_H_
 #define VERTEXBUFFER_H_
 

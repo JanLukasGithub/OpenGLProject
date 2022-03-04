@@ -1,10 +1,3 @@
-/*
- * SdlEventHandler.cpp
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 #include "SdlEventHandler.h"
 
 bool SdlEventHandler::keyPressed(SDL_Keycode keycode) {

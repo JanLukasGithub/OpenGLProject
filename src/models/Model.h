@@ -1,10 +1,3 @@
-/*
- * Model.h
- *
- *  Created on: Aug 17, 2021
- *      Author: jan
- */
-
 #ifndef MODELS_MODEL_H_
 #define MODELS_MODEL_H_
 

@@ -1,10 +1,3 @@
-/*
- * Model.cpp
- *
- *  Created on: Aug 17, 2021
- *      Author: jan
- */
-
 #include "Model.h"
 
  // Ignore "member should be initialized in initializer list" warning

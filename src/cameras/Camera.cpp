@@ -1,10 +1,3 @@
-/*
- * Camera.cpp
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 #include "Camera.h"
 
 Camera::Camera(float fov, float width, float height) : projection{ glm::perspective(fov / 2.0f, width / height, 0.1f, 1000.0f) }, viewProj{ projection * view } {}

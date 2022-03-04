@@ -1,10 +1,3 @@
-/*
- * Shader.h
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
 #ifndef SHADER_H_
 #define SHADER_H_
 

@@ -1,10 +1,3 @@
-/*
- * GuiScreen.h
- *
- *  Created on: Aug 13, 2021
- *      Author: jan
- */
-
 #ifndef GUI_GUISCREEN_H_
 #define GUI_GUISCREEN_H_
 

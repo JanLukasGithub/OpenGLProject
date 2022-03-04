@@ -1,10 +1,3 @@
-/*
- * utils.cpp
- *
- *  Created on: Jan 30, 2022
- *      Author: jan
- */
-
 #include "utils.h"
 
 const char* getFilename(const char* path) {

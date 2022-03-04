@@ -1,10 +1,3 @@
-/*
- * Gui.h
- *
- *  Created on: Aug 13, 2021
- *      Author: jan
- */
-
 class Gui;
 
 #include <GL/glew.h>

@@ -1,11 +1,4 @@
-/*
- * main.cpp
- *
- *  Created on: Jul 21, 2021
- *      Author: jan
- */
-
- // Standard library
+// Standard library
 #include <iostream>
 #include <vector>
 #include <string>
