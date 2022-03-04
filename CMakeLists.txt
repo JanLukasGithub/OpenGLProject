@@ -19,8 +19,9 @@ SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
 file(GLOB SOURCES1 "src/*.cpp")
 file(GLOB SOURCES2 "src/*/*.cpp")
 file(GLOB SOURCES3 "src/*/*/*.cpp")
+file(GLOB SOURCES4 "src/*/*/*/*.cpp")
 
-set(SOURCES ${SOURCES1} ${SOURCES2} ${SOURCES3})
+set(SOURCES ${SOURCES1} ${SOURCES2} ${SOURCES3} ${SOURCES4})
 
 # source files
 add_executable(${PROJECT_NAME} ${SOURCES})
