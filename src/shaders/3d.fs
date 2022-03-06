@@ -50,6 +50,8 @@ struct SpotLight {
 	vec3 ambient;
 };
 
+uniform mat4 u_modelView;
+
 uniform Material u_material;
 uniform DirectionalLight u_directionalLight;
 uniform PointLight u_pointLight;
@@ -64,9 +66,12 @@ void main() {
 	
 	// Normal from normal map
 	vec3 normal = texture(u_normalMap, v_textureCoords).rgb;
+	// Scale from 0.0 - 1.0 to -1.0 - 1.0
 	normal = normalize(normal * 2.0 - 1.0);
+	// Actual normal
 	normal = normalize(v_tbn * normal);
 	
+	// Get diffuse color from material or texture
 	vec4 diffuseColor = vec4(u_material.diffuse, 1.0);
 	if (u_hasDiffuseMap) {
 		diffuseColor = texture(u_diffuseMap, v_textureCoords);
@@ -74,9 +79,12 @@ void main() {
 	if (diffuseColor.w < 0.9) {
 		discard;
 	}
+
+	// Transform direction to view space
+	vec3 directionalLightDirection = -(u_directionalLight.direction * mat3(u_modelView));
 	
-	vec3 light = normalize(-u_directionalLight.direction);
-	vec3 reflection = reflect(u_directionalLight.direction, normal);
+	vec3 light = normalize(directionalLightDirection);
+	vec3 reflection = reflect(directionalLightDirection, normal);
 	
 	vec3 ambient = diffuseColor.xyz * u_directionalLight.ambient;
 	vec3 diffuse = max(dot(normal, light), 0.0) * diffuseColor.xyz * u_directionalLight.diffuse;
