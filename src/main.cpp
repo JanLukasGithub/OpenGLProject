@@ -79,6 +79,7 @@ int main(int argc, char** argv) {
 	// Renderer
 	OpenGLRenderer* renderer = new OpenGLRenderer();
 	renderer->init();
+	renderer->getCamera().translate(glm::vec3(0.0f, 1.0f, 0.0f));
 
 	// Create the "models" vector
 	std::vector<Model*> models;
