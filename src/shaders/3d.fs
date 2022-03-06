@@ -83,6 +83,7 @@ void main() {
 	// Transform direction to view space
 	vec3 directionalLightDirection = -(u_directionalLight.direction * mat3(u_modelView));
 	
+	// Directional light
 	vec3 light = normalize(directionalLightDirection);
 	vec3 reflection = reflect(directionalLightDirection, normal);
 	
@@ -90,6 +91,7 @@ void main() {
 	vec3 diffuse = max(dot(normal, light), 0.0) * diffuseColor.xyz * u_directionalLight.diffuse;
 	vec3 specular = pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * u_directionalLight.specular;
 
+	// Point light
 	light = normalize(u_pointLight.position - v_position);
 	reflection = reflect(-light, normal);
 	
@@ -100,6 +102,7 @@ void main() {
 	diffuse += attenuation * max(dot(normal, light), 0.0) * diffuseColor.xyz * u_pointLight.diffuse;
 	specular += attenuation * pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * u_pointLight.specular;
 
+	// Spotlight
 	light = normalize(u_spotLight.position - v_position);
 	reflection = reflect(-light, normal);
 	float theta = dot(light, u_spotLight.direction);
@@ -118,5 +121,6 @@ void main() {
 		ambient += attenuation * u_spotLight.ambient * diffuseColor.xyz;
 	}
 
+	// Final color
     f_color = vec4(ambient + diffuse + specular + u_material.emissive, 1.0f);
 }
