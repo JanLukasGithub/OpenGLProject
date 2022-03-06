@@ -91,6 +91,7 @@ GLuint Shader::createShader(const char* vertexShaderFileName, const char* fragme
 
 void Shader::update(const char* vertexShaderFileName, const char* fragmentShaderFileName) {
     this->unbind();
+    glDeleteProgram(shaderId);
     shaderId = createShader(vertexShaderFileName, fragmentShaderFileName);
     this->bind();
 }
