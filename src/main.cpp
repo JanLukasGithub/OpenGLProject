@@ -44,6 +44,37 @@
 #include "renderer/OpenGL/OpenGLRenderer.h"
 #include "gui/Gui.h"
 
+/**
+ * @brief asks the user for a model to load in std input and loads the model
+ * 
+ * @param modelList 
+ * @param renderer 
+ * @return true if user input wasn't "none"
+ * @return false if user input was "none"
+ */
+bool userModelLoad(std::vector<Model*>& modelList, OpenGLRenderer* renderer) {
+	std::string modelname = std::string();
+	// Ask the user what model he wants to load
+	std::cout << "Please input the filename of the model you want to load or \"none\", \"n\" or \"\" to abort" << std::endl;
+	std::cin >> modelname;
+
+	// If the user wants to abort do that
+	if (modelname.compare("none") * modelname.compare("n") * modelname.compare("") == 0)
+		return false;
+
+	// Load model
+	try {
+		modelList.push_back(new Model(modelname.c_str(), renderer->getShader3d()));
+	} catch(std::exception* e) {
+		std::cout << e->what() << std::endl;
+	} catch(std::exception e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	// User didn't abort
+	return true;
+}
+
 int main(int argc, char** argv) {
 	// Renderer
 	OpenGLRenderer* renderer = new OpenGLRenderer();
@@ -52,19 +83,16 @@ int main(int argc, char** argv) {
 	// Create the "models" vector
 	std::vector<Model*> models;
 
-	std::string modelname = std::string();
 	if (argc < 2) {
-		// Ask the user what model he wants to load
-		std::cout << "Please input the filename of the model you want to load" << std::endl;
-
-		std::cin >> modelname;
+		// Load models
+		while (userModelLoad(models, renderer));
 	} else {
 		// Use the first argument as model to load
-		modelname = std::string(argv[1]);
-	}
+		std::string modelname = std::string(argv[1]);
 
-	// Load model
-	models.push_back(new Model((modelname).c_str(), renderer->getShader3d()));
+		// Load model
+		models.push_back(new Model((modelname).c_str(), renderer->getShader3d()));
+	}
 
 	// Load font
 	Font font;
