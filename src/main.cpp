@@ -79,10 +79,12 @@ int main(int argc, char** argv) {
 	// Renderer
 	OpenGLRenderer* renderer = new OpenGLRenderer();
 	renderer->init();
-	renderer->getCamera().translate(glm::vec3(0.0f, 1.0f, 0.0f));
 
 	// Create the "models" vector
 	std::vector<Model*> models;
+
+	// Always load the floor
+	models.push_back(new Model("assets/models/Floor/Floor.obj", renderer->getShader3d(), glm::vec3(0.0f, -1.0f, 0.0f)));
 
 	if (argc < 2) {
 		// Load models
@@ -92,7 +94,7 @@ int main(int argc, char** argv) {
 		std::string modelname = std::string(argv[1]);
 
 		// Load model
-		models.push_back(new Model((modelname).c_str(), renderer->getShader3d()));
+		models.push_back(new Model(modelname.c_str(), renderer->getShader3d()));
 	}
 
 	// Load font
