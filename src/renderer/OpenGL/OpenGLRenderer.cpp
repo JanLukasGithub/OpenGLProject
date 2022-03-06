@@ -163,8 +163,9 @@ void OpenGLRenderer::initLights() {
 }
 
 void OpenGLRenderer::reset() {
-    m_shader3d->update("src/shaders/basic.vs", "src/shaders/basic.fs");
+    m_shader3d->update("src/shaders/3d.vs", "src/shaders/3d.fs");
     m_shaderFont->update("src/shaders/font.vs", "src/shaders/font.fs");
+    m_shader2d->update("src/shaders/2d.vs", "src/shaders/2d.fs");
 
     initLights();
 
