@@ -2,7 +2,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <cstring>
 
 // Glew
 #define GLEW_STATIC
@@ -15,8 +14,6 @@
 
 // Glm
 #include "../lib/glm/glm.hpp"
-#include "../lib/glm/ext/matrix_transform.hpp"
-#include "../lib/glm/gtc/matrix_transform.hpp"
 
 // SDL
 #define SDL_MAIN_HANDLED
@@ -32,17 +29,10 @@
 // Self written headers
 #include "utils.h"
 
-#include "lights/Lights.h"
-#include "IndexBuffer.h"
-#include "VertexBuffer.h"
-#include "Shader.h"
-#include "cameras/FlyingCamera.h"
 #include "SdlEventHandler.h"
 #include "models/Model.h"
 #include "font/font.h"
-#include "timer/timer.h"
 #include "renderer/OpenGL/OpenGLRenderer.h"
-#include "gui/Gui.h"
 
 /**
  * @brief asks the user for a model to load in std input and loads the model
