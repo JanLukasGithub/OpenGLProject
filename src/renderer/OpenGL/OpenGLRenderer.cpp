@@ -93,7 +93,7 @@ void OpenGLRenderer::initLights() {
         // Color
         glm::vec3(0.8f, 0.8f, 0.8f),
         // Ambient color
-        glm::vec3(0.16f, 0.16f, 0.16f) };
+        glm::vec3(0.8f, 0.8f, 0.8f) };
     // Give uniforms the colors
     glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_directionalLight.diffuse"), 1, (float*)&m_sun.color.r);
     glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_directionalLight.specular"), 1, (float*)&m_sun.color.r);
@@ -105,9 +105,9 @@ void OpenGLRenderer::initLights() {
         // Position
         glm::vec4(0.0f, 0.0f, 10.0f, 1.0f),
         // Color
-        glm::vec3(0.2f, 0.2f, 1.0f),
+        glm::vec3(0.0f, 0.0f, 0.0f),
         // Ambient color
-        glm::vec3(0.04f, 0.04f, 0.2f),
+        glm::vec3(0.00f, 0.00f, 0.0f),
         // Linear attenuation
         0.027f,
         // Quadratic attenuation
@@ -130,9 +130,9 @@ void OpenGLRenderer::initLights() {
         // Direction
         glm::vec3(0.0f, 0.0f, 1.0f),
         // Color
-        glm::vec3(1.0f, 1.0f, 1.0f),
+        glm::vec3(0.0f, 0.0f, 0.0f),
         // Ambient color
-        glm::vec3(0.2f, 0.2f, 0.2f),
+        glm::vec3(0.0f, 0.0f, 0.0f),
         // Linear attenuation
         0.027f,
         // Quadratic attenuation
