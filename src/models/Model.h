@@ -17,8 +17,10 @@ class Model {
 public:
 	// Reads the model from filename and initializes it with shader
 	Model(const char* filename, Shader* shader);
-	// Reads the model from filename, initializes it with shader and adds the offset to it's coordinates
+	// Reads the model from filename, initializes it with shader and adds the offset
 	Model(const char* filename, Shader* shader, glm::vec3 offset);
+	// Reads the model from filename, initializes it with shader and uses the modelMatrix
+	Model(const char* filename, Shader* shader, glm::mat4 modelMat);
 
 	virtual ~Model();
 

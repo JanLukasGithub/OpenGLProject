@@ -12,6 +12,12 @@ Model::Model(const char* filename, Shader* shader, glm::vec3 offset) {
 
 	m_modelMat = glm::translate(m_modelMat, offset);
 }
+
+Model::Model(const char* filename, Shader* shader, glm::mat4 modelMat) {
+	readModelFromFile(filename, shader);
+
+	m_modelMat = modelMat;
+}
 #pragma GCC diagnostic pop
 
 // Reads model files using assimp
