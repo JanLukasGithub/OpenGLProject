@@ -20,12 +20,6 @@ public:
 	// Reads the model from filename, initializes it with shader and adds the offset to it's coordinates
 	Model(const char* filename, Shader* shader, glm::vec3 offset);
 
-	// Reads model from bmf file
-	void readModelFromBmfFile(const char* filename, Shader* shader, glm::vec3 offset);
-
-	// Reads model from file using assimp
-	void readModelFromFile(const char* filename, Shader* shader, glm::vec3 offset);
-
 	virtual ~Model();
 
 	void render();
@@ -33,6 +27,10 @@ private:
 	std::vector<Mesh*> m_meshes;
 	std::vector<Material> m_materials;
 
+	glm::mat4 m_modelMat{0.0f};
+
+	// Reads model from file using assimp
+	void readModelFromFile(const char* filename, Shader* shader, glm::vec3 offset);
 	// Processes the materials
 	void processMaterials(const aiScene* scene, const char* path);
 	// Processes the nodes recursively
