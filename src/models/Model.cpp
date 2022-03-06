@@ -4,18 +4,18 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 Model::Model(const char* filename, Shader* shader) {
-	readModelFromFile(filename, shader, glm::vec3(0.0f, 0.0f, 0.0f));
+	readModelFromFile(filename, shader);
 }
 
 Model::Model(const char* filename, Shader* shader, glm::vec3 offset) {
-	readModelFromFile(filename, shader, offset);
+	readModelFromFile(filename, shader);
 
 	m_modelMat = glm::translate(m_modelMat, offset);
 }
 #pragma GCC diagnostic pop
 
 // Reads model files using assimp
-void Model::readModelFromFile(const char* filename, Shader* shader, glm::vec3 offset) {
+void Model::readModelFromFile(const char* filename, Shader* shader) {
 	// Assimp will do the work for us
 	Assimp::Importer importer;
 

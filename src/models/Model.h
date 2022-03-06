@@ -30,7 +30,7 @@ private:
 	glm::mat4 m_modelMat{0.0f};
 
 	// Reads model from file using assimp
-	void readModelFromFile(const char* filename, Shader* shader, glm::vec3 offset);
+	void readModelFromFile(const char* filename, Shader* shader);
 	// Processes the materials
 	void processMaterials(const aiScene* scene, const char* path);
 	// Processes the nodes recursively
