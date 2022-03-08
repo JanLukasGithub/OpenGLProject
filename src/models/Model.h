@@ -7,7 +7,6 @@
 
 #include "../../lib/stb_image.h"
 #include "../../lib/glm/glm.hpp"
-#include "../../lib/glm/ext/matrix_transform.hpp"
 #include "../../lib/glm/gtc/matrix_transform.hpp"
 
 #include "Mesh.h"
@@ -24,7 +23,7 @@ public:
 
 	// Translate the model
 	void translate(glm::vec3 translation);
-	// Rotate the model
+	// Rotate the model, with rotation in radians
 	void rotate(glm::vec3 rotation);
 	// Scale the model
 	void scale(glm::vec3 scale);
