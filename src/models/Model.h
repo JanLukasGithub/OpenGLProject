@@ -22,6 +22,13 @@ public:
 	// Reads the model from filename, initializes it with shader and uses the modelMatrix
 	Model(const char* filename, Shader* shader, glm::mat4 modelMat);
 
+	// Translate the model
+	void translate(glm::vec3 translation);
+	// Rotate the model
+	void rotate(glm::vec3 rotation);
+	// Scale the model
+	void scale(glm::vec3 scale);
+
 	virtual ~Model();
 
 	void render();
@@ -29,6 +36,7 @@ private:
 	std::vector<Mesh*> m_meshes;
 	std::vector<Material> m_materials;
 
+	// Stores translation, rotation and scale
 	glm::mat4 m_modelMat{0.0f};
 
 	// Reads model from file using assimp

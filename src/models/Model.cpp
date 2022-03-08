@@ -20,6 +20,20 @@ Model::Model(const char* filename, Shader* shader, glm::mat4 modelMat) {
 }
 #pragma GCC diagnostic pop
 
+void Model::translate(glm::vec3 translation) {
+	m_modelMat = glm::translate(m_modelMat, translation);
+}
+
+void Model::rotate(glm::vec3 rotation) {
+	m_modelMat = glm::rotate(m_modelMat, rotation.x, glm::vec3(1, 0, 0));
+	m_modelMat = glm::rotate(m_modelMat, rotation.y, glm::vec3(0, 1, 0));
+	m_modelMat = glm::rotate(m_modelMat, rotation.z, glm::vec3(0, 0, 1));
+}
+
+void Model::scale(glm::vec3 scale) {
+	m_modelMat = glm::scale(m_modelMat, scale);
+}
+
 // Reads model files using assimp
 void Model::readModelFromFile(const char* filename, Shader* shader) {
 	// Assimp will do the work for us
