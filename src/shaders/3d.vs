@@ -11,6 +11,7 @@ out vec3 v_position;
 out vec2 v_textureCoords;
 out mat3 v_tbn;
 
+uniform mat4 u_modelMat;
 uniform mat4 u_modelViewProj;
 uniform mat4 u_modelView;
 uniform mat4 u_invModelView;
@@ -18,7 +19,7 @@ uniform mat4 u_invModelView;
 uniform bool u_hasNormalMap;
 
 void main() {
-    gl_Position = u_modelViewProj * vec4(a_position, 1.0f);
+    gl_Position = u_modelMat * u_modelViewProj * vec4(a_position, 1.0f);
     
     v_position = vec3(u_modelView * vec4(a_position, 1.0f));
     
