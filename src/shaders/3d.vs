@@ -19,9 +19,11 @@ uniform mat4 u_invModelView;
 uniform bool u_hasNormalMap;
 
 void main() {
-    gl_Position = u_modelMat * u_modelViewProj * vec4(a_position, 1.0f);
+    vec4 worldSpacePosition = u_modelMat * vec4(a_position, 1.0f);
+
+    gl_Position = u_modelViewProj * worldSpacePosition;
     
-    v_position = vec3(u_modelView * vec4(a_position, 1.0f));
+    v_position = vec3(u_modelView * worldSpacePosition);
     
     v_tbn = mat3(1.0);
     if (u_hasNormalMap) {
