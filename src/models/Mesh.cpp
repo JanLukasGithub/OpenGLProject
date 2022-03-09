@@ -13,7 +13,8 @@ m_shininessLocation{ glGetUniformLocation(m_shader->getShaderId(), "u_material.s
 m_diffuseMapLocation{ glGetUniformLocation(m_shader->getShaderId(), "u_diffuseMap") },
 m_normalMapLocation{ glGetUniformLocation(m_shader->getShaderId(), "u_normalMap") },
 m_hasNormalMapLocation{ glGetUniformLocation(m_shader->getShaderId(), "u_hasNormalMap") },
-m_hasDiffuseMapLocation{ glGetUniformLocation(m_shader->getShaderId(), "u_hasDiffuseMap") } {}
+m_hasDiffuseMapLocation{ glGetUniformLocation(m_shader->getShaderId(), "u_hasDiffuseMap") },
+m_modelMatLocation{ glGetUniformLocation(m_shader->getShaderId(), "u_modelMat")} {}
 
 
 Mesh::Mesh(const Mesh& mesh) : m_numIndices{ mesh.m_numIndices }, m_vbo{ new VertexBuffer(*mesh.m_vbo) }, m_ibo{ new IndexBuffer(*mesh.m_ibo) }, m_shader{ mesh.m_shader },
@@ -21,7 +22,8 @@ m_material{ mesh.m_material }, m_vertices{ new std::vector<Vertex>(*mesh.m_verti
 m_hasNormalMap{ mesh.m_hasNormalMap }, m_hasDiffuseMap{ mesh.m_hasDiffuseMap },
 m_diffuseLocation{ mesh.m_diffuseLocation }, m_specularLocation{ mesh.m_specularLocation }, m_emissiveLocation{ mesh.m_emissiveLocation },
 m_shininessLocation{ mesh.m_shininessLocation }, m_diffuseMapLocation{ mesh.m_diffuseMapLocation }, m_normalMapLocation{ mesh.m_normalMapLocation },
-m_hasNormalMapLocation{ mesh.m_hasNormalMapLocation }, m_hasDiffuseMapLocation{ mesh.m_hasDiffuseMapLocation } {}
+m_hasNormalMapLocation{ mesh.m_hasNormalMapLocation }, m_hasDiffuseMapLocation{ mesh.m_hasDiffuseMapLocation },
+m_modelMatLocation{mesh.m_modelMatLocation} {}
 
 Mesh::~Mesh() {
 	delete m_indices;
