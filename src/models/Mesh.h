@@ -89,7 +89,6 @@ private:
 	int m_normalMapLocation;
 	int m_hasNormalMapLocation;
 	int m_hasDiffuseMapLocation;
-	int m_modelMatLocation;
 };
 
 #endif /* MESH_H_ */

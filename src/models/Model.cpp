@@ -5,18 +5,21 @@
 #pragma GCC diagnostic ignored "-Weffc++"
 Model::Model(const char* filename, Shader* shader) {
 	readModelFromFile(filename, shader);
+	m_modelMatLocation = glGetUniformLocation(shader->getShaderId(), "u_modelMat");
 }
 
 Model::Model(const char* filename, Shader* shader, glm::vec3 offset) {
 	readModelFromFile(filename, shader);
 
 	m_modelMat = glm::translate(m_modelMat, offset);
+	m_modelMatLocation = glGetUniformLocation(shader->getShaderId(), "u_modelMat");
 }
 
 Model::Model(const char* filename, Shader* shader, glm::mat4 modelMat) {
 	readModelFromFile(filename, shader);
 
 	m_modelMat = modelMat;
+	m_modelMatLocation = glGetUniformLocation(shader->getShaderId(), "u_modelMat");
 }
 #pragma GCC diagnostic pop
 
@@ -283,6 +286,7 @@ Model::~Model() {
 }
 
 void Model::render() {
+	glUniformMatrix4fv(m_modelMatLocation, 1, GL_FALSE, &m_modelMat[0][0]);
 	for (unsigned int i = 0; i < m_meshes.size(); i++) {
 		m_meshes[i]->render();
 	}
