@@ -82,14 +82,12 @@ private:
     Shader* m_shader3d;
     Shader* m_shaderFont;
     Shader* m_shader2d;
+    Font* m_fontRenderer;
 
     // Not dynamically allocated
     SDL_Window* m_window;
     int m_windowWidth{ 0 };
     int m_windowHeight{ 0 };
-
-    // Font rendering
-    Font* m_fontRenderer;
 
     // Can't see without a camera
     FlyingCamera m_camera{ FlyingCamera(90.0f, 800, 600) };
