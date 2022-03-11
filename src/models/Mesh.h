@@ -43,7 +43,7 @@ public:
 
 class Mesh {
 public:
-	Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, Material material, Shader* shader);
+	Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, Material material);
 	virtual ~Mesh();
 
 	// Renders this mesh

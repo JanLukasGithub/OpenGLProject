@@ -5,18 +5,18 @@ int Model::m_modelMatLocation{ 0 };
 // Ignore "member should be initialized in initializer list" warning
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
-Model::Model(const char* filename, Shader* shader) {
-	readModelFromFile(filename, shader);
+Model::Model(const char* filename) {
+	readModelFromFile(filename);
 }
 
-Model::Model(const char* filename, Shader* shader, glm::vec3 offset) {
-	readModelFromFile(filename, shader);
+Model::Model(const char* filename, glm::vec3 offset) {
+	readModelFromFile(filename);
 
 	m_modelMat = glm::translate(m_modelMat, offset);
 }
 
-Model::Model(const char* filename, Shader* shader, glm::mat4 modelMat) {
-	readModelFromFile(filename, shader);
+Model::Model(const char* filename, glm::mat4 modelMat) {
+	readModelFromFile(filename);
 
 	m_modelMat = modelMat;
 }
@@ -37,7 +37,7 @@ void Model::scale(glm::vec3 scale) {
 }
 
 // Reads model files using assimp
-void Model::readModelFromFile(const char* filename, Shader* shader) {
+void Model::readModelFromFile(const char* filename) {
 	// Assimp will do the work for us
 	Assimp::Importer importer;
 
@@ -55,7 +55,7 @@ void Model::readModelFromFile(const char* filename, Shader* shader) {
 	// Process the materials
 	processMaterials(scene, filename);
 	// Process the nodes recursively
-	processNodes(scene, scene->mRootNode, shader);
+	processNodes(scene, scene->mRootNode);
 }
 
 void Model::processMaterials(const aiScene* scene, const char* path) {
@@ -210,20 +210,20 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 	}
 }
 
-void Model::processNodes(const aiScene* scene, aiNode* node, Shader* shader) {
+void Model::processNodes(const aiScene* scene, aiNode* node) {
 	// Process the meshes from this node
 	for (uint32_t i = 0; i < node->mNumMeshes; i++) {
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		processMesh(mesh, shader);
+		processMesh(mesh);
 	}
 
 	// Process the next node recursively
 	for (uint32_t i = 0; i < node->mNumChildren; i++) {
-		processNodes(scene, node->mChildren[i], shader);
+		processNodes(scene, node->mChildren[i]);
 	}
 }
 
-void Model::processMesh(aiMesh* mesh, Shader* shader) {
+void Model::processMesh(aiMesh* mesh) {
 	// Index of the material, materials were loaded already
 	uint64 materialIndex = mesh->mMaterialIndex;
 	uint64 numVertices = mesh->mNumVertices;
@@ -275,7 +275,7 @@ void Model::processMesh(aiMesh* mesh, Shader* shader) {
 	}
 
 	// Add the mesh to the list of meshes
-	m_meshes.push_back(new Mesh(vertices, indices, m_materials[materialIndex], shader));
+	m_meshes.push_back(new Mesh(vertices, indices, m_materials[materialIndex]));
 }
 
 Model::~Model() {

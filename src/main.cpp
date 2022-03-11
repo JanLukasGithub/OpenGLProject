@@ -42,7 +42,7 @@
  * @return true if user input wasn't "none"
  * @return false if user input was "none"
  */
-bool userModelLoad(std::vector<Model*>& modelList, OpenGLRenderer* renderer) {
+bool userModelLoad(std::vector<Model*>& modelList) {
 	std::string modelname = std::string();
 	// Ask the user what model he wants to load
 	std::cout << "Please input the filename of the model you want to load or \"none\", \"n\" or \"\" to abort" << std::endl;
@@ -54,7 +54,7 @@ bool userModelLoad(std::vector<Model*>& modelList, OpenGLRenderer* renderer) {
 
 	// Load model
 	try {
-		modelList.push_back(new Model(modelname.c_str(), renderer->getShader3d()));
+		modelList.push_back(new Model(modelname.c_str()));
 	}
 	catch (std::exception* e) {
 		std::cout << e->what() << std::endl;
@@ -75,17 +75,17 @@ int main(int argc, char** argv) {
 	std::vector<Model*> models;
 
 	// Always load the floor
-	models.push_back(new Model("assets/models/Floor/Floor.obj", renderer->getShader3d(), glm::vec3(0.0f, -1.0f, 0.0f)));
+	models.push_back(new Model("assets/models/Floor/Floor.obj", glm::vec3(0.0f, -1.0f, 0.0f)));
 
 	if (argc < 2) {
 		// Load models
-		while (userModelLoad(models, renderer));
+		while (userModelLoad(models));
 	} else {
 		// Use the first argument as model to load
 		std::string modelname = std::string(argv[1]);
 
 		// Load model
-		models.push_back(new Model(modelname.c_str(), renderer->getShader3d()));
+		models.push_back(new Model(modelname.c_str()));
 	}
 
 	// Load font

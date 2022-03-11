@@ -15,11 +15,11 @@
 class Model {
 public:
 	// Reads the model from filename and initializes it with shader
-	Model(const char* filename, Shader* shader);
+	Model(const char* filename);
 	// Reads the model from filename, initializes it with shader and adds the offset
-	Model(const char* filename, Shader* shader, glm::vec3 offset);
+	Model(const char* filename, glm::vec3 offset);
 	// Reads the model from filename, initializes it with shader and uses the modelMatrix
-	Model(const char* filename, Shader* shader, glm::mat4 modelMat);
+	Model(const char* filename, glm::mat4 modelMat);
 
 	// Translate the model
 	void translate(glm::vec3 translation);
@@ -44,13 +44,13 @@ private:
 	glm::mat4 m_modelMat{ 1.0f };
 
 	// Reads model from file using assimp
-	void readModelFromFile(const char* filename, Shader* shader);
+	void readModelFromFile(const char* filename);
 	// Processes the materials
 	void processMaterials(const aiScene* scene, const char* path);
 	// Processes the nodes recursively
-	void processNodes(const aiScene* scene, aiNode* node, Shader* shader);
+	void processNodes(const aiScene* scene, aiNode* node);
 	// Processes the mesh
-	void processMesh(aiMesh* mesh, Shader* shader);
+	void processMesh(aiMesh* mesh);
 };
 
 #endif /* MODELS_MODEL_H_ */
