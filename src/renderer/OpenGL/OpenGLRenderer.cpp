@@ -82,6 +82,7 @@ void OpenGLRenderer::init() {
     m_invModelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_invModelView");
 
     Model::init(m_shader3d);
+    Mesh::init(m_shader3d);
 }
 
 void OpenGLRenderer::initLights() {
@@ -173,9 +174,15 @@ void OpenGLRenderer::reset() {
 
     // Uniforms
     m_shader3d->bind();
+
+    // Update uniform locations of models
+    Model::init(m_shader3d);
+    Mesh::init(m_shader3d);
+
     m_modelViewProjUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelViewProj");
     m_modelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelView");
     m_invModelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_invModelView");
+    
     m_shader3d->unbind();
 }
 

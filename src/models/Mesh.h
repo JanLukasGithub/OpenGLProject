@@ -62,6 +62,8 @@ public:
 		return m_vertices;
 	}
 
+	static void init(Shader* shader);
+
 private:
 	// Currently not finished, DON'T USE
 	Mesh& operator=(const Mesh& mesh);
@@ -75,20 +77,19 @@ private:
 	uint64 m_numIndices;
 	VertexBuffer* m_vbo;
 	IndexBuffer* m_ibo;
-	Shader* m_shader;
 	Material m_material;
 	// Just for memory cleanup
 	std::vector<Vertex>* m_vertices;
 	std::vector<uint32>* m_indices;
 	// Uniforms
-	int m_diffuseLocation;
-	int m_specularLocation;
-	int m_emissiveLocation;
-	int m_shininessLocation;
-	int m_diffuseMapLocation;
-	int m_normalMapLocation;
-	int m_hasNormalMapLocation;
-	int m_hasDiffuseMapLocation;
+	static int m_diffuseLocation;
+	static int m_specularLocation;
+	static int m_emissiveLocation;
+	static int m_shininessLocation;
+	static int m_diffuseMapLocation;
+	static int m_normalMapLocation;
+	static int m_hasNormalMapLocation;
+	static int m_hasDiffuseMapLocation;
 };
 
 #endif /* MESH_H_ */
