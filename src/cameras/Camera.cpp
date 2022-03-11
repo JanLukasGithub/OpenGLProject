@@ -25,8 +25,4 @@ void Camera::translate(glm::vec3 vec3) {
 	view = glm::translate(view, vec3 * -1.0f);
 }
 
-// Ignore parameters not being used as this function does nothing
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
 void Camera::handleInputs(SdlEventHandler* handler, float32 delta) {}
-#pragma GCC diagnostic pop

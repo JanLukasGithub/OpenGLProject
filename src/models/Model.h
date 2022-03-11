@@ -36,12 +36,12 @@ public:
 private:
 	std::vector<Mesh*> m_meshes;
 	std::vector<Material> m_materials;
-	
+
 	// Location of model mat uniform
 	static int m_modelMatLocation;
 
 	// Stores translation, rotation and scale
-	glm::mat4 m_modelMat{1.0f};
+	glm::mat4 m_modelMat{ 1.0f };
 
 	// Reads model from file using assimp
 	void readModelFromFile(const char* filename, Shader* shader);

@@ -1,6 +1,6 @@
 #include "Model.h"
 
-int Model::m_modelMatLocation{0};
+int Model::m_modelMatLocation{ 0 };
 
 // Ignore "member should be initialized in initializer list" warning
 #pragma GCC diagnostic push

@@ -36,9 +36,9 @@
 
 /**
  * @brief asks the user for a model to load in std input and loads the model
- * 
- * @param modelList 
- * @param renderer 
+ *
+ * @param modelList
+ * @param renderer
  * @return true if user input wasn't "none"
  * @return false if user input was "none"
  */
@@ -55,9 +55,11 @@ bool userModelLoad(std::vector<Model*>& modelList, OpenGLRenderer* renderer) {
 	// Load model
 	try {
 		modelList.push_back(new Model(modelname.c_str(), renderer->getShader3d()));
-	} catch(std::exception* e) {
+	}
+	catch (std::exception* e) {
 		std::cout << e->what() << std::endl;
-	} catch(std::exception e) {
+	}
+	catch (std::exception e) {
 		std::cout << e.what() << std::endl;
 	}
 
