@@ -1,13 +1,13 @@
 #include "Mesh.h"
 
-int m_diffuseLocation{ 0 };
-int m_specularLocation{ 0 };
-int m_emissiveLocation{ 0 };
-int m_shininessLocation{ 0 };
-int m_diffuseMapLocation{ 0 };
-int m_normalMapLocation{ 0 };
-int m_hasNormalMapLocation{ 0 };
-int m_hasDiffuseMapLocation{ 0 };
+int Mesh::m_diffuseLocation{ 0 };
+int Mesh::m_specularLocation{ 0 };
+int Mesh::m_emissiveLocation{ 0 };
+int Mesh::m_shininessLocation{ 0 };
+int Mesh::m_diffuseMapLocation{ 0 };
+int Mesh::m_normalMapLocation{ 0 };
+int Mesh::m_hasNormalMapLocation{ 0 };
+int Mesh::m_hasDiffuseMapLocation{ 0 };
 
 Mesh::Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, Material material, Shader* shader) : m_numIndices{ indices->size() },
 m_vbo{ new VertexBuffer(vertices->data(), vertices->size(), &m_hasNormalMap) },
