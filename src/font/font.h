@@ -22,8 +22,8 @@ struct FontVertex {
 };
 
 struct Font {
+    Font(const char* filename, Shader* fontShader);
     ~Font();
-    void initFont(const char* filename, Shader* fontShader);
 
     void drawString(float x, float y, const char* text);
 

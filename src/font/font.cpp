@@ -12,7 +12,7 @@ Font::~Font() {
     glDeleteTextures(1, &m_fontTexture);
 }
 
-void Font::initFont(const char* filename, Shader* fontShader) {
+Font::Font(const char* filename, Shader* fontShader) {
     // Get texture's uniform location
     m_textureUniformLocation = glGetUniformLocation(fontShader->getShaderId(), "u_texture");
 
