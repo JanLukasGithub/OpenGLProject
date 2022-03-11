@@ -6,6 +6,12 @@ OpenGLRenderer::~OpenGLRenderer() {
     delete m_shader2d;
 }
 
+OpenGLRenderer::OpenGLRenderer() : m_camera{ FlyingCamera(90.0f, 800, 600) } {
+    init();
+
+    OpenGLRenderer::activeRenderer = this;
+}
+
 void OpenGLRenderer::init() {
     // Init SDL, the window, OpenGL and GLEW
     SDL_Init(SDL_INIT_EVERYTHING);

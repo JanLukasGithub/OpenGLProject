@@ -61,7 +61,7 @@ public:
     FlyingCamera& getCamera() { return m_camera; }
 
     // Idk why but the camera has to be initialized here apparently :shrug:
-    OpenGLRenderer() : m_camera{ FlyingCamera(90.0f, 800, 600) } { OpenGLRenderer::activeRenderer = this; }
+    OpenGLRenderer();
     virtual ~OpenGLRenderer();
 
     // Pointer to the currently active renderer. Set in the constructor

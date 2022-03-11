@@ -70,7 +70,6 @@ bool userModelLoad(std::vector<Model*>& modelList, OpenGLRenderer* renderer) {
 int main(int argc, char** argv) {
 	// Renderer
 	OpenGLRenderer* renderer = new OpenGLRenderer();
-	renderer->init();
 
 	// Create the "models" vector
 	std::vector<Model*> models;
