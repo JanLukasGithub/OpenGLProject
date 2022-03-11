@@ -61,6 +61,8 @@ public:
 
     FlyingCamera& getCamera() { return m_camera; }
 
+    Font& getFontRenderer() { return m_fontRenderer; }
+
     // Idk why but the camera has to be initialized here apparently :shrug:
     OpenGLRenderer();
     virtual ~OpenGLRenderer();
