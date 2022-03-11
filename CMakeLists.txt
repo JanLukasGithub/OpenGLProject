@@ -12,7 +12,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "/home/jan/visual-studio-code-workspace/OpenG
 include(CTest)
 enable_testing()
 
-SET(GCC_COVERAGE_COMPILE_FLAGS "-D _DEBUG")
+# SET(GCC_COVERAGE_COMPILE_FLAGS "-D _DEBUG")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
 
 # get all source files of the project
