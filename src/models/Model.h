@@ -31,12 +31,14 @@ public:
 	virtual ~Model();
 
 	void render();
+
+	static void init(Shader* shader);
 private:
 	std::vector<Mesh*> m_meshes;
 	std::vector<Material> m_materials;
 	
 	// Location of model mat uniform
-	int m_modelMatLocation;
+	static int m_modelMatLocation;
 
 	// Stores translation, rotation and scale
 	glm::mat4 m_modelMat{1.0f};

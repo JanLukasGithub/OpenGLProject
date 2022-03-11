@@ -26,6 +26,7 @@
 #include "../../lights/Lights.h"
 #include "../../cameras/FlyingCamera.h"
 #include "../../timer/timer.h"
+#include "../../models/Model.h"
 
 class OpenGLRenderer : Renderer {
 public:
