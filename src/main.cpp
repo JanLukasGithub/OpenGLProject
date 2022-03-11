@@ -113,7 +113,7 @@ int main(int argc, char** argv) {
 			}
 		}
 
-		// Pressing R resets the renderer
+		// Pressing R resets the renderer, reloading the shaders
 		if (handler->keyJustPressed(SDLK_r)) {
 			renderer->reset();
 		}
