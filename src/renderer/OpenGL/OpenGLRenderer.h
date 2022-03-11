@@ -61,7 +61,7 @@ public:
 
     FlyingCamera& getCamera() { return m_camera; }
 
-    Font& getFontRenderer() { return m_fontRenderer; }
+    Font* getFontRenderer() { return m_fontRenderer; }
 
     // Idk why but the camera has to be initialized here apparently :shrug:
     OpenGLRenderer();
@@ -79,9 +79,9 @@ private:
     void initLights();
 
     // Dynamically allocated
-    Shader* m_shader3d{ new Shader("src/shaders/3d.vs", "src/shaders/3d.fs") };
-    Shader* m_shaderFont{ new Shader("src/shaders/font.vs", "src/shaders/font.fs") };
-    Shader* m_shader2d{ new Shader("src/shaders/2d.vs", "src/shaders/2d.fs") };
+    Shader* m_shader3d;
+    Shader* m_shaderFont;
+    Shader* m_shader2d;
 
     // Not dynamically allocated
     SDL_Window* m_window;
@@ -89,7 +89,7 @@ private:
     int m_windowHeight{ 0 };
 
     // Font rendering
-    Font m_fontRenderer{ "assets/fonts/OpenSans-Regular.ttf", m_shaderFont };
+    Font* m_fontRenderer;
 
     // Can't see without a camera
     FlyingCamera m_camera{ FlyingCamera(90.0f, 800, 600) };

@@ -4,6 +4,8 @@ OpenGLRenderer::~OpenGLRenderer() {
     delete m_shader3d;
     delete m_shaderFont;
     delete m_shader2d;
+
+    delete m_fontRenderer;
 }
 
 OpenGLRenderer::OpenGLRenderer() {
@@ -63,6 +65,10 @@ void OpenGLRenderer::init() {
     glDebugMessageCallback(openGLDebugCallback, 0);
 #endif
 
+    m_shader3d = new Shader("src/shaders/3d.vs", "src/shaders/3d.fs");
+    m_shaderFont = new Shader("src/shaders/font.vs", "src/shaders/font.fs");
+    m_shader2d = new Shader("src/shaders/2d.vs", "src/shaders/2d.fs");
+
     initLights();
 
     // Init counter
@@ -84,6 +90,8 @@ void OpenGLRenderer::init() {
 
     Model::init(m_shader3d);
     Mesh::init(m_shader3d);
+
+    m_fontRenderer = new Font{ "assets/fonts/OpenSans-Regular.ttf", m_shaderFont };
 }
 
 void OpenGLRenderer::initLights() {
