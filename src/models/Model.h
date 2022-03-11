@@ -38,7 +38,7 @@ private:
 	std::vector<Material> m_materials;
 
 	// Location of model mat uniform
-	static int m_modelMatLocation;
+	inline static int m_modelMatLocation;
 
 	// Stores translation, rotation and scale
 	glm::mat4 m_modelMat{ 1.0f };

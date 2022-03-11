@@ -1,10 +1,5 @@
 #include "Model.h"
 
-int Model::m_modelMatLocation{ 0 };
-
-// Ignore "member should be initialized in initializer list" warning
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
 Model::Model(const char* filename) {
 	readModelFromFile(filename);
 }
@@ -20,7 +15,6 @@ Model::Model(const char* filename, glm::mat4 modelMat) {
 
 	m_modelMat = modelMat;
 }
-#pragma GCC diagnostic pop
 
 void Model::translate(glm::vec3 translation) {
 	m_modelMat = glm::translate(m_modelMat, translation);
