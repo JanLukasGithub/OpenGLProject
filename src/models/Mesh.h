@@ -77,14 +77,14 @@ private:
 	std::vector<Vertex>* m_vertices;
 	std::vector<uint32>* m_indices;
 	// Uniforms
-	static int m_diffuseLocation;
-	static int m_specularLocation;
-	static int m_emissiveLocation;
-	static int m_shininessLocation;
-	static int m_diffuseMapLocation;
-	static int m_normalMapLocation;
-	static int m_hasNormalMapLocation;
-	static int m_hasDiffuseMapLocation;
+	inline static int m_diffuseLocation;
+	inline static int m_specularLocation;
+	inline static int m_emissiveLocation;
+	inline static int m_shininessLocation;
+	inline static int m_diffuseMapLocation;
+	inline static int m_normalMapLocation;
+	inline static int m_hasNormalMapLocation;
+	inline static int m_hasDiffuseMapLocation;
 };
 
 #endif /* MESH_H_ */
