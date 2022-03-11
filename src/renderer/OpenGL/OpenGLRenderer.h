@@ -28,6 +28,7 @@
 #include "../../timer/timer.h"
 #include "../../models/Model.h"
 #include "../../models/Mesh.h"
+#include "../../font/font.h"
 
 class OpenGLRenderer : Renderer {
 public:
@@ -76,17 +77,20 @@ private:
     void initLights();
 
     // Dynamically allocated
-    Shader* m_shader3d;
-    Shader* m_shaderFont;
-    Shader* m_shader2d;
+    Shader* m_shader3d{ new Shader("src/shaders/3d.vs", "src/shaders/3d.fs") };
+    Shader* m_shaderFont{ new Shader("src/shaders/font.vs", "src/shaders/font.fs") };
+    Shader* m_shader2d{ new Shader("src/shaders/2d.vs", "src/shaders/2d.fs") };
 
     // Not dynamically allocated
     SDL_Window* m_window;
     int m_windowWidth{ 0 };
     int m_windowHeight{ 0 };
 
+    // Font rendering
+    Font m_fontRenderer{ "assets/fonts/OpenSans-Regular.ttf", m_shaderFont };
+
     // Can't see without a camera
-    FlyingCamera m_camera;
+    FlyingCamera m_camera{ FlyingCamera(90.0f, 800, 600) };
 
     // Without lights it'd be pretty dark
     DirectionalLight m_sun;

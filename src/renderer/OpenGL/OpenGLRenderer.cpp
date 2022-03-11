@@ -6,7 +6,7 @@ OpenGLRenderer::~OpenGLRenderer() {
     delete m_shader2d;
 }
 
-OpenGLRenderer::OpenGLRenderer() : m_camera{ FlyingCamera(90.0f, 800, 600) } {
+OpenGLRenderer::OpenGLRenderer() {
     init();
 
     OpenGLRenderer::activeRenderer = this;
@@ -62,11 +62,6 @@ void OpenGLRenderer::init() {
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
     glDebugMessageCallback(openGLDebugCallback, 0);
 #endif
-
-    // Init shaders
-    m_shader3d = new Shader("src/shaders/3d.vs", "src/shaders/3d.fs");
-    m_shaderFont = new Shader("src/shaders/font.vs", "src/shaders/font.fs");
-    m_shader2d = new Shader("src/shaders/2d.vs", "src/shaders/2d.fs");
 
     initLights();
 
