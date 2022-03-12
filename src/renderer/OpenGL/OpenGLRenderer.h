@@ -30,27 +30,27 @@
 #include "../../models/Mesh.h"
 #include "../../font/font.h"
 
-class OpenGLRenderer : Renderer {
+class OpenGLRenderer {
 public:
     // Initializes rendering
-    virtual void init() override;
+    void init();
     // Resets rendering. Enables you to "hot swap" shaders or potentially recover from rendering issues
-    virtual void reset() override;
+    void reset();
     // Resets Screen for rendering the next frame
-    virtual void startFrame() override;
+    void startFrame();
     // Sets up shader and OpenGL settings for rendering 3d models
-    virtual void setup3DRender() override;
+    void setup3DRender();
     // Sets up shader and OpenGL settings for rendering fonts
-    virtual void setupFontRender() override;
+    void setupFontRender();
     // Sets up shader and OpenGL settings for rendering 2d images
-    virtual void setup2DRender() override;
+    void setup2DRender();
     // Draws things on the screen
-    virtual void endFrame() override;
+    void endFrame();
 
     // FPS are calculated each time endFrame() is called
-    virtual uint32 getFPS() override { return m_FPS; }
+    uint32 getFPS() { return m_FPS; }
     // Delta is calculated each time endFrame() is called
-    virtual float32 getDelta() override { return m_delta; }
+    float32 getDelta() { return m_delta; }
 
     Shader* getShader3d() { return m_shader3d; }
     Shader* getShaderFont() { return m_shaderFont; }
