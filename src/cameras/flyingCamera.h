@@ -4,6 +4,7 @@ class FlyingCamera;
 #define CAMERAS_FLYINGCAMERA_H_
 
 #include "fpsCamera.h"
+#include "../sdlEventHandler.h"
 
 class FlyingCamera : public FpsCamera {
 public:

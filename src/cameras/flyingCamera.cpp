@@ -1,8 +1,5 @@
 #include "flyingCamera.h"
 
-#include "../sdlEventHandler.h"
-#include <iostream>
-
 FlyingCamera::FlyingCamera(float fov, float width, float height) : FpsCamera(fov, width, height) {
 }
 

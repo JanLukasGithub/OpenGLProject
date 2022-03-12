@@ -4,6 +4,7 @@ class FpsCamera;
 #define CAMERAS_FPSCAMERA_H_
 
 #include "camera.h"
+#include "../sdlEventHandler.h"
 
 class FpsCamera : public Camera {
 public:
