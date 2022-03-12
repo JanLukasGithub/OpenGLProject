@@ -57,22 +57,6 @@ const char* getFilePath(const char* path) {
 	return newString;
 }
 
-/* Example: "../folder/name" -> "../folder/name.obj" -> ".obj" */
-const char* getExtensionFromModelName(std::string& filenameNoExtension) {
-	if (std::filesystem::exists(filenameNoExtension + ".obj")) {
-		return ".obj";
-	} else if (std::filesystem::exists(filenameNoExtension + ".fbx")) {
-		return ".fbx";
-	} else if (std::filesystem::exists(filenameNoExtension + ".FBX")) {
-		return ".FBX";
-	}
-	// bmf has least priority as it may not support features of the other formats
-	else if (std::filesystem::exists(filenameNoExtension + ".bmf")) {
-		return ".bmf";
-	}
-	return "";
-}
-
 template void debugOutputEndl<char>(const char* t);
 template void debugOutputEndl<unsigned char>(const unsigned char* t);
 template<typename T>
