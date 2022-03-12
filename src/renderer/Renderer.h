@@ -29,7 +29,7 @@
 #include "../models/Mesh.h"
 #include "../font/font.h"
 
-class OpenGLRenderer {
+class Renderer {
 public:
     // Initializes rendering
     void init();
@@ -63,16 +63,16 @@ public:
     Font* getFontRenderer() { return m_fontRenderer; }
 
     // Idk why but the camera has to be initialized here apparently :shrug:
-    OpenGLRenderer();
-    virtual ~OpenGLRenderer();
+    Renderer();
+    virtual ~Renderer();
 
     // Pointer to the currently active renderer. Set in the constructor
-    inline static OpenGLRenderer* activeRenderer;
+    inline static Renderer* activeRenderer;
 private:
     // Private move constructor
-    OpenGLRenderer(OpenGLRenderer& renderer) : m_camera{ FlyingCamera(90.0f, 800, 600) } {}
+    Renderer(Renderer& renderer) : m_camera{ FlyingCamera(90.0f, 800, 600) } {}
     // Private assignment operator
-    OpenGLRenderer& operator=(const OpenGLRenderer& renderer) { return *this; }
+    Renderer& operator=(const Renderer& renderer) { return *this; }
 
     // (Re-)Initializes the lights
     void initLights();
