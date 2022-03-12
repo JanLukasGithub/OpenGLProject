@@ -119,7 +119,7 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 			mat.diffuseMapName = std::string(getFilePath(path)) + diffuseMapNameBuffer.C_Str();
 		} else {
 			debugOutputEndl("No diffuse map, using default diffuse map!");
-			mat.diffuseMapName = std::string("assets/models/default/diffuse.tga");
+			mat.diffuseMapName = std::string("");
 		}
 
 		// Load the normal map name; in case none exists use the default one
@@ -131,7 +131,7 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 			mat.normalMapName = std::string(std::string(getFilePath(path)) + normalMapNameBuffer.C_Str());
 		} else {
 			debugOutputEndl("No normal map, using default normal map!");
-			mat.normalMapName = std::string("assets/models/default/normal.tga");
+			mat.normalMapName = std::string("");
 		}
 
 		// Variables for stbi image loading
@@ -144,7 +144,7 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 		glGenTextures(2, &mat.diffuseMap);
 		// Flip texture to fit model
 		stbi_set_flip_vertically_on_load(true);
-		{
+		if (mat.diffuseMapName.compare("") != 0) {
 			// Buffer to store texture
 			auto textureBuffer = stbi_load(mat.diffuseMapName.data(), &textureWidth, &textureHeight, &bitsPerPixel, 4);
 			// Check if texture loaded
@@ -170,7 +170,7 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 			stbi_image_free(textureBuffer);
 		}
 
-		{
+		if (mat.normalMapName.compare("") != 0) {
 			// Buffer to store texture
 			auto textureBuffer = stbi_load(mat.normalMapName.data(), &textureWidth, &textureHeight, &bitsPerPixel, 4);
 			// Check if texture loaded

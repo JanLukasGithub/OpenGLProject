@@ -3,8 +3,8 @@
 Mesh::Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, Material material) : m_numIndices{ indices->size() },
 m_vbo{ new VertexBuffer(vertices->data(), vertices->size(), &m_hasNormalMap) }, m_ibo{ new IndexBuffer(indices->data(),
 m_numIndices, sizeof(indices[0])) }, m_material{ material }, m_vertices{ vertices }, m_indices{ indices },
-m_hasNormalMap{ material.normalMapName.compare("assets/models/default/normal.tga") != 0 },
-m_hasDiffuseMap{ material.diffuseMapName.compare("assets/models/default/diffuse.tga") != 0 } {}
+m_hasNormalMap{ material.normalMapName.compare("") != 0 },
+m_hasDiffuseMap{ material.diffuseMapName.compare("") != 0 } {}
 
 
 Mesh::Mesh(const Mesh& mesh) : m_numIndices{ mesh.m_numIndices }, m_vbo{ new VertexBuffer(*mesh.m_vbo) }, m_ibo{ new IndexBuffer(*mesh.m_ibo) },

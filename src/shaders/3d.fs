@@ -59,13 +59,17 @@ uniform SpotLight u_spotLight;
 uniform sampler2D u_diffuseMap;
 uniform sampler2D u_normalMap;
 uniform bool u_hasDiffuseMap;
+uniform bool u_hasNormalMap;
 
 void main() {
 	// Vector from fragment to camera (camera always at 0,0,0)
 	vec3 view = normalize(-v_position);
 	
-	// Normal from normal map
-	vec3 normal = texture(u_normalMap, v_textureCoords).rgb;
+	// Normal
+	vec3 normal = vec3(0.5, 0.5, 1.0);
+	// Normal from normal map if it exists
+	if (u_hasNormalMap)
+		normal = texture(u_normalMap, v_textureCoords).rgb;
 	// Scale from 0.0 - 1.0 to -1.0 - 1.0
 	normal = normalize(normal * 2.0 - 1.0);
 	// Actual normal
