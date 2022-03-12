@@ -4,10 +4,7 @@ class Mesh;
 #define MESH_H_
 
 #include <vector>
-#include <fstream>
-#include <iostream>
 #include <GL/glew.h>
-#include <assimp/types.h>
 
 #include "../../lib/glm/glm.hpp"
 

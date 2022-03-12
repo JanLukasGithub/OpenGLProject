@@ -1,10 +1,9 @@
 #ifndef SHADER_H_
 #define SHADER_H_
 
-#include <string>
 #include <iostream>
 #include <chrono>
-#include "GL/glew.h"
+#include <GL/glew.h>
 
 #include "utils.h"
 

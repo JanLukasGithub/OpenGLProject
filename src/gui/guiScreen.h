@@ -1,9 +1,9 @@
 #ifndef GUI_GUISCREEN_H_
 #define GUI_GUISCREEN_H_
 
-#include "gui.h"
-
 #include <SDL2/SDL.h>
+
+#include "gui.h"
 
 class GuiScreen : public Gui {
 public:

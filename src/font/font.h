@@ -4,7 +4,6 @@
 #include <fstream>
 #include <GL/glew.h>
 #include <vector>
-#include <cstring>
 
 #include "../../lib/stb_truetype.h"
 
