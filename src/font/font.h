@@ -9,7 +9,7 @@
 #include "../../lib/stb_truetype.h"
 
 #include "../utils.h"
-#include "../Shader.h"
+#include "../shader.h"
 
 constexpr int FIRST_CHAR = 32;
 constexpr int NUM_CHARS = 96;

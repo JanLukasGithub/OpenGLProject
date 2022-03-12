@@ -1,4 +1,4 @@
-#include "Gui.h"
+#include "gui.h"
 
 void Gui::drawRectangle(float32 x, float32 y, float32 w, float32 h, int32 color) noexcept {
     // Don't use texture

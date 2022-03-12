@@ -11,9 +11,9 @@ class Mesh;
 
 #include "../../lib/glm/glm.hpp"
 
-#include "../Shader.h"
-#include "../VertexBuffer.h"
-#include "../IndexBuffer.h"
+#include "../shader.h"
+#include "../vertexBuffer.h"
+#include "../indexBuffer.h"
 #include "../utils.h"
 
 struct BMFMaterial {

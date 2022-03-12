@@ -9,8 +9,8 @@
 #include "../../lib/glm/glm.hpp"
 #include "../../lib/glm/gtc/matrix_transform.hpp"
 
-#include "Mesh.h"
-#include "../Shader.h"
+#include "mesh.h"
+#include "../shader.h"
 
 class Model {
 public:

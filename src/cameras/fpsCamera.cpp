@@ -1,6 +1,6 @@
-#include "FpsCamera.h"
+#include "fpsCamera.h"
 
-#include "../SdlEventHandler.h"
+#include "../sdlEventHandler.h"
 
 FpsCamera::FpsCamera(float fov, float width, float height) : Camera(fov, width, height) {
 	onMouseMoved(0.0f, 0.0f);

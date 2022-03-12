@@ -1,4 +1,4 @@
-#include "GuiScreen.h"
+#include "guiScreen.h"
 
 // Constructors
 GuiScreen::GuiScreen(SDL_Window* window) : Gui() {

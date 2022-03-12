@@ -1,4 +1,4 @@
-#include "VertexBuffer.h"
+#include "vertexBuffer.h"
 
 VertexBuffer::VertexBuffer(void* data, uint64 numVertices, bool* hasNormalMap) {
 	glGenVertexArrays(1, &m_vao);

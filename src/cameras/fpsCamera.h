@@ -3,7 +3,7 @@ class FpsCamera;
 #ifndef CAMERAS_FPSCAMERA_H_
 #define CAMERAS_FPSCAMERA_H_
 
-#include "Camera.h"
+#include "camera.h"
 
 class FpsCamera : public Camera {
 public:

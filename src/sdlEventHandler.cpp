@@ -1,4 +1,4 @@
-#include "SdlEventHandler.h"
+#include "sdlEventHandler.h"
 
 bool SdlEventHandler::keyPressed(SDL_Keycode keycode) {
 	for (int i = 0; i < m_pressedKeys.size(); i++) {

@@ -1,4 +1,4 @@
-#include "IndexBuffer.h"
+#include "indexBuffer.h"
 
 IndexBuffer::IndexBuffer(void* data, uint64 numIndices, uint8 elementSize) {
 	glGenBuffers(1, &bufferId);

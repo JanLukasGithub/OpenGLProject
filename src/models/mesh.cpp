@@ -1,4 +1,4 @@
-#include "Mesh.h"
+#include "mesh.h"
 
 Mesh::Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, Material material) : m_numIndices{ indices->size() },
 m_vbo{ new VertexBuffer(vertices->data(), vertices->size(), &m_hasNormalMap) }, m_ibo{ new IndexBuffer(indices->data(),

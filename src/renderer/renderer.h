@@ -21,12 +21,12 @@
 #include "../../lib/glm/ext/matrix_transform.hpp"
 #include "../../lib/glm/gtc/matrix_transform.hpp"
 
-#include "../Shader.h"
-#include "../lights/Lights.h"
-#include "../cameras/FlyingCamera.h"
+#include "../shader.h"
+#include "../lights.h"
+#include "../cameras/flyingCamera.h"
 #include "../timer/timer.h"
-#include "../models/Model.h"
-#include "../models/Mesh.h"
+#include "../models/model.h"
+#include "../models/mesh.h"
 #include "../font/font.h"
 
 class Renderer {

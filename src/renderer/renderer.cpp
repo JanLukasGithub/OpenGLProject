@@ -1,4 +1,4 @@
-#include "Renderer.h"
+#include "renderer.h"
 
 Renderer::~Renderer() {
     delete m_shader3d;

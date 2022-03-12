@@ -29,10 +29,10 @@
 // Self written headers
 #include "utils.h"
 
-#include "SdlEventHandler.h"
-#include "models/Model.h"
+#include "sdlEventHandler.h"
+#include "models/model.h"
 #include "font/font.h"
-#include "renderer/Renderer.h"
+#include "renderer/renderer.h"
 
 /**
  * @brief asks the user for a model to load in std input and loads the model

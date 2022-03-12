@@ -9,7 +9,7 @@ class SdlEventHandler;
 #include <iostream>
 
 #include "utils.h"
-#include "cameras/FlyingCamera.h"
+#include "cameras/flyingCamera.h"
 
 class SdlEventHandler {
 public:

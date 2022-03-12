@@ -3,9 +3,9 @@ class Gui;
 #include <GL/glew.h>
 
 #include "../utils.h"
-#include "../VertexBuffer.h"
-#include "../IndexBuffer.h"
-#include "../renderer/Renderer.h"
+#include "../vertexBuffer.h"
+#include "../indexBuffer.h"
+#include "../renderer/renderer.h"
 
 #ifndef GUI_GUI_H_
 #define GUI_GUI_H_

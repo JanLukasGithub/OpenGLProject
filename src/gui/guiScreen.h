@@ -1,7 +1,7 @@
 #ifndef GUI_GUISCREEN_H_
 #define GUI_GUISCREEN_H_
 
-#include "Gui.h"
+#include "gui.h"
 
 #include <SDL2/SDL.h>
 

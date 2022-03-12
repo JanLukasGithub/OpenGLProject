@@ -1,7 +1,7 @@
 #ifndef LIGHTS_LIGHTS_H_
 #define LIGHTS_LIGHTS_H_
 
-#include "../../lib/glm/glm.hpp"
+#include "../lib/glm/glm.hpp"
 
 struct DirectionalLight {
 	int directionUniformLocation;

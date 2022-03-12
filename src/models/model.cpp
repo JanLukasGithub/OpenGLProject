@@ -1,4 +1,4 @@
-#include "Model.h"
+#include "model.h"
 
 Model::Model(const char* filename) {
 	readModelFromFile(filename);

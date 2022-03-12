@@ -3,7 +3,7 @@ class FlyingCamera;
 #ifndef CAMERAS_FLYINGCAMERA_H_
 #define CAMERAS_FLYINGCAMERA_H_
 
-#include "FpsCamera.h"
+#include "fpsCamera.h"
 
 class FlyingCamera : public FpsCamera {
 public:
