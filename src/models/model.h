@@ -10,6 +10,7 @@
 #include "../../lib/glm/gtc/matrix_transform.hpp"
 
 #include "mesh.h"
+#include "material.h"
 #include "../shader.h"
 
 class Model {

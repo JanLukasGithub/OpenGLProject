@@ -12,24 +12,7 @@ class Mesh;
 #include "../vertexBuffer.h"
 #include "../indexBuffer.h"
 #include "../utils.h"
-
-struct Material {
-	glm::vec3 diffuse;
-	glm::vec3 specular;
-	glm::vec3 emissive;
-	float shininess;
-	std::string diffuseMapName;
-	std::string normalMapName;
-	GLuint diffuseMap;
-	GLuint normalMap;
-
-public:
-	Material(const Material& m) noexcept : diffuse{ m.diffuse }, specular{ m.specular }, emissive{ m.emissive }, shininess{ m.shininess }, diffuseMapName{ m.diffuseMapName },
-		normalMapName{ m.normalMapName }, diffuseMap{ m.diffuseMap }, normalMap{ m.normalMap } {}
-
-	Material() noexcept : diffuse{ glm::vec3(0.0f) }, specular{ glm::vec3(0.0f) }, emissive{ glm::vec3(0.0f) }, shininess{ 0.0f }, diffuseMapName{ std::string() },
-		normalMapName{ std::string() }, diffuseMap{ 0 }, normalMap{ 0 } {}
-};
+#include "material.h"
 
 class Mesh {
 public:
