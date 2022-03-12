@@ -32,7 +32,7 @@
 #include "SdlEventHandler.h"
 #include "models/Model.h"
 #include "font/font.h"
-#include "renderer/OpenGL/OpenGLRenderer.h"
+#include "renderer/Renderer.h"
 
 /**
  * @brief asks the user for a model to load in std input and loads the model
@@ -69,7 +69,7 @@ bool userModelLoad(std::vector<Model*>& modelList) {
 
 int main(int argc, char** argv) {
 	// Renderer
-	OpenGLRenderer* renderer = new OpenGLRenderer();
+	Renderer* renderer = new Renderer();
 
 	// Create the "models" vector
 	std::vector<Model*> models;

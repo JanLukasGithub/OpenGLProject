@@ -1,6 +1,6 @@
-#include "OpenGLRenderer.h"
+#include "Renderer.h"
 
-OpenGLRenderer::~OpenGLRenderer() {
+Renderer::~Renderer() {
     delete m_shader3d;
     delete m_shaderFont;
     delete m_shader2d;
@@ -8,13 +8,13 @@ OpenGLRenderer::~OpenGLRenderer() {
     delete m_fontRenderer;
 }
 
-OpenGLRenderer::OpenGLRenderer() {
+Renderer::Renderer() {
     init();
 
-    OpenGLRenderer::activeRenderer = this;
+    Renderer::activeRenderer = this;
 }
 
-void OpenGLRenderer::init() {
+void Renderer::init() {
     // Init SDL, the window, OpenGL and GLEW
     SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -94,7 +94,7 @@ void OpenGLRenderer::init() {
     m_fontRenderer = new Font{ "assets/fonts/OpenSans-Regular.ttf", m_shaderFont };
 }
 
-void OpenGLRenderer::initLights() {
+void Renderer::initLights() {
     m_shader3d->bind();
 
     m_sun = DirectionalLight{
@@ -174,7 +174,7 @@ void OpenGLRenderer::initLights() {
     m_shader3d->unbind();
 }
 
-void OpenGLRenderer::reset() {
+void Renderer::reset() {
     m_shader3d->update("src/shaders/3d.vs", "src/shaders/3d.fs");
     m_shaderFont->update("src/shaders/font.vs", "src/shaders/font.fs");
     m_shader2d->update("src/shaders/2d.vs", "src/shaders/2d.fs");
@@ -195,13 +195,13 @@ void OpenGLRenderer::reset() {
     m_shader3d->unbind();
 }
 
-void OpenGLRenderer::startFrame() {
+void Renderer::startFrame() {
     // Clear existing things
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void OpenGLRenderer::setup3DRender() {
+void Renderer::setup3DRender() {
     // OpenGL settings
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -230,7 +230,7 @@ void OpenGLRenderer::setup3DRender() {
     glUniformMatrix4fv(m_invModelViewUniformLocation, 1, GL_FALSE, &invModelView[0][0]);
 }
 
-void OpenGLRenderer::setupFontRender() {
+void Renderer::setupFontRender() {
     // Use fontShader for rendering text
     m_shaderFont->bind();
 
@@ -242,7 +242,7 @@ void OpenGLRenderer::setupFontRender() {
     glDisable(GL_DEPTH_TEST);
 }
 
-void OpenGLRenderer::setup2DRender() {
+void Renderer::setup2DRender() {
     // Use 2D shader for rendering 2D things
     m_shader2d->bind();
 
@@ -254,7 +254,7 @@ void OpenGLRenderer::setup2DRender() {
     glDisable(GL_DEPTH_TEST);
 }
 
-void OpenGLRenderer::endFrame() {
+void Renderer::endFrame() {
     // Display things you just made and use other buffer for the next frame
     SDL_GL_SwapWindow(m_window);
 

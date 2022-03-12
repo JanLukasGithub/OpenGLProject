@@ -17,40 +17,39 @@
 #include <chrono>
 
 // Glm
-#include "../../../lib/glm/glm.hpp"
-#include "../../../lib/glm/ext/matrix_transform.hpp"
-#include "../../../lib/glm/gtc/matrix_transform.hpp"
+#include "../../lib/glm/glm.hpp"
+#include "../../lib/glm/ext/matrix_transform.hpp"
+#include "../../lib/glm/gtc/matrix_transform.hpp"
 
-#include "../renderer.h"
-#include "../../Shader.h"
-#include "../../lights/Lights.h"
-#include "../../cameras/FlyingCamera.h"
-#include "../../timer/timer.h"
-#include "../../models/Model.h"
-#include "../../models/Mesh.h"
-#include "../../font/font.h"
+#include "../Shader.h"
+#include "../lights/Lights.h"
+#include "../cameras/FlyingCamera.h"
+#include "../timer/timer.h"
+#include "../models/Model.h"
+#include "../models/Mesh.h"
+#include "../font/font.h"
 
-class OpenGLRenderer : Renderer {
+class Renderer {
 public:
     // Initializes rendering
-    virtual void init() override;
+    void init();
     // Resets rendering. Enables you to "hot swap" shaders or potentially recover from rendering issues
-    virtual void reset() override;
+    void reset();
     // Resets Screen for rendering the next frame
-    virtual void startFrame() override;
+    void startFrame();
     // Sets up shader and OpenGL settings for rendering 3d models
-    virtual void setup3DRender() override;
+    void setup3DRender();
     // Sets up shader and OpenGL settings for rendering fonts
-    virtual void setupFontRender() override;
+    void setupFontRender();
     // Sets up shader and OpenGL settings for rendering 2d images
-    virtual void setup2DRender() override;
+    void setup2DRender();
     // Draws things on the screen
-    virtual void endFrame() override;
+    void endFrame();
 
     // FPS are calculated each time endFrame() is called
-    virtual uint32 getFPS() override { return m_FPS; }
+    uint32 getFPS() { return m_FPS; }
     // Delta is calculated each time endFrame() is called
-    virtual float32 getDelta() override { return m_delta; }
+    float32 getDelta() { return m_delta; }
 
     Shader* getShader3d() { return m_shader3d; }
     Shader* getShaderFont() { return m_shaderFont; }
@@ -64,16 +63,16 @@ public:
     Font* getFontRenderer() { return m_fontRenderer; }
 
     // Idk why but the camera has to be initialized here apparently :shrug:
-    OpenGLRenderer();
-    virtual ~OpenGLRenderer();
+    Renderer();
+    virtual ~Renderer();
 
     // Pointer to the currently active renderer. Set in the constructor
-    inline static OpenGLRenderer* activeRenderer;
+    inline static Renderer* activeRenderer;
 private:
     // Private move constructor
-    OpenGLRenderer(OpenGLRenderer& renderer) : m_camera{ FlyingCamera(90.0f, 800, 600) } {}
+    Renderer(Renderer& renderer) : m_camera{ FlyingCamera(90.0f, 800, 600) } {}
     // Private assignment operator
-    OpenGLRenderer& operator=(const OpenGLRenderer& renderer) { return *this; }
+    Renderer& operator=(const Renderer& renderer) { return *this; }
 
     // (Re-)Initializes the lights
     void initLights();
