@@ -5,7 +5,7 @@ class Gui;
 #include "../utils.h"
 #include "../VertexBuffer.h"
 #include "../IndexBuffer.h"
-#include "../renderer/OpenGL/OpenGLRenderer.h"
+#include "../renderer/OpenGLRenderer.h"
 
 #ifndef GUI_GUI_H_
 #define GUI_GUI_H_

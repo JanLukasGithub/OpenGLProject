@@ -17,18 +17,17 @@
 #include <chrono>
 
 // Glm
-#include "../../../lib/glm/glm.hpp"
-#include "../../../lib/glm/ext/matrix_transform.hpp"
-#include "../../../lib/glm/gtc/matrix_transform.hpp"
+#include "../../lib/glm/glm.hpp"
+#include "../../lib/glm/ext/matrix_transform.hpp"
+#include "../../lib/glm/gtc/matrix_transform.hpp"
 
-#include "../renderer.h"
-#include "../../Shader.h"
-#include "../../lights/Lights.h"
-#include "../../cameras/FlyingCamera.h"
-#include "../../timer/timer.h"
-#include "../../models/Model.h"
-#include "../../models/Mesh.h"
-#include "../../font/font.h"
+#include "../Shader.h"
+#include "../lights/Lights.h"
+#include "../cameras/FlyingCamera.h"
+#include "../timer/timer.h"
+#include "../models/Model.h"
+#include "../models/Mesh.h"
+#include "../font/font.h"
 
 class OpenGLRenderer {
 public:

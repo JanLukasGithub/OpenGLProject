@@ -32,7 +32,7 @@
 #include "SdlEventHandler.h"
 #include "models/Model.h"
 #include "font/font.h"
-#include "renderer/OpenGL/OpenGLRenderer.h"
+#include "renderer/OpenGLRenderer.h"
 
 /**
  * @brief asks the user for a model to load in std input and loads the model
