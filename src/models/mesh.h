@@ -13,13 +13,6 @@ class Mesh;
 #include "../indexBuffer.h"
 #include "../utils.h"
 
-struct BMFMaterial {
-	glm::vec3 diffuse;
-	glm::vec3 specular;
-	glm::vec3 emissive;
-	float shininess;
-};
-
 struct Material {
 	glm::vec3 diffuse;
 	glm::vec3 specular;
