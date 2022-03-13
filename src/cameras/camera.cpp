@@ -1,28 +1,27 @@
 #include "camera.h"
 
-Camera::Camera(float fov, float width, float height) : projection{ glm::perspective(fov / 2.0f, width / height, 0.1f, 1000.0f) }, viewProj{ projection * view } {}
+Camera::Camera(float fov, float width, float height) : m_projection{ glm::perspective(fov / 2.0f, width / height, 0.1f, 1000.0f) }, m_viewProj{ m_projection * m_view } {}
 
-Camera::Camera(float fov, float width, float height, float near, float far) : projection{ glm::perspective(fov / 2.0f, width / height, near, far) },
-viewProj{ projection * view } {}
+Camera::Camera(float fov, float width, float height, float near, float far) : m_projection{ glm::perspective(fov / 2.0f, width / height, near, far) },
+m_viewProj{ m_projection * m_view } {}
 
-Camera::~Camera() {
-}
-
-glm::mat4 Camera::getViewProjection() {
-	return viewProj;
-}
-
-glm::mat4 Camera::getView() {
-	return view;
-}
+Camera::~Camera() {}
 
 void Camera::update() {
-	viewProj = projection * view;
+	m_viewProj = m_projection * m_view;
 }
 
 void Camera::translate(glm::vec3 vec3) {
-	position += vec3;
-	view = glm::translate(view, vec3 * -1.0f);
+	m_position += vec3;
+	m_view = glm::translate(m_view, vec3 * -1.0f);
 }
 
 void Camera::handleInputs(SdlEventHandler* handler, float32 delta) {}
+
+glm::mat4 Camera::getViewProjection() {
+	return m_viewProj;
+}
+
+glm::mat4 Camera::getView() {
+	return m_view;
+}

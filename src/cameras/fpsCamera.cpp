@@ -21,21 +21,8 @@ void FpsCamera::onMouseMoved(float xRel, float yRel) {
 }
 
 void FpsCamera::update() {
-	Camera::view = glm::lookAt(Camera::position, Camera::position + lookAt, up);
+	Camera::m_view = glm::lookAt(Camera::m_position, Camera::m_position + lookAt, up);
 	Camera::update();
-}
-
-void FpsCamera::moveFront(float amount) {
-	Camera::translate(
-		glm::normalize(glm::vec3(1.0f, 0.0f, 1.0f) * lookAt) * amount
-		* cameraSpeed);
-	update();
-}
-
-void FpsCamera::moveRight(float amount) {
-	Camera::translate(
-		glm::normalize(glm::cross(lookAt, up)) * amount * cameraSpeed);
-	update();
 }
 
 void FpsCamera::handleInputs(SdlEventHandler* handler, float32 delta) {
@@ -53,4 +40,17 @@ void FpsCamera::handleInputs(SdlEventHandler* handler, float32 delta) {
 		moveRight(delta);
 
 	onMouseMoved(handler->mouseXMovement(), handler->mouseYMovement());
+}
+
+void FpsCamera::moveFront(float amount) {
+	Camera::translate(
+		glm::normalize(glm::vec3(1.0f, 0.0f, 1.0f) * lookAt) * amount
+		* cameraSpeed);
+	update();
+}
+
+void FpsCamera::moveRight(float amount) {
+	Camera::translate(
+		glm::normalize(glm::cross(lookAt, up)) * amount * cameraSpeed);
+	update();
 }
