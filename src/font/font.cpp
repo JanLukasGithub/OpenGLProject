@@ -2,16 +2,6 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "font.h"
 
-Font::~Font() {
-    if (m_fontVertexBufferData)
-        delete[] m_fontVertexBufferData;
-
-    // Delete stuff in vram
-    glDeleteVertexArrays(1, &m_fontVao);
-    glDeleteBuffers(1, &m_fontVertexBufferId);
-    glDeleteTextures(1, &m_fontTexture);
-}
-
 Font::Font(const char* filename, Shader* fontShader) {
     // Get texture's uniform location
     m_textureUniformLocation = glGetUniformLocation(fontShader->getShaderId(), "u_texture");
@@ -58,6 +48,16 @@ Font::Font(const char* filename, Shader* fontShader) {
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(FontVertex), (const void*)offsetof(FontVertex, texture_coords));
     // Unbind vertex array
     glBindVertexArray(0);
+}
+
+Font::~Font() {
+    if (m_fontVertexBufferData)
+        delete[] m_fontVertexBufferData;
+
+    // Delete stuff in vram
+    glDeleteVertexArrays(1, &m_fontVao);
+    glDeleteBuffers(1, &m_fontVertexBufferId);
+    glDeleteTextures(1, &m_fontTexture);
 }
 
 void Font::drawString(float x, float y, const char* text) {

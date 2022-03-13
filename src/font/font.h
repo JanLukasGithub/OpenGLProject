@@ -21,11 +21,6 @@ struct FontVertex {
 };
 
 struct Font {
-    Font(const char* filename, Shader* fontShader);
-    ~Font();
-
-    void drawString(float x, float y, const char* text);
-
 private:
     stbtt_bakedchar m_cdata[NUM_CHARS];
     GLuint m_fontTexture;
@@ -36,6 +31,12 @@ private:
 
     // Uniform location
     int m_textureUniformLocation{ 0 };
+
+public:
+    Font(const char* filename, Shader* fontShader);
+    ~Font();
+
+    void drawString(float x, float y, const char* text);
 };
 
 #endif
