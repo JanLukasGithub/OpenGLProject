@@ -5,6 +5,8 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include <algorithm>
+
 #include "../../lib/stb_image.h"
 #include "../../lib/glm/glm.hpp"
 #include "../../lib/glm/gtc/matrix_transform.hpp"
@@ -36,7 +38,8 @@ public:
 	static void init(Shader* shader);
 private:
 	std::vector<Mesh*> m_meshes;
-	std::vector<Material> m_materials;
+	// Holds pointers to the materials in the material list Material::materials
+	std::vector<Material*> m_materials;
 
 	// Location of model mat uniform
 	inline static int m_modelMatLocation;
@@ -46,7 +49,7 @@ private:
 
 	// Reads model from file using assimp
 	void readModelFromFile(const char* filename);
-	// Processes the materials
+	// Processes the materials, returns the number of materials loaded
 	void processMaterials(const aiScene* scene, const char* path);
 	// Processes the nodes recursively
 	void processNodes(const aiScene* scene, aiNode* node);

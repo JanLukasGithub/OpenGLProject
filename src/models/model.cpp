@@ -134,6 +134,17 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 			mat.normalMapName = std::string("");
 		}
 
+		// Try to find an equal material already in the list of materials
+		auto found = std::find(Material::materials.begin(), Material::materials.end(), mat);
+
+		// If the material is already in the materials list
+		if (found != Material::materials.end()) {
+			// Add the material to the material list
+			m_materials.push_back(found.base());
+			// Don't load textures again
+			continue;
+		}
+
 		// Variables for stbi image loading
 		int32 textureWidth = 0;
 		int32 textureHeight = 0;
@@ -200,7 +211,8 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		// Add the material to the material list
-		m_materials.push_back(mat);
+		Material::materials.push_back(mat);
+		m_materials.push_back(Material::materials.end().base() - 1);
 	}
 }
 
@@ -269,7 +281,7 @@ void Model::processMesh(aiMesh* mesh) {
 	}
 
 	// Add the mesh to the list of meshes
-	m_meshes.push_back(new Mesh(vertices, indices, m_materials[materialIndex]));
+	m_meshes.push_back(new Mesh(vertices, indices, *m_materials[materialIndex]));
 }
 
 Model::~Model() {
