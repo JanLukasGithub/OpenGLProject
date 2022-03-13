@@ -1,7 +1,7 @@
 #include "model.h"
 
 void Model::initUniforms(Shader* shader) {
-	Model::m_modelMatLocation = glGetUniformLocation(shader->getShaderId(), "u_modelMat");
+	Model::modelMatLocation = glGetUniformLocation(shader->getShaderId(), "u_modelMat");
 }
 
 Model::Model(const char* filename) {
@@ -41,7 +41,7 @@ void Model::scale(glm::vec3 scale) {
 }
 
 void Model::render() {
-	glUniformMatrix4fv(Model::m_modelMatLocation, 1, GL_FALSE, &m_modelMat[0][0]);
+	glUniformMatrix4fv(Model::modelMatLocation, 1, GL_FALSE, &m_modelMat[0][0]);
 	for (unsigned int i = 0; i < m_meshes.size(); i++) {
 		m_meshes[i]->render();
 	}

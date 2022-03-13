@@ -18,7 +18,7 @@
 class Model {
 private:
 	// Location of model mat uniform
-	inline static int m_modelMatLocation;
+	inline static int modelMatLocation;
 public:
 	static void initUniforms(Shader* shader);
 
