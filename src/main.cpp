@@ -1,4 +1,3 @@
-// Standard library
 #include <iostream>
 #include <vector>
 #include <string>
@@ -26,9 +25,7 @@
 #include <SDL2/SDL.h>
 #endif
 
-// Self written headers
 #include "utils.h"
-
 #include "sdlEventHandler.h"
 #include "models/model.h"
 #include "font/font.h"
@@ -38,7 +35,6 @@
  * @brief asks the user for a model to load in std input and loads the model
  *
  * @param modelList
- * @param renderer
  * @return true if user input wasn't "none"
  * @return false if user input was "none"
  */
