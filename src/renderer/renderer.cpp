@@ -1,17 +1,17 @@
 #include "renderer.h"
 
+Renderer::Renderer() {
+    init();
+
+    Renderer::activeRenderer = this;
+}
+
 Renderer::~Renderer() {
     delete m_shader3d;
     delete m_shaderFont;
     delete m_shader2d;
 
     delete m_fontRenderer;
-}
-
-Renderer::Renderer() {
-    init();
-
-    Renderer::activeRenderer = this;
 }
 
 void Renderer::init() {

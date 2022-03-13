@@ -30,52 +30,10 @@
 
 class Renderer {
 public:
-    // Initializes rendering
-    void init();
-    // Resets rendering. Enables you to "hot swap" shaders or potentially recover from rendering issues
-    void reset();
-    // Resets Screen for rendering the next frame
-    void startFrame();
-    // Sets up shader and OpenGL settings for rendering 3d models
-    void setup3DRender();
-    // Sets up shader and OpenGL settings for rendering fonts
-    void setupFontRender();
-    // Sets up shader and OpenGL settings for rendering 2d images
-    void setup2DRender();
-    // Draws things on the screen
-    void endFrame();
-
-    // FPS are calculated each time endFrame() is called
-    uint32 getFPS() { return m_FPS; }
-    // Delta is calculated each time endFrame() is called
-    float32 getDelta() { return m_delta; }
-
-    Shader* getShader3d() { return m_shader3d; }
-    Shader* getShaderFont() { return m_shaderFont; }
-    Shader* getShader2d() { return m_shader2d; }
-
-    int getWindowHeight() { return m_windowHeight; }
-    int getWindowWidth() { return m_windowWidth; }
-
-    FlyingCamera& getCamera() { return m_camera; }
-
-    Font* getFontRenderer() { return m_fontRenderer; }
-
-    // Idk why but the camera has to be initialized here apparently :shrug:
-    Renderer();
-    virtual ~Renderer();
-
     // Pointer to the currently active renderer. Set in the constructor
     inline static Renderer* activeRenderer;
+
 private:
-    // Private move constructor
-    Renderer(Renderer& renderer) : m_camera{ FlyingCamera(90.0f, 800, 600) } {}
-    // Private assignment operator
-    Renderer& operator=(const Renderer& renderer) { return *this; }
-
-    // (Re-)Initializes the lights
-    void initLights();
-
     // Dynamically allocated
     Shader* m_shader3d;
     Shader* m_shaderFont;
@@ -106,10 +64,53 @@ private:
     glm::mat4 m_modelMatrix{ glm::mat4(1.0f) };
     glm::mat4 m_modelViewProj{ 1.0f };
 
-    // Uniform locations
+    // Uniform locations. Not static because only one instance of this class should exist
     int m_modelViewProjUniformLocation;
     int m_modelViewUniformLocation;
     int m_invModelViewUniformLocation;
+
+public:
+    Renderer();
+    virtual ~Renderer();
+
+    // Initializes rendering
+    void init();
+    // Resets rendering. Enables you to "hot swap" shaders or potentially recover from rendering issues
+    void reset();
+    // Resets Screen for rendering the next frame
+    void startFrame();
+    // Sets up shader and OpenGL settings for rendering 3d models
+    void setup3DRender();
+    // Sets up shader and OpenGL settings for rendering fonts
+    void setupFontRender();
+    // Sets up shader and OpenGL settings for rendering 2d images
+    void setup2DRender();
+    // Draws things on the screen
+    void endFrame();
+
+    // FPS are calculated each time endFrame() is called
+    uint32 getFPS() const noexcept { return m_FPS; }
+    // Delta is calculated each time endFrame() is called
+    float32 getDelta() const noexcept { return m_delta; }
+
+    Shader* getShader3d() const noexcept { return m_shader3d; }
+    Shader* getShaderFont() const noexcept { return m_shaderFont; }
+    Shader* getShader2d() const noexcept { return m_shader2d; }
+
+    int getWindowHeight() const noexcept { return m_windowHeight; }
+    int getWindowWidth() const noexcept { return m_windowWidth; }
+
+    FlyingCamera& getCamera() noexcept { return m_camera; }
+
+    Font* getFontRenderer() const noexcept { return m_fontRenderer; }
+private:
+    // Private move constructor
+    Renderer(Renderer& renderer) {}
+    // Private assignment operator
+    Renderer& operator=(const Renderer& renderer) { return *this; }
+
+    // (Re-)Initializes the lights
+    void initLights();
 };
 
 // Display debug messages
