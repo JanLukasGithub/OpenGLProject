@@ -1,5 +1,9 @@
 #include "model.h"
 
+void Model::initUniforms(Shader* shader) {
+	Model::m_modelMatLocation = glGetUniformLocation(shader->getShaderId(), "u_modelMat");
+}
+
 Model::Model(const char* filename) {
 	readModelFromFile(filename);
 }
@@ -16,6 +20,12 @@ Model::Model(const char* filename, glm::mat4 modelMat) {
 	m_modelMat = modelMat;
 }
 
+Model::~Model() {
+	for (unsigned int i = 0; i < m_meshes.size(); i++) {
+		delete m_meshes[i];
+	}
+}
+
 void Model::translate(glm::vec3 translation) {
 	m_modelMat = glm::translate(m_modelMat, translation);
 }
@@ -28,6 +38,13 @@ void Model::rotate(glm::vec3 rotation) {
 
 void Model::scale(glm::vec3 scale) {
 	m_modelMat = glm::scale(m_modelMat, scale);
+}
+
+void Model::render() {
+	glUniformMatrix4fv(Model::m_modelMatLocation, 1, GL_FALSE, &m_modelMat[0][0]);
+	for (unsigned int i = 0; i < m_meshes.size(); i++) {
+		m_meshes[i]->render();
+	}
 }
 
 // Reads model files using assimp
@@ -286,21 +303,4 @@ void Model::processMesh(aiMesh* mesh) {
 
 	// Add the mesh to the list of meshes
 	m_meshes.push_back(new Mesh(vertices, indices, globalMaterialIndex));
-}
-
-Model::~Model() {
-	for (unsigned int i = 0; i < m_meshes.size(); i++) {
-		delete m_meshes[i];
-	}
-}
-
-void Model::render() {
-	glUniformMatrix4fv(Model::m_modelMatLocation, 1, GL_FALSE, &m_modelMat[0][0]);
-	for (unsigned int i = 0; i < m_meshes.size(); i++) {
-		m_meshes[i]->render();
-	}
-}
-
-void Model::initUniforms(Shader* shader) {
-	Model::m_modelMatLocation = glGetUniformLocation(shader->getShaderId(), "u_modelMat");
 }

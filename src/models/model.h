@@ -16,6 +16,19 @@
 #include "../shader.h"
 
 class Model {
+private:
+	// Location of model mat uniform
+	inline static int m_modelMatLocation;
+public:
+	static void initUniforms(Shader* shader);
+
+private:
+	std::vector<Mesh*> m_meshes;
+	// Holds pointers to the materials in the material list Material::materials, these are only valid until a new model is loaded
+	std::vector<Material*> m_materials;
+	// Stores translation, rotation and scale
+	glm::mat4 m_modelMat{ 1.0f };
+
 public:
 	// Reads the model from filename and initializes it with shader
 	Model(const char* filename);
@@ -23,6 +36,8 @@ public:
 	Model(const char* filename, glm::vec3 offset);
 	// Reads the model from filename, initializes it with shader and uses the modelMatrix
 	Model(const char* filename, glm::mat4 modelMat);
+	// Deletes meshes
+	virtual ~Model();
 
 	// Translate the model
 	void translate(glm::vec3 translation);
@@ -30,23 +45,10 @@ public:
 	void rotate(glm::vec3 rotation);
 	// Scale the model
 	void scale(glm::vec3 scale);
-
-	virtual ~Model();
-
+	// Render the model
 	void render();
 
-	static void initUniforms(Shader* shader);
 private:
-	std::vector<Mesh*> m_meshes;
-	// Holds pointers to the materials in the material list Material::materials
-	std::vector<Material*> m_materials;
-
-	// Location of model mat uniform
-	inline static int m_modelMatLocation;
-
-	// Stores translation, rotation and scale
-	glm::mat4 m_modelMat{ 1.0f };
-
 	// Reads model from file using assimp
 	void readModelFromFile(const char* filename);
 	// Processes the materials, returns the number of materials loaded
