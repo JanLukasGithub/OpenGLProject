@@ -301,6 +301,6 @@ void Model::render() {
 	}
 }
 
-void Model::init(Shader* shader) {
+void Model::initUniforms(Shader* shader) {
 	Model::m_modelMatLocation = glGetUniformLocation(shader->getShaderId(), "u_modelMat");
 }

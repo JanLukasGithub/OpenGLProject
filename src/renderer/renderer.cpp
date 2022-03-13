@@ -88,8 +88,8 @@ void Renderer::init() {
     m_modelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelView");
     m_invModelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_invModelView");
 
-    Model::init(m_shader3d);
-    Mesh::init(m_shader3d);
+    Model::initUniforms(m_shader3d);
+    Mesh::initUniforms(m_shader3d);
 
     m_fontRenderer = new Font{ "assets/fonts/OpenSans-Regular.ttf", m_shaderFont };
 }
@@ -185,8 +185,8 @@ void Renderer::reset() {
     m_shader3d->bind();
 
     // Update uniform locations of models
-    Model::init(m_shader3d);
-    Mesh::init(m_shader3d);
+    Model::initUniforms(m_shader3d);
+    Mesh::initUniforms(m_shader3d);
 
     m_modelViewProjUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelViewProj");
     m_modelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelView");

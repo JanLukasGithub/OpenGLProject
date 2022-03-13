@@ -35,7 +35,7 @@ public:
 
 	void render();
 
-	static void init(Shader* shader);
+	static void initUniforms(Shader* shader);
 private:
 	std::vector<Mesh*> m_meshes;
 	// Holds pointers to the materials in the material list Material::materials

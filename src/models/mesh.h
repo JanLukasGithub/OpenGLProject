@@ -15,6 +15,33 @@ class Mesh;
 #include "material.h"
 
 class Mesh {
+private:
+	// Uniforms
+	inline static int diffuseLocation;
+	inline static int specularLocation;
+	inline static int emissiveLocation;
+	inline static int shininessLocation;
+	inline static int diffuseMapLocation;
+	inline static int normalMapLocation;
+	inline static int hasNormalMapLocation;
+	inline static int hasDiffuseMapLocation;
+public:
+	static void initUniforms(Shader* shader);
+
+private:
+	// If there's a diffuse/normal map
+	bool m_hasNormalMap;
+	bool m_hasDiffuseMap;
+
+	uint64 m_numIndices;
+	VertexBuffer* m_vbo;
+	IndexBuffer* m_ibo;
+	// Index of the material in the material list
+	int m_materialIndex;
+	// Just for memory cleanup
+	std::vector<Vertex>* m_vertices;
+	std::vector<uint32>* m_indices;
+
 public:
 	Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, int materialIndex);
 	virtual ~Mesh();
@@ -30,35 +57,11 @@ public:
 		return m_vertices;
 	}
 
-	static void init(Shader* shader);
-
 private:
 	// Currently not finished, DON'T USE
 	Mesh& operator=(const Mesh& mesh);
 	// Currently not finished, DON'T USE
 	Mesh(const Mesh& mesh);
-
-	// If there's a diffuse/normal map
-	bool m_hasNormalMap;
-	bool m_hasDiffuseMap;
-
-	uint64 m_numIndices;
-	VertexBuffer* m_vbo;
-	IndexBuffer* m_ibo;
-	// Index of the material in the material list
-	int m_materialIndex;
-	// Just for memory cleanup
-	std::vector<Vertex>* m_vertices;
-	std::vector<uint32>* m_indices;
-	// Uniforms
-	inline static int m_diffuseLocation;
-	inline static int m_specularLocation;
-	inline static int m_emissiveLocation;
-	inline static int m_shininessLocation;
-	inline static int m_diffuseMapLocation;
-	inline static int m_normalMapLocation;
-	inline static int m_hasNormalMapLocation;
-	inline static int m_hasDiffuseMapLocation;
 };
 
 #endif /* MESH_H_ */
