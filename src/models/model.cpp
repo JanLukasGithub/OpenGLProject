@@ -135,7 +135,7 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 		}
 
 		// Try to find an equal material already in the list of materials
-		auto found = std::find(Material::materials.begin(), Material::materials.end(), mat);
+		std::vector<Material>::iterator found = std::find(Material::materials.begin(), Material::materials.end(), mat);
 
 		// If the material is already in the materials list
 		if (found != Material::materials.end()) {
@@ -212,7 +212,8 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 
 		// Add the material to the material list
 		Material::materials.push_back(mat);
-		m_materials.push_back(Material::materials.end().base() - 1);
+		// Add the pointer to the last material to the list of materials
+		m_materials.push_back(&Material::materials.back());
 	}
 }
 
