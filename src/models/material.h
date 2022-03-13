@@ -19,8 +19,15 @@ public:
 	GLuint diffuseMap;
 	GLuint normalMap;
 
-	Material(const Material& m) noexcept;
+	Material(const Material& mat) noexcept;
 	Material() noexcept;
+
+	/**
+	 * @brief compares this material to another one ignoring the 'diffuseMap' and 'normalMap' members
+	 * 
+	 * @return true if all members except for 'diffuseMap' and 'normalMap' are equal, false otherwise
+	 */
+	bool operator==(const Material& mat);
 };
 
 #endif

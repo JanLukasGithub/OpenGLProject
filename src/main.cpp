@@ -35,8 +35,7 @@
  * @brief asks the user for a model to load in std input and loads the model
  *
  * @param modelList
- * @return true if user input wasn't "none"
- * @return false if user input was "none"
+ * @return false if user input was "none", "n" or "", true otherwise
  */
 bool userModelLoad(std::vector<Model*>& modelList) {
 	std::string modelname = std::string();
