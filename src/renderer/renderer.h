@@ -58,7 +58,7 @@ private:
     uint64 m_lastCounter;
     float32 m_delta{ 0.0f };
     uint32 m_FPS{ 0 };
-    IndependentTimer m_oneSecondTimer{ std::chrono::seconds(1) };
+    Timer m_oneSecondTimer{ std::chrono::seconds(1) };
 
     // Model matrix
     glm::mat4 m_modelMatrix{ glm::mat4(1.0f) };
