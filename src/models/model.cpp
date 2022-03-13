@@ -232,7 +232,7 @@ void Model::processNodes(const aiScene* scene, aiNode* node) {
 
 void Model::processMesh(aiMesh* mesh) {
 	// Index of the material, materials were loaded already
-	uint64 materialIndex = mesh->mMaterialIndex;
+	uint64 localMaterialIndex = mesh->mMaterialIndex;
 	uint64 numVertices = mesh->mNumVertices;
 	// Dynamically allocated to ensure the variable lives after exiting function
 	std::vector<Vertex>* vertices = new std::vector<Vertex>();
@@ -281,8 +281,11 @@ void Model::processMesh(aiMesh* mesh) {
 		vertices->push_back(v);
 	}
 
+	// Material index in Material::materials, get by offset from start of list
+	int globalMaterialIndex = m_materials[localMaterialIndex] - Material::materials.data();
+
 	// Add the mesh to the list of meshes
-	m_meshes.push_back(new Mesh(vertices, indices, *m_materials[materialIndex]));
+	m_meshes.push_back(new Mesh(vertices, indices, globalMaterialIndex));
 }
 
 Model::~Model() {

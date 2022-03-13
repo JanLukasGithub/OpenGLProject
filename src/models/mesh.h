@@ -16,7 +16,7 @@ class Mesh;
 
 class Mesh {
 public:
-	Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, Material material);
+	Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, int materialIndex);
 	virtual ~Mesh();
 
 	// Renders this mesh
@@ -45,7 +45,8 @@ private:
 	uint64 m_numIndices;
 	VertexBuffer* m_vbo;
 	IndexBuffer* m_ibo;
-	Material m_material;
+	// Index of the material in the material list
+	int m_materialIndex;
 	// Just for memory cleanup
 	std::vector<Vertex>* m_vertices;
 	std::vector<uint32>* m_indices;

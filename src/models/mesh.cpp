@@ -1,15 +1,15 @@
 #include "mesh.h"
 
-Mesh::Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, Material material) : m_numIndices{ indices->size() },
+Mesh::Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, int materialIndex) : m_numIndices{ indices->size() },
 m_vbo{ new VertexBuffer(vertices->data(), vertices->size(), &m_hasNormalMap) }, m_ibo{ new IndexBuffer(indices->data(),
-m_numIndices, sizeof(indices[0])) }, m_material{ material }, m_vertices{ vertices }, m_indices{ indices },
-m_hasNormalMap{ material.normalMapName.compare("") != 0 },
-m_hasDiffuseMap{ material.diffuseMapName.compare("") != 0 } {}
+m_numIndices, sizeof(indices[0])) }, m_vertices{ vertices }, m_indices{ indices },
+m_hasNormalMap{ Material::materials[materialIndex].normalMapName.compare("") != 0 }, m_materialIndex{ materialIndex },
+m_hasDiffuseMap{ Material::materials[materialIndex].diffuseMapName.compare("") != 0 } {}
 
 
 Mesh::Mesh(const Mesh& mesh) : m_numIndices{ mesh.m_numIndices }, m_vbo{ new VertexBuffer(*mesh.m_vbo) }, m_ibo{ new IndexBuffer(*mesh.m_ibo) },
-m_material{ mesh.m_material }, m_vertices{ new std::vector<Vertex>(*mesh.m_vertices) }, m_indices{ new std::vector<uint32>(*mesh.m_indices) },
-m_hasNormalMap{ mesh.m_hasNormalMap }, m_hasDiffuseMap{ mesh.m_hasDiffuseMap } {}
+m_vertices{ new std::vector<Vertex>(*mesh.m_vertices) }, m_indices{ new std::vector<uint32>(*mesh.m_indices) },
+m_hasNormalMap{ mesh.m_hasNormalMap }, m_hasDiffuseMap{ mesh.m_hasDiffuseMap }, m_materialIndex{ mesh.m_materialIndex } {}
 
 Mesh::~Mesh() {
 	delete m_indices;
@@ -47,18 +47,20 @@ Mesh& Mesh::operator=(const Mesh& mesh) {
 }
 
 void Mesh::render() {
+	Material material = Material::materials[m_materialIndex];
+
 	m_vbo->bind();
 	m_ibo->bind();
 	glUniform1i(m_hasDiffuseMapLocation, m_hasDiffuseMap);
 	glUniform1i(m_hasNormalMapLocation, m_hasNormalMap);
-	glUniform3fv(m_diffuseLocation, 1, (float*)&m_material.diffuse);
-	glUniform3fv(m_specularLocation, 1, (float*)&m_material.specular);
-	glUniform3fv(m_emissiveLocation, 1, (float*)&m_material.emissive);
-	glUniform1f(m_shininessLocation, m_material.shininess);
-	glBindTexture(GL_TEXTURE_2D, m_material.diffuseMap);
+	glUniform3fv(m_diffuseLocation, 1, (float*)&material.diffuse);
+	glUniform3fv(m_specularLocation, 1, (float*)&material.specular);
+	glUniform3fv(m_emissiveLocation, 1, (float*)&material.emissive);
+	glUniform1f(m_shininessLocation, material.shininess);
+	glBindTexture(GL_TEXTURE_2D, material.diffuseMap);
 	glUniform1i(m_diffuseMapLocation, 0);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, m_material.normalMap);
+	glBindTexture(GL_TEXTURE_2D, material.normalMap);
 	glUniform1i(m_normalMapLocation, 1);
 	glActiveTexture(GL_TEXTURE0);
 	glDrawElements(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_INT, 0);
