@@ -47,6 +47,14 @@ void Mesh::render() {
 	m_vbo->unbind();
 }
 
+const std::vector<uint32>* Mesh::getIndices() const noexcept {
+	return m_indices;
+}
+
+const std::vector<Vertex>* Mesh::getVertices() const noexcept {
+	return m_vertices;
+}
+
 // UNFINISHED ---------------------------------------------------------------------------------------------------------------------------------
 Mesh::Mesh(const Mesh& mesh) : m_numIndices{ mesh.m_numIndices }, m_vbo{ new VertexBuffer(*mesh.m_vbo) }, m_ibo{ new IndexBuffer(*mesh.m_ibo) },
 m_vertices{ new std::vector<Vertex>(*mesh.m_vertices) }, m_indices{ new std::vector<uint32>(*mesh.m_indices) },

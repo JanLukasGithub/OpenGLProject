@@ -49,13 +49,9 @@ public:
 	// Renders this mesh
 	void render();
 
-	const std::vector<uint32>* getIndices() const {
-		return m_indices;
-	}
+	const std::vector<uint32>* getIndices() const noexcept;
 
-	const std::vector<Vertex>* getVertices() const {
-		return m_vertices;
-	}
+	const std::vector<Vertex>* getVertices() const noexcept;
 
 private:
 	// Currently not finished, DON'T USE
