@@ -10,3 +10,13 @@ bool Material::operator==(const Material& mat) {
     return mat.diffuse == this->diffuse && mat.specular == this->specular && mat.emissive == this->emissive && mat.shininess == this->shininess &&
         mat.diffuseMapName == this->diffuseMapName && mat.normalMapName == this->normalMapName;
 }
+
+std::ostream& operator<<(std::ostream& out, const Material& mat) {
+    out << "Diffuse: " << mat.diffuse.x << " " << mat.diffuse.y << " " << mat.diffuse.z <<
+    " Specular: " << mat.specular.x << " " << mat.specular.y << " " << mat.specular.z <<
+    " Emissive: " << mat.emissive.x << " " << mat.emissive.y << " " << mat.emissive.z <<
+    " Shininess: " << mat.shininess << " Diffuse map name: " << mat.diffuseMapName <<
+    " Normal map name: " << mat.normalMapName;
+
+    return out;
+}
