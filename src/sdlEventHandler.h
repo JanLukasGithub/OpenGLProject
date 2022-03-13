@@ -10,6 +10,18 @@ class SdlEventHandler;
 #include "utils.h"
 
 class SdlEventHandler {
+private:
+	// Mouse movement
+	int32 mouseXRel = 0.0f, mouseYRel = 0.0f;
+	// List of pressed keys
+	std::vector<SDL_Keycode> m_pressedKeys = std::vector<SDL_Keycode>();
+	// List of keys pressed last frame
+	std::vector<SDL_Keycode> m_lastPressedKeys = std::vector<SDL_Keycode>();
+	// List of mouse buttons pressed
+	std::vector<uint8> m_pressedMouseButtons = std::vector<uint8>();
+	// List of mouse buttons pressed last frame
+	std::vector<uint8> m_lastPressedMouseButtons = std::vector<uint8>();
+
 public:
 	// Handles the SDL Event. Only call if update has been called this frame already!
 	void handleSdlEvent(const SDL_Event event, float32 delta);
@@ -39,23 +51,13 @@ public:
 	int32 mouseXMovement();
 	int32 mouseYMovement();
 
-protected:
+private:
 	// This changes the value of the inputBitfield
 	void updateKeyboardInputs(const SDL_Keycode key, const bool isDown);
 	// This changes the values of mouseXRel and mouseYRel
 	void updateMouseMovement(const int32 xRel, const int32 yRel);
 	// This changes the value of the mouseInputBitfield
 	void updateMouseInputs(const Uint8 button, const bool isDown);
-	// Mouse movement
-	int32 mouseXRel = 0.0f, mouseYRel = 0.0f;
-	// List of pressed keys
-	std::vector<SDL_Keycode> m_pressedKeys = std::vector<SDL_Keycode>();
-	// List of keys pressed last frame
-	std::vector<SDL_Keycode> m_lastPressedKeys = std::vector<SDL_Keycode>();
-	// List of mouse buttons pressed
-	std::vector<uint8> m_pressedMouseButtons = std::vector<uint8>();
-	// List of mouse buttons pressed last frame
-	std::vector<uint8> m_lastPressedMouseButtons = std::vector<uint8>();
 };
 
 // The constants you can use for Mouse Buttons

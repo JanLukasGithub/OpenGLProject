@@ -8,6 +8,9 @@
 #include "utils.h"
 
 class Shader {
+private:
+	GLuint m_shaderId;
+
 public:
 	Shader(const char* vertexShaderFileName, const char* fragmentShaderFileName);
 	virtual ~Shader();
@@ -18,15 +21,12 @@ public:
 	// Call to compile a new shader and use that one
 	void update(const char* vertexShaderFileName, const char* fragmentShaderFileName);
 
-	GLuint getShaderId() {
-		return shaderId;
-	}
+	GLuint getShaderId() const noexcept { return m_shaderId; }
+
 private:
 	GLuint compile(std::string shaderSource, GLenum type);
 	std::string parse(const char* filename);
 	GLuint createShader(const char* vertexShaderFileName, const char* fragmentShaderFileName);
-
-	GLuint shaderId;
 };
 
 #endif /* SHADER_H_ */

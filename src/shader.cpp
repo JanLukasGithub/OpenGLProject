@@ -1,19 +1,26 @@
 #include "shader.h"
 
 Shader::Shader(const char* vertexShaderFileName, const char* fragmentShaderFileName) {
-    shaderId = createShader(vertexShaderFileName, fragmentShaderFileName);
+    m_shaderId = createShader(vertexShaderFileName, fragmentShaderFileName);
 }
 
 Shader::~Shader() {
-    glDeleteProgram(shaderId);
+    glDeleteProgram(m_shaderId);
 }
 
 void Shader::bind() {
-    glUseProgram(shaderId);
+    glUseProgram(m_shaderId);
 }
 
 void Shader::unbind() {
     glUseProgram(0);
+}
+
+void Shader::update(const char* vertexShaderFileName, const char* fragmentShaderFileName) {
+    this->unbind();
+    glDeleteProgram(m_shaderId);
+    m_shaderId = createShader(vertexShaderFileName, fragmentShaderFileName);
+    this->bind();
 }
 
 GLuint Shader::compile(std::string shaderSource, GLenum type) {
@@ -88,11 +95,3 @@ GLuint Shader::createShader(const char* vertexShaderFileName, const char* fragme
 
     return program;
 }
-
-void Shader::update(const char* vertexShaderFileName, const char* fragmentShaderFileName) {
-    this->unbind();
-    glDeleteProgram(shaderId);
-    shaderId = createShader(vertexShaderFileName, fragmentShaderFileName);
-    this->bind();
-}
-

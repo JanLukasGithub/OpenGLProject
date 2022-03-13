@@ -6,14 +6,15 @@
 #include "utils.h"
 
 class IndexBuffer {
+private:
+	GLuint m_bufferId{ 0 };
+
 public:
 	IndexBuffer(void* data, uint64 numIndices, uint8 elementSize);
 	virtual ~IndexBuffer();
 
 	IndexBuffer* bind();
 	IndexBuffer* unbind();
-private:
-	GLuint bufferId{ 0 };
 };
 
 #endif /* INDEXBUFFER_H_ */

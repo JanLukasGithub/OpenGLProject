@@ -1,5 +1,36 @@
 #include "sdlEventHandler.h"
 
+void SdlEventHandler::handleSdlEvent(const SDL_Event event, float32 delta) {
+	// Handle key down, key up, mouse motion, mouse button down and mouse button up events
+	switch (event.type) {
+	case SDL_KEYDOWN:
+		updateKeyboardInputs(event.key.keysym.sym, true);
+		break;
+	case SDL_KEYUP:
+		updateKeyboardInputs(event.key.keysym.sym, false);
+		break;
+	case SDL_MOUSEMOTION:
+		updateMouseMovement(event.motion.xrel, event.motion.yrel);
+		break;
+	case SDL_MOUSEBUTTONDOWN:
+		updateMouseInputs(event.button.button, true);
+		break;
+	case SDL_MOUSEBUTTONUP:
+		updateMouseInputs(event.button.button, false);
+		break;
+	default:
+		break;
+	}
+}
+
+void SdlEventHandler::update() {
+	m_lastPressedKeys = m_pressedKeys;
+	m_lastPressedMouseButtons = m_pressedMouseButtons;
+
+	mouseXRel = 0;
+	mouseYRel = 0;
+}
+
 bool SdlEventHandler::keyPressed(SDL_Keycode keycode) {
 	for (int i = 0; i < m_pressedKeys.size(); i++) {
 		if (m_pressedKeys.data()[i] == keycode)
@@ -48,27 +79,12 @@ bool SdlEventHandler::mouseButtonJustReleased(uint8 button) {
 	return !mouseButtonPressed(button) && lastMouseButtonPressed(button);
 }
 
-void SdlEventHandler::handleSdlEvent(const SDL_Event event, float32 delta) {
-	// Handle key down, key up, mouse motion, mouse button down and mouse button up events
-	switch (event.type) {
-	case SDL_KEYDOWN:
-		updateKeyboardInputs(event.key.keysym.sym, true);
-		break;
-	case SDL_KEYUP:
-		updateKeyboardInputs(event.key.keysym.sym, false);
-		break;
-	case SDL_MOUSEMOTION:
-		updateMouseMovement(event.motion.xrel, event.motion.yrel);
-		break;
-	case SDL_MOUSEBUTTONDOWN:
-		updateMouseInputs(event.button.button, true);
-		break;
-	case SDL_MOUSEBUTTONUP:
-		updateMouseInputs(event.button.button, false);
-		break;
-	default:
-		break;
-	}
+int32 SdlEventHandler::mouseXMovement() {
+	return mouseXRel;
+}
+
+int32 SdlEventHandler::mouseYMovement() {
+	return mouseYRel;
 }
 
 void SdlEventHandler::updateKeyboardInputs(const SDL_Keycode key, const bool isDown) {
@@ -92,6 +108,11 @@ void SdlEventHandler::updateKeyboardInputs(const SDL_Keycode key, const bool isD
 	}
 }
 
+void SdlEventHandler::updateMouseMovement(const int32 xRel, const int32 yRel) {
+	mouseXRel = xRel;
+	mouseYRel = yRel;
+}
+
 void SdlEventHandler::updateMouseInputs(const Uint8 button, const bool isDown) {
 	if (isDown) {
 		// Get the pointer to the button
@@ -111,25 +132,4 @@ void SdlEventHandler::updateMouseInputs(const Uint8 button, const bool isDown) {
 		// Remove the button from the list
 		m_pressedMouseButtons.erase(it);
 	}
-}
-
-void SdlEventHandler::updateMouseMovement(const int32 xRel, const int32 yRel) {
-	mouseXRel = xRel;
-	mouseYRel = yRel;
-}
-
-void SdlEventHandler::update() {
-	m_lastPressedKeys = m_pressedKeys;
-	m_lastPressedMouseButtons = m_pressedMouseButtons;
-
-	mouseXRel = 0;
-	mouseYRel = 0;
-}
-
-int32 SdlEventHandler::mouseXMovement() {
-	return mouseXRel;
-}
-
-int32 SdlEventHandler::mouseYMovement() {
-	return mouseYRel;
 }
