@@ -11,6 +11,9 @@ class Gui;
 #define GUI_GUI_H_
 
 class Gui {
+protected:
+	float m_zLevel;
+
 public:
 	Gui() : m_zLevel{ 0.0f } {}
 	Gui(float zLevel) : m_zLevel{ zLevel } {}
@@ -19,9 +22,6 @@ public:
 	virtual void draw() {}
 
 	static void drawRectangle(float32 x, float32 y, float32 w, float32 h, int32 color) noexcept;
-
-protected:
-	float m_zLevel;
 };
 
 #endif /* GUI_GUI_H_ */

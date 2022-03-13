@@ -6,11 +6,15 @@
 #include "gui.h"
 
 class GuiScreen : public Gui {
+protected:
+	// Size in pixels
+	int m_width, m_height;
+
 public:
 	GuiScreen(SDL_Window* window);
 	GuiScreen(SDL_Window* window, float zLevel);
 	GuiScreen(int height, int width);
-	GuiScreen(float zLevel, int height, int width);
+	GuiScreen(int height, int width, float zLevel);
 	virtual ~GuiScreen() {}
 
 	int getHeight() {
@@ -34,10 +38,6 @@ public:
 	void draw() override {
 		drawScreen();
 	}
-
-protected:
-	// Size in pixels
-	int m_width, m_height;
 };
 
 #endif /* GUI_GUISCREEN_H_ */
