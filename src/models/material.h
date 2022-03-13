@@ -5,11 +5,15 @@ struct Material;
 
 #include <GL/glew.h>
 #include <string>
+#include <vector>
 
 #include "../../lib/glm/glm.hpp"
 
 struct Material {
 public:
+	// List of all materials loaded
+	inline static std::vector<Material> materials{};
+
 	glm::vec3 diffuse;
 	glm::vec3 specular;
 	glm::vec3 emissive;
