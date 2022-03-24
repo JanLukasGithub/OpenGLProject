@@ -82,15 +82,8 @@ void Renderer::init() {
     // Model matrices
     m_modelMatrix = glm::scale(m_modelMatrix, glm::vec3(1.0f));
     m_modelViewProj = m_camera.getViewProjection() * m_modelMatrix;
-
-    // Uniforms
-    m_modelViewProjUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelViewProj");
-    m_modelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelView");
-    m_invModelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_invModelView");
-
-    Model::initUniforms(m_shader3d);
-    Mesh::initUniforms(m_shader3d);
-    Font::initUniforms(m_shaderFont);
+    
+    initUniforms();
 
     m_fontRenderer = new Font{ "assets/fonts/OpenSans-Regular.ttf", m_shaderFont };
 }
@@ -175,26 +168,25 @@ void Renderer::initLights() {
     m_shader3d->unbind();
 }
 
+void Renderer::initUniforms() {
+    m_modelViewProjUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelViewProj");
+    m_modelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelView");
+    m_invModelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_invModelView");
+
+    // Update uniform locations of models
+    Model::initUniforms(m_shader3d);
+    Mesh::initUniforms(m_shader3d);
+    // Update uniform locations of fonts
+    Font::initUniforms(m_shaderFont);
+}
+
 void Renderer::reset() {
     m_shader3d->update("src/shaders/3d.vs", "src/shaders/3d.fs");
     m_shaderFont->update("src/shaders/font.vs", "src/shaders/font.fs");
     m_shader2d->update("src/shaders/2d.vs", "src/shaders/2d.fs");
 
     initLights();
-
-    // Uniforms
-    m_shader3d->bind();
-
-    // Update uniform locations of models
-    Model::initUniforms(m_shader3d);
-    Mesh::initUniforms(m_shader3d);
-    Font::initUniforms(m_shaderFont);
-
-    m_modelViewProjUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelViewProj");
-    m_modelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelView");
-    m_invModelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_invModelView");
-
-    m_shader3d->unbind();
+    initUniforms();
 }
 
 void Renderer::startFrame() {

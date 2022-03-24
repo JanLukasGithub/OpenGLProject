@@ -111,6 +111,9 @@ private:
 
     // (Re-)Initializes the lights
     void initLights();
+
+    // (Re-)Initializes the uniforms
+    void initUniforms();
 };
 
 // Display debug messages
