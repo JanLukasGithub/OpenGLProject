@@ -2,10 +2,12 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "font.h"
 
-Font::Font(const char* filename, Shader* fontShader) {
+void Font::initUniforms(Shader* fontShader) {
     // Get texture's uniform location
-    m_textureUniformLocation = glGetUniformLocation(fontShader->getShaderId(), "u_texture");
+    Font::textureUniformLocation = glGetUniformLocation(fontShader->getShaderId(), "u_texture");
+}
 
+Font::Font(const char* filename, Shader* fontShader) {
     // Open the file:
     std::streampos fileSize;
     std::ifstream file(filename, std::ios::binary);
@@ -79,7 +81,7 @@ void Font::drawString(float x, float y, const char* text) {
     // Bind the texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_fontTexture);
-    glUniform1i(m_textureUniformLocation, 0);
+    glUniform1i(Font::textureUniformLocation, 0);
 
     // Pointer to data
     FontVertex* vData = m_fontVertexBufferData;

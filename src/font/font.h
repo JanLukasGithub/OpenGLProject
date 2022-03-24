@@ -22,15 +22,18 @@ struct FontVertex {
 
 struct Font {
 private:
+    // Uniform location
+    inline static int textureUniformLocation{ 0 };
+public:
+    static void initUniforms(Shader* shader);
+
+private:
     stbtt_bakedchar m_cdata[NUM_CHARS];
     GLuint m_fontTexture;
     GLuint m_fontVao;
     GLuint m_fontVertexBufferId;
     FontVertex* m_fontVertexBufferData = nullptr;
     uint32 m_fontVertexBufferCapacity;
-
-    // Uniform location
-    int m_textureUniformLocation{ 0 };
 
 public:
     Font(const char* filename, Shader* fontShader);
