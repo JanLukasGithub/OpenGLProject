@@ -80,7 +80,12 @@ int main(int argc, char** argv) {
 		std::string modelname = std::string(argv[1]);
 
 		// Load model
-		models.push_back(new Model(modelname.c_str()));
+		try {
+			models.push_back(new Model(modelname.c_str()));
+		} catch (std::exception* e) {
+			std::cout << "Error occurred while loading model " << modelname << "!" << std::endl;
+			std::cout << e->what() << std::endl;
+		}
 	}
 
 	// Load font
