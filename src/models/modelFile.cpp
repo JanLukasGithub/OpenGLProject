@@ -21,8 +21,14 @@ ModelFile& ModelFile::getFromList(int32 index) {
     return modelFiles.at(index);
 }
 
+ModelFile::ModelFile(ModelFile&& model) : m_filename{model.m_filename}, m_materials{}, m_meshes{model.m_meshes} {
+    for (uint32 i = 0; i < model.m_meshes.size(); i++) {
+        model.m_meshes[i] = nullptr;
+    }
+}
+
 ModelFile::ModelFile(const char* filename) {
-    ;
+	readModelFromFile(filename);
 }
 
 ModelFile::~ModelFile() noexcept {

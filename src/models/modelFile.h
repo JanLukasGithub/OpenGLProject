@@ -53,13 +53,13 @@ private:
     // Name of this model
     const char* m_filename;
     // Meshes of this model file
-    std::vector<Mesh*> m_meshes;
+    std::vector<Mesh*> m_meshes{};
     // Holds pointers to the materials in the material list Material::materials, these are only valid until a new model is loaded
-    std::vector<Material*> m_materials;
+    std::vector<Material*> m_materials{};
 
 public:
-    // Constructor
-    ModelFile(const char* filename);
+    // Move constructor
+    ModelFile(ModelFile&& model);
     // Deconstructor
     virtual ~ModelFile() noexcept;
 
@@ -69,6 +69,13 @@ public:
     friend bool operator==(const ModelFile& model1, const ModelFile& model2);
 
 private:
+    // Private constructor to force use of addModelFile(filename)
+    ModelFile(const char* filename);
+    // Private copy constructor to prevent use of it
+    ModelFile(const ModelFile& model) {};
+    // Private assignment operator to prevent use of it
+    ModelFile& operator=(const ModelFile& model) { return *this; }
+
     // Reads model from file using assimp
     void readModelFromFile(const char* filename);
     // Processes the materials, returns the number of materials loaded
