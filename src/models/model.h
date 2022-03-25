@@ -24,8 +24,8 @@ public:
 
 private:
 	std::vector<Mesh*> m_meshes;
-	// Holds pointers to the materials in the material list Material::materials, these are only valid until a new model is loaded
-	std::vector<Material*> m_materials;
+    // Holds the indices of the materials
+    std::vector<uint32> m_materialIndices{};
 	// Stores translation, rotation and scale
 	glm::mat4 m_modelMat{ 1.0f };
 

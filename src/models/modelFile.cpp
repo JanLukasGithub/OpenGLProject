@@ -229,7 +229,7 @@ void ModelFile::processMaterials(const aiScene* scene) {
         // Add the material to the material list
         Material::materials.push_back(mat);
         // Add the material's index to the list
-        m_materialIndices.push_back(Material::materials.end().base() - Material::materials.data());
+        m_materialIndices.push_back(Material::materials.end().base() - Material::materials.data() - 1);
     }
 }
 

@@ -72,7 +72,7 @@ void Model::readModelFromFile(const char* filename) {
 void Model::processMaterials(const aiScene* scene, const char* path) {
 	// Get the amount of materials and make enough space for them in the vector to save time
 	uint32 numMaterials = scene->mNumMaterials;
-	m_materials.reserve(numMaterials);
+	m_materialIndices.reserve(numMaterials);
 
 	// Process every material
 	for (uint32 i = 0; i < numMaterials; i++) {
@@ -157,7 +157,7 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 		// If the material is already in the materials list
 		if (found != Material::materials.end()) {
 			// Add the material to the material list
-			m_materials.push_back(found.base());
+			m_materialIndices.push_back(found.base() - Material::materials.data());
 			// Don't load textures again
 			continue;
 		}
@@ -230,7 +230,7 @@ void Model::processMaterials(const aiScene* scene, const char* path) {
 		// Add the material to the material list
 		Material::materials.push_back(mat);
 		// Add the pointer to the last material to the list of materials
-		m_materials.push_back(&Material::materials.back());
+		m_materialIndices.push_back(Material::materials.end().base() - Material::materials.data() - 1);
 	}
 }
 
@@ -299,7 +299,7 @@ void Model::processMesh(aiMesh* mesh) {
 	}
 
 	// Material index in Material::materials, get by offset from start of list
-	int globalMaterialIndex = m_materials[localMaterialIndex] - Material::materials.data();
+	int globalMaterialIndex = m_materialIndices[localMaterialIndex];
 
 	// Add the mesh to the list of meshes
 	m_meshes.push_back(new Mesh(vertices, indices, globalMaterialIndex));
