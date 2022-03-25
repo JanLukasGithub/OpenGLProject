@@ -10,25 +10,26 @@ int32 ModelFile::addModelFile(const char* filename) {
 }
 
 int32 ModelFile::indexOf(const char* filename) {
-    return std::find(modelFiles.begin(), modelFiles.end(), filename).base() - modelFiles.data();
+    auto found = std::find(modelFiles.begin(), modelFiles.end(), filename);
+    return found == modelFiles.end() ? -1 : found.base() - modelFiles.data();
 }
 
 int32 ModelFile::indexOf(const ModelFile& model) {
-    return std::find(modelFiles.begin(), modelFiles.end(), model).base() - modelFiles.data();
+    return indexOf(model.m_filename);
 }
 
 ModelFile& ModelFile::getFromList(int32 index) {
     return modelFiles.at(index);
 }
 
-ModelFile::ModelFile(ModelFile&& model) : m_filename{model.m_filename}, m_meshes{model.m_meshes} {
+ModelFile::ModelFile(ModelFile&& model) : m_filename{ model.m_filename }, m_meshes{ model.m_meshes } {
     for (uint32 i = 0; i < model.m_meshes.size(); i++) {
         model.m_meshes[i] = nullptr;
     }
 }
 
 ModelFile::ModelFile(const char* filename) {
-	readModelFromFile(filename);
+    readModelFromFile(filename);
 }
 
 ModelFile::~ModelFile() noexcept {
