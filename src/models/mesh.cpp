@@ -17,6 +17,14 @@ m_numIndices, sizeof(indices[0])) }, m_vertices{ vertices }, m_indices{ indices 
 m_hasNormalMap{ Material::materials[materialIndex].normalMapName.compare("") != 0 }, m_materialIndex{ materialIndex },
 m_hasDiffuseMap{ Material::materials[materialIndex].diffuseMapName.compare("") != 0 } {}
 
+Mesh::Mesh(Mesh&& mesh) : m_numIndices{ mesh.m_numIndices }, m_vbo{ mesh.m_vbo }, m_ibo{ mesh.m_ibo }, m_vertices{ mesh.m_vertices }, m_indices{ mesh.m_indices },
+m_hasNormalMap{ mesh.m_hasNormalMap }, m_materialIndex{ mesh.m_materialIndex }, m_hasDiffuseMap{ mesh.m_hasDiffuseMap } {
+	mesh.m_vbo = nullptr;
+	mesh.m_ibo = nullptr;
+	mesh.m_vertices = nullptr;
+	mesh.m_indices = nullptr;
+}
+
 Mesh::~Mesh() {
 	delete m_indices;
 	delete m_vertices;
