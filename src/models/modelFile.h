@@ -5,6 +5,14 @@
 #include <algorithm>
 #include <cstring>
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+#include "../../lib/stb_image.h"
+#include "../../lib/glm/glm.hpp"
+#include "../../lib/glm/gtc/matrix_transform.hpp"
+
 #include "../utils.h"
 #include "mesh.h"
 #include "material.h"
@@ -50,6 +58,16 @@ public:
     friend bool operator==(const ModelFile& model, const char* const filename);
     // Checks if the filename of model1 and filename of model2 are equal
     friend bool operator==(const ModelFile& model1, const ModelFile& model2);
+
+private:
+	// Reads model from file using assimp
+	void readModelFromFile(const char* filename);
+	// Processes the materials, returns the number of materials loaded
+	void processMaterials(const aiScene* scene, const char* path);
+	// Processes the nodes recursively
+	void processNodes(const aiScene* scene, aiNode* node);
+	// Processes the mesh
+	void processMesh(aiMesh* mesh);
 };
 
 #endif
