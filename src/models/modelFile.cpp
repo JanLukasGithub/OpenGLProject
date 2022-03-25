@@ -21,7 +21,7 @@ ModelFile& ModelFile::getFromList(int32 index) {
     return modelFiles.at(index);
 }
 
-ModelFile::ModelFile(ModelFile&& model) : m_filename{model.m_filename}, m_materials{}, m_meshes{model.m_meshes} {
+ModelFile::ModelFile(ModelFile&& model) : m_filename{model.m_filename}, m_meshes{model.m_meshes} {
     for (uint32 i = 0; i < model.m_meshes.size(); i++) {
         model.m_meshes[i] = nullptr;
     }
@@ -70,7 +70,7 @@ void ModelFile::readModelFromFile(const char* filename) {
 void ModelFile::processMaterials(const aiScene* scene, const char* path) {
     // Get the amount of materials and make enough space for them in the vector to save time
     uint32 numMaterials = scene->mNumMaterials;
-    m_materials.reserve(numMaterials);
+    m_materialIndices.reserve(numMaterials);
 
     // Process every material
     for (uint32 i = 0; i < numMaterials; i++) {
@@ -154,8 +154,8 @@ void ModelFile::processMaterials(const aiScene* scene, const char* path) {
 
         // If the material is already in the materials list
         if (found != Material::materials.end()) {
-            // Add the material to the material list
-            m_materials.push_back(found.base());
+            // Add the material's index to the list
+            m_materialIndices.push_back(found.base() - Material::materials.data());
             // Don't load textures again
             continue;
         }
@@ -227,8 +227,8 @@ void ModelFile::processMaterials(const aiScene* scene, const char* path) {
 
         // Add the material to the material list
         Material::materials.push_back(mat);
-        // Add the pointer to the last material to the list of materials
-        m_materials.push_back(&Material::materials.back());
+        // Add the material's index to the list
+        m_materialIndices.push_back(Material::materials.end().base() - Material::materials.data());
     }
 }
 
@@ -296,8 +296,8 @@ void ModelFile::processMesh(aiMesh* mesh) {
         vertices->push_back(v);
     }
 
-    // Material index in Material::materials, get by offset from start of list
-    int globalMaterialIndex = m_materials[localMaterialIndex] - Material::materials.data();
+    // Material index in Material::materials
+    int globalMaterialIndex = m_materialIndices[localMaterialIndex];
 
     // Add the mesh to the list of meshes
     m_meshes.push_back(new Mesh(vertices, indices, globalMaterialIndex));
