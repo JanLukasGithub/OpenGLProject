@@ -77,9 +77,9 @@ private:
     ModelFile& operator=(const ModelFile& model) { return *this; }
 
     // Reads model from file using assimp
-    void readModelFromFile(const char* filename);
+    void readModelFromFile();
     // Processes the materials, returns the number of materials loaded
-    void processMaterials(const aiScene* scene, const char* path);
+    void processMaterials(const aiScene* scene);
     // Processes the nodes recursively
     void processNodes(const aiScene* scene, aiNode* node);
     // Processes the mesh

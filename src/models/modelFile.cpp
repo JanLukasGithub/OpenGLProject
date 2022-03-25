@@ -29,7 +29,7 @@ ModelFile::ModelFile(ModelFile&& model) : m_filename{ model.m_filename }, m_mesh
 }
 
 ModelFile::ModelFile(const char* filename) : m_filename{ filename } {
-    readModelFromFile(filename);
+    readModelFromFile();
 }
 
 ModelFile::~ModelFile() noexcept {
@@ -47,12 +47,12 @@ bool operator==(const ModelFile& model1, const ModelFile& model2) {
 }
 
 // Reads ModelFile files using assimp
-void ModelFile::readModelFromFile(const char* filename) {
+void ModelFile::readModelFromFile() {
     // Assimp will do the work for us
     Assimp::Importer importer;
 
     // Read the file
-    const aiScene* scene = importer.ReadFile(filename, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph | aiProcess_JoinIdenticalVertices | aiProcess_ImproveCacheLocality);
+    const aiScene* scene = importer.ReadFile(m_filename, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph | aiProcess_JoinIdenticalVertices | aiProcess_ImproveCacheLocality);
 
     // Check for success
     if (!scene || (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !scene->mRootNode) {
@@ -63,12 +63,12 @@ void ModelFile::readModelFromFile(const char* filename) {
     // Notify user
     debugOutputEndl("Loading ModelFile from file...");
     // Process the materials
-    processMaterials(scene, filename);
+    processMaterials(scene);
     // Process the nodes recursively
     processNodes(scene, scene->mRootNode);
 }
 
-void ModelFile::processMaterials(const aiScene* scene, const char* path) {
+void ModelFile::processMaterials(const aiScene* scene) {
     // Get the amount of materials and make enough space for them in the vector to save time
     uint32 numMaterials = scene->mNumMaterials;
     m_materialIndices.reserve(numMaterials);
@@ -132,7 +132,7 @@ void ModelFile::processMaterials(const aiScene* scene, const char* path) {
             if (numDiffuseMaps > 1)
                 debugOutputEndl("More than one diffuse texture present!");
             aiMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &diffuseMapNameBuffer);
-            mat.diffuseMapName = std::string(getFilePath(path)) + diffuseMapNameBuffer.C_Str();
+            mat.diffuseMapName = std::string(getFilePath(m_filename)) + diffuseMapNameBuffer.C_Str();
         } else {
             debugOutputEndl("No diffuse map, using default diffuse map!");
             mat.diffuseMapName = std::string("");
@@ -144,7 +144,7 @@ void ModelFile::processMaterials(const aiScene* scene, const char* path) {
             if (numNormalMaps > 1)
                 debugOutputEndl("More than one normal map present!");
             aiMaterial->GetTexture(aiTextureType_NORMALS, 0, &normalMapNameBuffer);
-            mat.normalMapName = std::string(std::string(getFilePath(path)) + normalMapNameBuffer.C_Str());
+            mat.normalMapName = std::string(std::string(getFilePath(m_filename)) + normalMapNameBuffer.C_Str());
         } else {
             debugOutputEndl("No normal map, using default normal map!");
             mat.normalMapName = std::string("");
