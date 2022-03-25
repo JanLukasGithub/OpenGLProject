@@ -84,6 +84,9 @@ private:
     void processNodes(const aiScene* scene, aiNode* node);
     // Processes the mesh
     void processMesh(aiMesh* mesh);
+
+public:
+    std::vector<Mesh*>& getMeshes() { return m_meshes; }
 };
 
 #endif
