@@ -13,6 +13,10 @@ int32 ModelFile::indexOf(const char* filename) {
     return std::find(modelFiles.begin(), modelFiles.end(), filename).base() - modelFiles.data();
 }
 
+int32 ModelFile::indexOf(const ModelFile& model) {
+    return std::find(modelFiles.begin(), modelFiles.end(), model).base() - modelFiles.data();
+}
+
 ModelFile& ModelFile::getFromList(int32 index) {
     return modelFiles.at(index);
 }
@@ -32,7 +36,7 @@ bool operator==(const ModelFile& ModelFile, const char* const filename) {
 }
 
 bool operator==(const ModelFile& model1, const ModelFile& model2) {
-    return strcmp(model1.m_filename, model2.m_filename) == 0;
+    return model1 == model2.m_filename;
 }
 
 // Reads ModelFile files using assimp

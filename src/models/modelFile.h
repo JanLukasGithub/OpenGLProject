@@ -30,6 +30,7 @@ public:
      * @return the index of the model with the specified filename
      */
     static int32 addModelFile(const char* filename);
+
     /**
      * @brief Get the index of the modelFile with the specified filename. addModelFile(filename) can do this as well,
      * but using that function might be confusing for getting the index, and that function has the side effect of loading a new model if none was found
@@ -37,6 +38,14 @@ public:
      * @return the index of the model with the specified filename or -1 if none was found
      */
     static int32 indexOf(const char* filename);
+
+    /**
+     * @brief Get the index of the specified modelFile
+     * 
+     * @return the index of the specified model or -1 if none was found
+     */
+    static int32 indexOf(const ModelFile& model);
+    
     // Only allow access to the members of the vector. Does bounds checking
     static ModelFile& getFromList(int32 index);
 
