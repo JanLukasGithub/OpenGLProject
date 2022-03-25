@@ -28,7 +28,7 @@ ModelFile::ModelFile(ModelFile&& model) : m_filename{ model.m_filename }, m_mesh
     }
 }
 
-ModelFile::ModelFile(const char* filename) {
+ModelFile::ModelFile(const char* filename) : m_filename{ filename } {
     readModelFromFile(filename);
 }
 
