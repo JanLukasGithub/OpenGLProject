@@ -74,15 +74,11 @@ Mesh& Mesh::operator=(const Mesh& mesh) {
 		return *this;
 
 	// Delete old values
-	if (m_indices)
-		delete m_indices;
-	if (m_vertices)
-		delete m_vertices;
+	delete m_indices;
+	delete m_vertices;
 
-	if (m_vbo)
-		delete m_vbo;
-	if (m_ibo)
-		delete m_ibo;
+	delete m_vbo;
+	delete m_ibo;
 
 	// Initialize new values
 	m_indices = new std::vector<uint32>(*mesh.m_indices);
