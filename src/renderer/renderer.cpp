@@ -86,7 +86,7 @@ void Renderer::init() {
     // Model matrices
     m_modelMatrix = glm::scale(m_modelMatrix, glm::vec3(1.0f));
     m_modelViewProj = m_camera.getViewProjection() * m_modelMatrix;
-    
+
     initUniforms();
 
     m_fontRenderer = new Font{ "assets/fonts/OpenSans-Regular.ttf", m_shaderFont };
@@ -263,6 +263,12 @@ void Renderer::endFrame() {
     if (m_oneSecondTimer.hasTimeElapsed())
         m_FPS = (uint32)((float32)m_perfCounterFrequency / (float32)counterElapsed);
     m_lastCounter = endCounter;
+}
+
+void Renderer::addModelToList(Model* model) noexcept {
+    m_models.push_back(model);
+
+    std::sort(m_models.begin(), m_models.end(), [](Model* model1, Model* model2) { return (*model1) < (*model2); });
 }
 
 void openGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {

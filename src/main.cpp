@@ -37,7 +37,7 @@
  * @param modelList
  * @return false if user input was "none", "n" or "", true otherwise
  */
-bool userModelLoad(std::vector<Model*>& modelList) {
+bool userModelLoad(Renderer* renderer) {
 	std::string modelname = std::string();
 	// Ask the user what model he wants to load
 	std::cout << "Please input the filename of the model you want to load or \"none\", \"n\" or \"\" to abort" << std::endl;
@@ -49,7 +49,7 @@ bool userModelLoad(std::vector<Model*>& modelList) {
 
 	// Load model
 	try {
-		modelList.push_back(new Model(modelname.c_str(), glm::vec3((modelList.size() - 1) * 5.0f, 0.0f, 0.0f)));
+		renderer->addModelToList(new Model(modelname.c_str(), glm::vec3((renderer->getModelListSize() - 1) * 5.0f, 0.0f, 0.0f)));
 	}
 	catch (const std::exception& e) {
 		std::cout << e.what() << std::endl;
@@ -63,15 +63,12 @@ int main(int argc, char** argv) {
 	// Renderer
 	Renderer* renderer = new Renderer();
 
-	// Create the "models" vector
-	std::vector<Model*>& models{ renderer->getModels() };
-
 	// Always load the floor
-	models.push_back(new Model("assets/models/Floor/Floor.obj", glm::vec3(0.0f, -1.0f, 0.0f)));
+	renderer->addModelToList(new Model("assets/models/Floor/Floor.obj", glm::vec3(0.0f, -1.0f, 0.0f)));
 
 	if (argc < 2) {
 		// Load models
-		while (userModelLoad(models));
+		while (userModelLoad(renderer));
 	} else {
 		for (int i = 1; i < argc; i++) {
 			// Use the first argument as model to load
@@ -79,7 +76,7 @@ int main(int argc, char** argv) {
 
 			// Load model
 			try {
-				models.push_back(new Model(modelname.c_str(), glm::vec3((models.size() - 1) * 5.0f, 0.0f, 0.0f)));
+				renderer->addModelToList(new Model(modelname.c_str(), glm::vec3((renderer->getModelListSize() - 1) * 5.0f, 0.0f, 0.0f)));
 			}
 			catch (const std::exception& e) {
 				std::cout << "Error occurred while loading model " << modelname << "!" << std::endl;
@@ -119,7 +116,7 @@ int main(int argc, char** argv) {
 		}
 
 		if (handler->keyJustPressed(SDLK_l)) {
-			models.push_back(new Model("assets/models/QuadrupedTank/QuadrupedTank.obj", renderer->getCamera().getPosition()));
+			renderer->addModelToList(new Model("assets/models/QuadrupedTank/QuadrupedTank.obj", renderer->getCamera().getPosition()));
 		}
 
 		if (handler->keyJustPressed(SDLK_ESCAPE)) {
@@ -139,8 +136,8 @@ int main(int argc, char** argv) {
 		renderer->setup3DRender();
 
 		// Render models
-		for (int i = 0; i < models.size(); i++) {
-			models[i]->render();
+		for (int i = 0; i < renderer->getModelListSize(); i++) {
+			renderer->getModelFromList(i)->render();
 		}
 
 		// Start rendering font
