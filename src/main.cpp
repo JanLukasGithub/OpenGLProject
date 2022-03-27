@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
 	Renderer* renderer = new Renderer();
 
 	// Create the "models" vector
-	std::vector<Model*> models;
+	std::vector<Model*>& models{ renderer->getModels() };
 
 	// Always load the floor
 	models.push_back(new Model("assets/models/Floor/Floor.obj", glm::vec3(0.0f, -1.0f, 0.0f)));
