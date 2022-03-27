@@ -130,7 +130,7 @@ void ModelFile::processMaterials(const aiScene* scene) {
         if (numDiffuseMaps > 0) {
             aiString diffuseMapNameBuffer{ };
             if (numDiffuseMaps > 1)
-                debugOutputEndl("More than one diffuse texture present!");
+                debugOutputEndl("More than one diffuse map present!");
             aiMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &diffuseMapNameBuffer);
             mat.diffuseMapName = std::string(getFilePath(m_filename)) + diffuseMapNameBuffer.C_Str();
         } else {
