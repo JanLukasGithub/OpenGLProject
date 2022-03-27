@@ -51,10 +51,7 @@ bool userModelLoad(std::vector<Model*>& modelList) {
 	try {
 		modelList.push_back(new Model(modelname.c_str(), glm::vec3((modelList.size() - 1) * 5.0f, 0.0f, 0.0f)));
 	}
-	catch (std::exception* e) {
-		std::cout << e->what() << std::endl;
-	}
-	catch (std::exception e) {
+	catch (const std::exception& e) {
 		std::cout << e.what() << std::endl;
 	}
 
