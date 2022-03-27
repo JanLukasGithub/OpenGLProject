@@ -104,7 +104,7 @@ public:
 
     Font* getFontRenderer() const noexcept { return m_fontRenderer; }
 private:
-    // Private move constructor
+    // Private copy constructor
     Renderer(Renderer& renderer) {}
     // Private assignment operator
     Renderer& operator=(const Renderer& renderer) { return *this; }
