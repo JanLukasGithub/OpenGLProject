@@ -19,7 +19,7 @@ int32 ModelFile::indexOf(const ModelFile& model) {
 }
 
 ModelFile& ModelFile::getFromList(int32 index) {
-    return modelFiles.at(index);
+    return modelFiles[index];
 }
 
 ModelFile::ModelFile(ModelFile&& model) : m_filename{ model.m_filename }, m_meshes{ model.m_meshes } {

@@ -46,7 +46,7 @@ public:
      */
     static int32 indexOf(const ModelFile& model);
 
-    // Only allow access to the members of the vector, not the vector itself. Does bounds checking
+    // Only allow access to the members of the vector, not the vector itself. Doesn't do bounds checking
     static ModelFile& getFromList(int32 index);
 
 private:
