@@ -76,15 +76,18 @@ int main(int argc, char** argv) {
 		// Load models
 		while (userModelLoad(models));
 	} else {
-		// Use the first argument as model to load
-		std::string modelname = std::string(argv[1]);
+		for (int i = 1; i < argc; i++) {
+			// Use the first argument as model to load
+			std::string modelname = std::string(argv[i]);
 
-		// Load model
-		try {
-			models.push_back(new Model(modelname.c_str()));
-		} catch (const std::exception& e) {
-			std::cout << "Error occurred while loading model " << modelname << "!" << std::endl;
-			std::cout << e.what() << std::endl;
+			// Load model
+			try {
+				models.push_back(new Model(modelname.c_str()));
+			}
+			catch (const std::exception& e) {
+				std::cout << "Error occurred while loading model " << modelname << "!" << std::endl;
+				std::cout << e.what() << std::endl;
+			}
 		}
 	}
 
