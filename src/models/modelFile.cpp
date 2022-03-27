@@ -57,7 +57,7 @@ void ModelFile::readModelFromFile() {
     // Check for success
     if (!scene || (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !scene->mRootNode) {
         std::cerr << "Error while loading the ModelFile with assimp: " << importer.GetErrorString() << std::endl;
-        throw new std::exception();
+        throw std::exception();
     }
 
     // Notify user
