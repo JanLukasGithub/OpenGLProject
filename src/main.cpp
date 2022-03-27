@@ -70,16 +70,13 @@ int main(int argc, char** argv) {
 		// Load models
 		while (userModelLoad(renderer));
 	} else {
+		// Load models
 		for (int i = 1; i < argc; i++) {
-			// Use the first argument as model to load
-			std::string modelname = std::string(argv[i]);
-
-			// Load model
 			try {
-				renderer->addModelToList(new Model(modelname.c_str(), glm::vec3((renderer->getModelListSize() - 1) * 5.0f, 0.0f, 0.0f)));
+				renderer->addModelToList(new Model(argv[i], glm::vec3((renderer->getModelListSize() - 1) * 5.0f, 0.0f, 0.0f)));
 			}
 			catch (const std::exception& e) {
-				std::cout << "Error occurred while loading model " << modelname << "!" << std::endl;
+				std::cout << "Error occurred while loading model " << argv[i] << "!" << std::endl;
 				std::cout << e.what() << std::endl;
 			}
 		}
