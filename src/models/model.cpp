@@ -47,3 +47,7 @@ std::strong_ordering operator<=>(const Model& model1, const Model& model2) noexc
 
 	return model1Size <=> model2Size;
 }
+
+int Model::getMeshIndex() const noexcept {
+	return m_meshesIndex;
+}
