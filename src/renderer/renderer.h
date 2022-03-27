@@ -15,6 +15,7 @@
 #endif
 
 #include <chrono>
+#include <vector>
 
 // Glm
 #include "../../lib/glm/glm.hpp"
@@ -34,6 +35,9 @@ public:
     inline static Renderer* activeRenderer;
 
 private:
+    // List of models loaded
+    std::vector<Model*> m_models{};
+
     // Dynamically allocated
     Shader* m_shader3d;
     Shader* m_shaderFont;
@@ -87,6 +91,9 @@ public:
     void setup2DRender();
     // Draws things on the screen
     void endFrame();
+
+    // List of models
+    std::vector<Model*>& getModels() noexcept { return m_models; }
 
     // FPS are calculated each time endFrame() is called
     uint32 getFPS() const noexcept { return m_FPS; }
