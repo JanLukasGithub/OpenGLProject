@@ -38,6 +38,10 @@ ModelFile::~ModelFile() noexcept {
     }
 }
 
+void ModelFile::addModel(Model* model) noexcept {
+    m_models.push_back(model);
+}
+
 bool operator==(const ModelFile& ModelFile, const char* const filename) {
     return strcmp(ModelFile.m_filename, filename) == 0;
 }

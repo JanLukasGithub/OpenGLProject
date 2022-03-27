@@ -1,3 +1,5 @@
+class ModelFile;
+
 #ifndef _MODEL_FILE_H_
 #define _MODEL_FILE_H_
 
@@ -16,6 +18,7 @@
 #include "../utils.h"
 #include "mesh.h"
 #include "material.h"
+#include "model.h"
 
 // Representation of a model file (.obj or similar) in code. Allows you to create Models
 class ModelFile {
@@ -56,12 +59,17 @@ private:
     std::vector<Mesh*> m_meshes{};
     // Holds the indices of the materials
     std::vector<uint32> m_materialIndices{};
+    // Holds the Models made from this ModelFile
+    std::vector<Model*> m_models{};
 
 public:
     // Move constructor
     ModelFile(ModelFile&& model);
     // Deconstructor
     virtual ~ModelFile() noexcept;
+
+    // Adds the model to the list of models with this ModelFile
+    void addModel(Model* model) noexcept;
 
     // Checks if the filename of model and filename are equal
     friend bool operator==(const ModelFile& model, const char* const filename);
