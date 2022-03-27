@@ -55,6 +55,10 @@ void Mesh::render() {
 	m_vbo->unbind();
 }
 
+void Mesh::fastRender() {
+	glDrawElements(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_INT, 0);
+}
+
 const std::vector<uint32>* Mesh::getIndices() const noexcept {
 	return m_indices;
 }

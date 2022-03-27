@@ -49,6 +49,8 @@ public:
 
 	// Renders this mesh
 	void render();
+	// Renders this mesh without setting vbo, ibo or anything. Use when rendering the same mesh multiple times
+	void fastRender();
 
 	const std::vector<uint32>* getIndices() const noexcept;
 
