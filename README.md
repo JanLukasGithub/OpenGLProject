@@ -15,3 +15,6 @@ I have not yet tested this on Windows.
 [StbImage/StbTrueType](https://github.com/nothings/stb)
 
 [Assets](https://maxparata.itch.io/voxel-mechas)
+
+# Performance
+On my machine (Intel 11th Gen i5 with iris Xe integrated graphics) the Quadruped Tank model can be loaded roughly 300 times until my framerate starts going below 60 FPS consistently. The model has 24,804 indices, or 8,268 triangles. 300 * 8,268 = 2,480,400 triangles per frame
