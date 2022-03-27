@@ -10,7 +10,7 @@ int32 ModelFile::addModelFile(const char* filename) {
 }
 
 int32 ModelFile::indexOf(const char* filename) {
-    auto found = std::find(modelFiles.begin(), modelFiles.end(), filename);
+    std::vector<ModelFile>::iterator found = std::find(modelFiles.begin(), modelFiles.end(), filename);
     return found == modelFiles.end() ? -1 : found.base() - modelFiles.data();
 }
 
