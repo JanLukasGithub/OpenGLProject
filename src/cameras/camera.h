@@ -29,6 +29,7 @@ public:
 
 	glm::mat4 getViewProjection();
 	glm::mat4 getView();
+	glm::vec3 getPosition();
 };
 
 #endif /* CAMERAS_CAMERA_H_ */
