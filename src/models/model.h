@@ -1,3 +1,5 @@
+class Model;
+
 #ifndef MODELS_MODEL_H_
 #define MODELS_MODEL_H_
 
@@ -37,8 +39,10 @@ public:
 	Model(const char* filename, glm::vec3 position);
 	// Reads the model from filename, initializes it with shader and uses the modelMatrix
 	Model(const char* filename, glm::mat4 modelMat);
+	// Initializes the model from the ModelFile
+	Model(const ModelFile& modelFile);
 	// Deletes meshes
-	virtual ~Model();
+	virtual ~Model() {};
 
 	// Translate the model
 	void translate(glm::vec3 translation);
