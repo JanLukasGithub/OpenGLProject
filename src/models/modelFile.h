@@ -74,6 +74,9 @@ public:
     // Adds the model to the list of models with this ModelFile
     void addModel(Model* model) noexcept;
 
+    // Renders all models in the list
+    void renderModels() noexcept;
+
     // Checks if the filename of model and filename are equal
     friend bool operator==(const ModelFile& model, const char* const filename);
     // Checks if the filename of model1 and filename of model2 are equal

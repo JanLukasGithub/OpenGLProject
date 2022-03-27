@@ -52,6 +52,21 @@ void ModelFile::addModel(Model* model) noexcept {
     m_models.push_back(model);
 }
 
+void ModelFile::renderModels() noexcept {
+    // Loop over meshes
+    for (int i = 0; i < m_meshes.size(); i++) {
+        // Loop over models
+        for (int j = 0; j < m_models.size(); j++) {
+            glUniformMatrix4fv(Model::modelMatLocation, 1, GL_FALSE, &((m_models[j]->getModelMat())[0][0]));
+            // If this is the first time this mesh is rendered, set the uniforms, else do the fast method
+            if (j == 0)
+                m_meshes[i]->render();
+            else
+                m_meshes[i]->fastRender();
+        }
+    }
+}
+
 bool operator==(const ModelFile& ModelFile, const char* const filename) {
     return strcmp(ModelFile.m_filename, filename) == 0;
 }
