@@ -118,6 +118,10 @@ int main(int argc, char** argv) {
 			renderer->reset();
 		}
 
+		if (handler->keyJustPressed(SDLK_l)) {
+			models.push_back(new Model("assets/models/QuadrupedTank/QuadrupedTank.obj", renderer->getCamera().getPosition()));
+		}
+
 		if (handler->keyJustPressed(SDLK_ESCAPE)) {
 			// Change mouse mode to relative when exiting EscMenu and normal when entering it
 			SDL_SetRelativeMouseMode(isEscMenuOpen ? SDL_TRUE : SDL_FALSE);
