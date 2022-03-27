@@ -20,10 +20,9 @@ class Model;
 #include "../utils.h"
 
 class Model {
-private:
+public:
 	// Location of model mat uniform
 	inline static int modelMatLocation;
-public:
 	static void initUniforms(Shader* shader);
 
 private:
@@ -61,6 +60,7 @@ public:
 	friend std::strong_ordering operator<=>(const Model& model1, const Model& model2) noexcept;
 
 	int getMeshIndex() const noexcept;
+	glm::mat4& getModelMat() noexcept;
 };
 
 #endif /* MODELS_MODEL_H_ */

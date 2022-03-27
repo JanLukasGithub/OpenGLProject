@@ -65,3 +65,7 @@ std::strong_ordering operator<=>(const Model& model1, const Model& model2) noexc
 int Model::getMeshIndex() const noexcept {
 	return m_meshesIndex;
 }
+
+glm::mat4& Model::getModelMat() noexcept {
+	return m_modelMat;
+}
