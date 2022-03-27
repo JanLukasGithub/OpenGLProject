@@ -25,7 +25,7 @@ public:
 	static void initUniforms(Shader* shader);
 
 private:
-	// Index of the modelFile
+	// Index of the modelFile in ModelFile::modelFiles
 	int32 m_meshesIndex{ 0 };
 	// Stores translation, rotation and scale
 	glm::mat4 m_modelMat{ 1.0f };
@@ -49,7 +49,7 @@ public:
 	// Render the model
 	void render();
 
-	// Compares based on number of meshes
+	// First compares based on number of meshes, and if that's equal based on index of the model in ModelFile::modelFiles
 	friend std::strong_ordering operator<=>(const Model& model1, const Model& model2) noexcept;
 };
 

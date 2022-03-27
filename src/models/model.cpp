@@ -41,5 +41,9 @@ std::strong_ordering operator<=>(const Model& model1, const Model& model2) noexc
 	int model1Size = ModelFile::getFromList(model1.m_meshesIndex).getMeshes().size();
 	int model2Size = ModelFile::getFromList(model2.m_meshesIndex).getMeshes().size();
 
+	if ((model1Size <=> model2Size) == std::strong_ordering::equal) {
+		return model1.m_meshesIndex <=> model2.m_meshesIndex;
+	}
+
 	return model1Size <=> model2Size;
 }
