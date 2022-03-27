@@ -13,7 +13,9 @@
 
 #include "mesh.h"
 #include "material.h"
+#include "modelFile.h"
 #include "../shader.h"
+#include "../utils.h"
 
 class Model {
 private:
@@ -23,9 +25,8 @@ public:
 	static void initUniforms(Shader* shader);
 
 private:
-	std::vector<Mesh*> m_meshes;
-    // Holds the indices of the materials
-    std::vector<uint32> m_materialIndices{};
+	// Index of the modelFile
+	int32 m_meshesIndex{ 0 };
 	// Stores translation, rotation and scale
 	glm::mat4 m_modelMat{ 1.0f };
 
@@ -47,16 +48,6 @@ public:
 	void scale(glm::vec3 scale);
 	// Render the model
 	void render();
-
-private:
-	// Reads model from file using assimp
-	void readModelFromFile(const char* filename);
-	// Processes the materials, returns the number of materials loaded
-	void processMaterials(const aiScene* scene, const char* path);
-	// Processes the nodes recursively
-	void processNodes(const aiScene* scene, aiNode* node);
-	// Processes the mesh
-	void processMesh(aiMesh* mesh);
 };
 
 #endif /* MODELS_MODEL_H_ */
