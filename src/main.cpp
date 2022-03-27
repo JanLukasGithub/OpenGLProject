@@ -31,6 +31,8 @@
 #include "font/font.h"
 #include "renderer/renderer.h"
 
+int numModels = 0;
+
 /**
  * @brief asks the user for a model to load in std input and loads the model
  *
@@ -38,18 +40,19 @@
  * @return false if user input was "none", "n" or "", true otherwise
  */
 bool userModelLoad(Renderer* renderer) {
-	std::string modelname = std::string();
+	std::string* modelname = new std::string();
 	// Ask the user what model he wants to load
 	std::cout << "Please input the filename of the model you want to load or \"none\", \"n\" or \"\" to abort" << std::endl;
-	std::cin >> modelname;
+	std::cin >> *modelname;
 
 	// If the user wants to abort do that
-	if (modelname.compare("none") * modelname.compare("n") * modelname.compare("") == 0)
+	if (modelname->compare("none") * modelname->compare("n") * modelname->compare("") == 0)
 		return false;
 
 	// Load model
 	try {
-		renderer->addModelToList(new Model(modelname.c_str(), glm::vec3((renderer->getModelListSize() - 1) * 5.0f, 0.0f, 0.0f)));
+		new Model(modelname->c_str(), glm::vec3((numModels - 1) * 5.0f, 0.0f, 0.0f));
+		numModels++;
 	}
 	catch (const std::exception& e) {
 		std::cout << e.what() << std::endl;
@@ -64,7 +67,8 @@ int main(int argc, char** argv) {
 	Renderer* renderer = new Renderer();
 
 	// Always load the floor
-	renderer->addModelToList(new Model("assets/models/Floor/Floor.obj", glm::vec3(0.0f, -1.0f, 0.0f)));
+	new Model("assets/models/Floor/Floor.obj", glm::vec3(0.0f, -1.0f, 0.0f));
+	numModels++;
 
 	if (argc < 2) {
 		// Load models
@@ -73,7 +77,8 @@ int main(int argc, char** argv) {
 		// Load models
 		for (int i = 1; i < argc; i++) {
 			try {
-				renderer->addModelToList(new Model(argv[i], glm::vec3((renderer->getModelListSize() - 1) * 5.0f, 0.0f, 0.0f)));
+				new Model(argv[i], glm::vec3((numModels - 1) * 5.0f, 0.0f, 0.0f));
+				numModels++;
 			}
 			catch (const std::exception& e) {
 				std::cout << "Error occurred while loading model " << argv[i] << "!" << std::endl;
@@ -112,8 +117,9 @@ int main(int argc, char** argv) {
 			renderer->reset();
 		}
 
-		if (handler->keyJustPressed(SDLK_l)) {
-			renderer->addModelToList(new Model("assets/models/QuadrupedTank/QuadrupedTank.obj", renderer->getCamera().getPosition()));
+		if (handler->keyPressed(SDLK_l)) {
+			new Model("assets/models/QuadrupedTank/QuadrupedTank.obj", renderer->getCamera().getPosition());
+			numModels++;
 		}
 
 		if (handler->keyJustPressed(SDLK_ESCAPE)) {
@@ -133,8 +139,8 @@ int main(int argc, char** argv) {
 		renderer->setup3DRender();
 
 		// Render models
-		for (int i = 0; i < renderer->getModelListSize(); i++) {
-			renderer->getModelFromList(i)->render();
+		for (int i = 0; i < ModelFile::getListSize(); i++) {
+			ModelFile::getFromList(i).renderModels();
 		}
 
 		// Start rendering font
@@ -142,6 +148,7 @@ int main(int argc, char** argv) {
 
 		// Draw FPS to the screen
 		font->drawString(5.0f, 20.0f, std::to_string(renderer->getFPS()).c_str());
+		font->drawString(5.0f, 40.0f, std::to_string(numModels).c_str());
 
 		// Start rendering 2D stuff
 		renderer->setup2DRender();
