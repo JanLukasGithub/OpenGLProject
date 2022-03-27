@@ -52,6 +52,9 @@ public:
     // Only allow access to the members of the vector, not the vector itself. Doesn't do bounds checking
     static ModelFile& getFromList(int32 index);
 
+    // Return the size of the list
+    static int getListSize();
+
 private:
     // Name of this model
     const char* m_filename;
