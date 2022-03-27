@@ -35,9 +35,6 @@ public:
     inline static Renderer* activeRenderer;
 
 private:
-    // List of models loaded
-    std::vector<Model*> m_models{};
-
     // Dynamically allocated
     Shader* m_shader3d;
     Shader* m_shaderFont;
@@ -91,13 +88,6 @@ public:
     void setup2DRender();
     // Draws things on the screen
     void endFrame();
-
-    // Get model from list
-    Model* getModelFromList(int index) noexcept { return m_models[index]; }
-    // Get size of models list
-    int getModelListSize() noexcept { return m_models.size(); }
-    // Add a model to the models list
-    void addModelToList(Model* model) noexcept;
 
     // FPS are calculated each time endFrame() is called
     uint32 getFPS() const noexcept { return m_FPS; }
