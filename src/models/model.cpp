@@ -36,3 +36,10 @@ void Model::render() {
 		meshes[i]->render();
 	}
 }
+
+std::strong_ordering operator<=>(const Model& model1, const Model& model2) noexcept {
+	int model1Size = ModelFile::getFromList(model1.m_meshesIndex).getMeshes().size();
+	int model2Size = ModelFile::getFromList(model2.m_meshesIndex).getMeshes().size();
+
+	return model1Size <=> model2Size;
+}

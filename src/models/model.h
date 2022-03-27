@@ -48,6 +48,9 @@ public:
 	void scale(glm::vec3 scale);
 	// Render the model
 	void render();
+
+	// Compares based on number of meshes
+	friend std::strong_ordering operator<=>(const Model& model1, const Model& model2) noexcept;
 };
 
 #endif /* MODELS_MODEL_H_ */
