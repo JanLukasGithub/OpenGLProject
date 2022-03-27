@@ -20,6 +20,14 @@ Model::Model(ModelFile& modelFile) : m_meshesIndex{ ModelFile::indexOf(modelFile
 	modelFile.addModel(this);
 }
 
+Model::Model(ModelFile& modelFile, glm::vec3 position) : m_meshesIndex{ ModelFile::indexOf(modelFile) }, m_modelMat{ glm::translate(glm::mat4(1.0f), position) } {
+	modelFile.addModel(this);
+}
+
+Model::Model(ModelFile& modelFile, glm::mat4 modelMat) : m_meshesIndex{ ModelFile::indexOf(modelFile) }, m_modelMat{ modelMat } {
+	modelFile.addModel(this);
+}
+
 void Model::translate(glm::vec3 translation) {
 	m_modelMat = glm::translate(m_modelMat, translation);
 }

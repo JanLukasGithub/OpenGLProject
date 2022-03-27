@@ -41,6 +41,10 @@ public:
 	Model(const char* filename, glm::mat4 modelMat);
 	// Initializes the model from the ModelFile
 	Model(ModelFile& modelFile);
+	// Initializes the model from the ModelFile and places it at the position
+	Model(ModelFile& modelFile, glm::vec3 position);
+	// Initializes the model from the ModelFile and uses the modelMatrix
+	Model(ModelFile& modelFile, glm::mat4 modelMat);
 	// Deletes meshes
 	virtual ~Model() {};
 
