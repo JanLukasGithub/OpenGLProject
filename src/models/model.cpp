@@ -26,7 +26,7 @@ void Model::scale(glm::vec3 scale) {
 	m_modelMat = glm::scale(m_modelMat, scale);
 }
 
-void Model::render() {
+void Model::render() const {
 	glUniformMatrix4fv(Model::modelMatLocation, 1, GL_FALSE, &m_modelMat[0][0]);
 
 	std::vector<Mesh*>& meshes = ModelFile::getFromList(m_meshesIndex).getMeshes();

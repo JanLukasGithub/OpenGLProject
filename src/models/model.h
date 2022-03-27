@@ -51,7 +51,7 @@ public:
 	// Scale the model
 	void scale(glm::vec3 scale);
 	// Render the model
-	void render();
+	void render() const;
 
 	// First compares based on number of meshes, and if that's equal based on index of the model in ModelFile::modelFiles
 	friend std::strong_ordering operator<=>(const Model& model1, const Model& model2) noexcept;
