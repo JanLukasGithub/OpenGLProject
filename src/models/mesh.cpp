@@ -51,8 +51,6 @@ void Mesh::render() {
 	glUniform1i(normalMapLocation, 1);
 	glActiveTexture(GL_TEXTURE0);
 	glDrawElements(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_INT, 0);
-	m_ibo->unbind();
-	m_vbo->unbind();
 }
 
 void Mesh::fastRender() {
