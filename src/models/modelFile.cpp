@@ -26,9 +26,12 @@ int ModelFile::getListSize() {
     return modelFiles.size();
 }
 
-ModelFile::ModelFile(ModelFile&& model) : m_filename{ model.m_filename }, m_meshes{ model.m_meshes } {
-    for (uint32 i = 0; i < model.m_meshes.size(); i++) {
+ModelFile::ModelFile(ModelFile&& model) : m_filename{ model.m_filename }, m_meshes{ model.m_meshes }, m_models{ model.m_models } {
+    for (unsigned int i = 0; i < model.m_meshes.size(); i++) {
         model.m_meshes[i] = nullptr;
+    }
+    for (unsigned int i = 0; i < model.m_models.size(); i++) {
+        model.m_models[i] = nullptr;
     }
 }
 
@@ -39,6 +42,9 @@ ModelFile::ModelFile(const char* filename) : m_filename{ filename } {
 ModelFile::~ModelFile() noexcept {
     for (unsigned int i = 0; i < m_meshes.size(); i++) {
         delete m_meshes[i];
+    }
+    for (unsigned int i = 0; i < m_models.size(); i++) {
+        delete m_models[i];
     }
 }
 
