@@ -12,6 +12,10 @@ Renderer::~Renderer() {
     delete m_shader2d;
 
     delete m_fontRenderer;
+
+    for (int i = 0; i < m_models.size(); i++) {
+        delete m_models[i];
+    }
 }
 
 void Renderer::init() {

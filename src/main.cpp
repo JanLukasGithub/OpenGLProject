@@ -160,9 +160,5 @@ int main(int argc, char** argv) {
 	delete renderer;
 	delete handler;
 
-	for (int i = 0; i < models.size(); i++) {
-		delete models[i];
-	}
-
 	return 0;
 }
