@@ -6,8 +6,8 @@ void Model::initUniforms(Shader* shader) {
 
 Model::Model(const char* filename) : m_meshesIndex{ ModelFile::addModelFile(filename) } {}
 
-Model::Model(const char* filename, glm::vec3 offset) : m_meshesIndex{ ModelFile::addModelFile(filename) } {
-	m_modelMat = glm::translate(m_modelMat, offset);
+Model::Model(const char* filename, glm::vec3 position) : m_meshesIndex{ ModelFile::addModelFile(filename) } {
+	m_modelMat = glm::translate(m_modelMat, position);
 }
 
 Model::Model(const char* filename, glm::mat4 modelMat) : m_meshesIndex{ ModelFile::addModelFile(filename) }, m_modelMat{ modelMat } {}

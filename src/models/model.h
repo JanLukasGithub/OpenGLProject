@@ -34,7 +34,7 @@ public:
 	// Reads the model from filename and initializes it with shader
 	Model(const char* filename);
 	// Reads the model from filename, initializes it with shader and adds the offset
-	Model(const char* filename, glm::vec3 offset);
+	Model(const char* filename, glm::vec3 position);
 	// Reads the model from filename, initializes it with shader and uses the modelMatrix
 	Model(const char* filename, glm::mat4 modelMat);
 	// Deletes meshes
