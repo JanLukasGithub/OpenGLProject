@@ -49,7 +49,7 @@ bool userModelLoad(std::vector<Model*>& modelList) {
 
 	// Load model
 	try {
-		modelList.push_back(new Model(modelname.c_str()));
+		modelList.push_back(new Model(modelname.c_str(), glm::vec3((modelList.size() - 1) * 5.0f, 0.0f, 0.0f)));
 	}
 	catch (std::exception* e) {
 		std::cout << e->what() << std::endl;
@@ -82,7 +82,7 @@ int main(int argc, char** argv) {
 
 			// Load model
 			try {
-				models.push_back(new Model(modelname.c_str()));
+				models.push_back(new Model(modelname.c_str(), glm::vec3((models.size() - 1) * 5.0f, 0.0f, 0.0f)));
 			}
 			catch (const std::exception& e) {
 				std::cout << "Error occurred while loading model " << modelname << "!" << std::endl;
