@@ -73,7 +73,7 @@ private:
     ModelFile(const char* filename);
     // Private copy constructor to prevent use of it
     ModelFile(const ModelFile& model) {};
-    // Private assignment operator to prevent use of it
+    // Private copy assignment operator to prevent use of it
     ModelFile& operator=(const ModelFile& model) { return *this; }
 
     // Reads model from file using assimp
