@@ -37,11 +37,11 @@ public:
 	// Reads the model from filename, initializes it with shader and uses the modelMatrix
 	ModelInstance(const char* filename, glm::mat4 modelMat);
 	// Initializes the model from the ModelFile
-	ModelInstance(ModelFile& modelFile);
+	ModelInstance(Model& modelFile);
 	// Initializes the model from the ModelFile and places it at the position
-	ModelInstance(ModelFile& modelFile, glm::vec3 position);
+	ModelInstance(Model& modelFile, glm::vec3 position);
 	// Initializes the model from the ModelFile and uses the modelMatrix
-	ModelInstance(ModelFile& modelFile, glm::mat4 modelMat);
+	ModelInstance(Model& modelFile, glm::mat4 modelMat);
 	// Deletes meshes
 	virtual ~ModelInstance() {};
 

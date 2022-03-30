@@ -1,32 +1,32 @@
 #include "modelFile.h"
 
-int32 ModelFile::addModelFile(const char* filename) {
+int32 Model::addModelFile(const char* filename) {
     int32 index = indexOf(filename);
     if (index != -1)
         return index;
 
-    modelFiles.push_back(ModelFile(filename));
+    modelFiles.push_back(Model(filename));
     return modelFiles.size() - 1;
 }
 
-int32 ModelFile::indexOf(const char* filename) {
-    std::vector<ModelFile>::iterator found = std::find(modelFiles.begin(), modelFiles.end(), filename);
+int32 Model::indexOf(const char* filename) {
+    std::vector<Model>::iterator found = std::find(modelFiles.begin(), modelFiles.end(), filename);
     return found == modelFiles.end() ? -1 : found.base() - modelFiles.data();
 }
 
-int32 ModelFile::indexOf(const ModelFile& model) {
+int32 Model::indexOf(const Model& model) {
     return indexOf(model.m_filename);
 }
 
-ModelFile& ModelFile::getFromList(int32 index) {
+Model& Model::getFromList(int32 index) {
     return modelFiles[index];
 }
 
-int ModelFile::getListSize() {
+int Model::getListSize() {
     return modelFiles.size();
 }
 
-ModelFile::ModelFile(ModelFile&& model) : m_filename{ model.m_filename }, m_meshes{ model.m_meshes }, m_models{ model.m_models } {
+Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ model.m_meshes }, m_models{ model.m_models } {
     for (unsigned int i = 0; i < model.m_meshes.size(); i++) {
         model.m_meshes[i] = nullptr;
     }
@@ -35,11 +35,11 @@ ModelFile::ModelFile(ModelFile&& model) : m_filename{ model.m_filename }, m_mesh
     }
 }
 
-ModelFile::ModelFile(const char* filename) : m_filename{ filename } {
+Model::Model(const char* filename) : m_filename{ filename } {
     readModelFromFile();
 }
 
-ModelFile::~ModelFile() noexcept {
+Model::~Model() noexcept {
     for (unsigned int i = 0; i < m_meshes.size(); i++) {
         delete m_meshes[i];
     }
@@ -48,11 +48,11 @@ ModelFile::~ModelFile() noexcept {
     }
 }
 
-void ModelFile::addModel(ModelInstance* model) noexcept {
+void Model::addModel(ModelInstance* model) noexcept {
     m_models.push_back(model);
 }
 
-void ModelFile::renderModels() noexcept {
+void Model::renderModels() noexcept {
     if (m_models.size() < 1)
         return;
 
@@ -71,16 +71,16 @@ void ModelFile::renderModels() noexcept {
     }
 }
 
-bool operator==(const ModelFile& ModelFile, const char* const filename) {
+bool operator==(const Model& ModelFile, const char* const filename) {
     return strcmp(ModelFile.m_filename, filename) == 0;
 }
 
-bool operator==(const ModelFile& model1, const ModelFile& model2) {
+bool operator==(const Model& model1, const Model& model2) {
     return model1 == model2.m_filename;
 }
 
 // Reads ModelFile files using assimp
-void ModelFile::readModelFromFile() {
+void Model::readModelFromFile() {
     // Assimp will do the work for us
     Assimp::Importer importer;
 
@@ -89,19 +89,19 @@ void ModelFile::readModelFromFile() {
 
     // Check for success
     if (!scene || (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !scene->mRootNode) {
-        std::cerr << "Error while loading the ModelFile with assimp: " << importer.GetErrorString() << std::endl;
+        std::cerr << "Error while loading the Model with assimp: " << importer.GetErrorString() << std::endl;
         throw std::exception();
     }
 
     // Notify user
-    debugOutputEndl("Loading ModelFile from file...");
+    debugOutputEndl("Loading Model from file...");
     // Process the materials
     processMaterials(scene);
     // Process the nodes recursively
     processNodes(scene, scene->mRootNode);
 }
 
-void ModelFile::processMaterials(const aiScene* scene) {
+void Model::processMaterials(const aiScene* scene) {
     // Get the amount of materials and make enough space for them in the vector to save time
     uint32 numMaterials = scene->mNumMaterials;
     m_materialIndices.reserve(numMaterials);
@@ -202,7 +202,7 @@ void ModelFile::processMaterials(const aiScene* scene) {
         // Load the textures -------------------------------------------------------------------------------------
         // Make space for textures in VRAM
         glGenTextures(2, &mat.diffuseMap);
-        // Flip texture to fit ModelFile
+        // Flip texture to fit Model
         stbi_set_flip_vertically_on_load(true);
         if (mat.diffuseMapName.compare("") != 0) {
             // Buffer to store texture
@@ -266,7 +266,7 @@ void ModelFile::processMaterials(const aiScene* scene) {
     }
 }
 
-void ModelFile::processNodes(const aiScene* scene, aiNode* node) {
+void Model::processNodes(const aiScene* scene, aiNode* node) {
     // Process the meshes from this node
     for (uint32_t i = 0; i < node->mNumMeshes; i++) {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
@@ -279,7 +279,7 @@ void ModelFile::processNodes(const aiScene* scene, aiNode* node) {
     }
 }
 
-void ModelFile::processMesh(aiMesh* mesh) {
+void Model::processMesh(aiMesh* mesh) {
     // Index of the material, materials were loaded already
     uint64 localMaterialIndex = mesh->mMaterialIndex;
     uint64 numVertices = mesh->mNumVertices;

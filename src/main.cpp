@@ -139,8 +139,8 @@ int main(int argc, char** argv) {
 		renderer->setup3DRender();
 
 		// Render models
-		for (int i = 0; i < ModelFile::getListSize(); i++) {
-			ModelFile::getFromList(i).renderModels();
+		for (int i = 0; i < Model::getListSize(); i++) {
+			Model::getFromList(i).renderModels();
 		}
 
 		// Start rendering font

@@ -1,4 +1,4 @@
-class ModelFile;
+class Model;
 
 #ifndef _MODEL_FILE_H_
 #define _MODEL_FILE_H_
@@ -21,9 +21,9 @@ class ModelFile;
 #include "modelInstance.h"
 
 // Representation of a model file (.obj or similar) in code. Allows you to create Models
-class ModelFile {
+class Model {
 private:
-    inline static std::vector<ModelFile> modelFiles{};
+    inline static std::vector<Model> modelFiles{};
 public:
     /**
      * @brief Adds the model from the specified path to the list. If the model is already in the list this does nothing. Can be used as indexOf(filename)
@@ -47,10 +47,10 @@ public:
      *
      * @return the index of the specified model or -1 if none was found
      */
-    static int32 indexOf(const ModelFile& model);
+    static int32 indexOf(const Model& model);
 
     // Only allow access to the members of the vector, not the vector itself. Doesn't do bounds checking
-    static ModelFile& getFromList(int32 index);
+    static Model& getFromList(int32 index);
 
     // Return the size of the list
     static int getListSize();
@@ -62,33 +62,33 @@ private:
     std::vector<Mesh*> m_meshes{};
     // Holds the indices of the materials
     std::vector<uint32> m_materialIndices{};
-    // Holds the Models made from this ModelFile
+    // Holds the Models made from this Model
     std::vector<ModelInstance*> m_models{};
 
 public:
     // Move constructor
-    ModelFile(ModelFile&& model);
+    Model(Model&& model);
     // Deconstructor
-    virtual ~ModelFile() noexcept;
+    virtual ~Model() noexcept;
 
-    // Adds the model to the list of models with this ModelFile
+    // Adds the model to the list of models with this Model
     void addModel(ModelInstance* model) noexcept;
 
     // Renders all models in the list
     void renderModels() noexcept;
 
     // Checks if the filename of model and filename are equal
-    friend bool operator==(const ModelFile& model, const char* const filename);
+    friend bool operator==(const Model& model, const char* const filename);
     // Checks if the filename of model1 and filename of model2 are equal
-    friend bool operator==(const ModelFile& model1, const ModelFile& model2);
+    friend bool operator==(const Model& model1, const Model& model2);
 
 private:
     // Private constructor to force use of addModelFile(filename)
-    ModelFile(const char* filename);
+    Model(const char* filename);
     // Private copy constructor to prevent use of it
-    ModelFile(const ModelFile& model) {};
+    Model(const Model& model) {};
     // Private copy assignment operator to prevent use of it
-    ModelFile& operator=(const ModelFile& model) { return *this; }
+    Model& operator=(const Model& model) { return *this; }
 
     // Reads model from file using assimp
     void readModelFromFile();
