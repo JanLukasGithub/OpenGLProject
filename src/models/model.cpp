@@ -9,7 +9,7 @@ int32 Model::addModelFile(const char* filename) {
     return modelFiles.size() - 1;
 }
 
-int32 Model::indexOf(const char* filename) {
+int32 Model::indexOf(const char* const filename) {
     std::vector<Model>::iterator found = std::find(modelFiles.begin(), modelFiles.end(), filename);
     return found == modelFiles.end() ? -1 : found.base() - modelFiles.data();
 }
@@ -20,6 +20,11 @@ int32 Model::indexOf(const Model& model) {
 
 Model& Model::getFromList(int32 index) {
     return modelFiles[index];
+}
+
+Model* Model::getFromList(const char* const filename) {
+    int index = indexOf(filename);
+    return index == -1 ? nullptr : &modelFiles[index];
 }
 
 int Model::getListSize() {

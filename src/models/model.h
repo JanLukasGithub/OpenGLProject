@@ -40,7 +40,7 @@ public:
      *
      * @return the index of the model with the specified filename or -1 if none was found
      */
-    static int32 indexOf(const char* filename);
+    static int32 indexOf(const char* const filename);
 
     /**
      * @brief Get the index of the specified modelFile
@@ -51,6 +51,13 @@ public:
 
     // Only allow access to the members of the vector, not the vector itself. Doesn't do bounds checking
     static Model& getFromList(int32 index);
+
+    /**
+     * @brief Get the model from the specified filename
+     * 
+     * @return the model with the specified filename or nullptr if none exists
+     */
+    static Model* getFromList(const char* const filename);
 
     // Return the size of the list
     static int getListSize();
