@@ -8,13 +8,15 @@
 class IndexBuffer {
 private:
 	GLuint m_bufferId{ 0 };
+	GLsizeiptr m_size{ 0 };
 
 public:
-	IndexBuffer(void* data, uint64 numIndices, uint8 elementSize);
-	virtual ~IndexBuffer();
+	IndexBuffer(const void* data, const uint64 numIndices, const uint8 elementSize) noexcept;
+	IndexBuffer(const IndexBuffer& ibo) noexcept;
+	virtual ~IndexBuffer() noexcept;
 
-	IndexBuffer* bind();
-	IndexBuffer* unbind();
+	IndexBuffer* bind() noexcept;
+	IndexBuffer* unbind() noexcept;
 };
 
 #endif /* INDEXBUFFER_H_ */
