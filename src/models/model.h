@@ -1,4 +1,4 @@
-class Model;
+class ModelInstance;
 
 #ifndef MODELS_MODEL_H_
 #define MODELS_MODEL_H_
@@ -19,7 +19,7 @@ class Model;
 #include "../shader.h"
 #include "../utils.h"
 
-class Model {
+class ModelInstance {
 public:
 	// Location of model mat uniform
 	inline static int modelMatLocation;
@@ -31,19 +31,19 @@ private:
 
 public:
 	// Reads the model from filename and initializes it with shader
-	Model(const char* filename);
+	ModelInstance(const char* filename);
 	// Reads the model from filename, initializes it with shader and adds the offset
-	Model(const char* filename, glm::vec3 position);
+	ModelInstance(const char* filename, glm::vec3 position);
 	// Reads the model from filename, initializes it with shader and uses the modelMatrix
-	Model(const char* filename, glm::mat4 modelMat);
+	ModelInstance(const char* filename, glm::mat4 modelMat);
 	// Initializes the model from the ModelFile
-	Model(ModelFile& modelFile);
+	ModelInstance(ModelFile& modelFile);
 	// Initializes the model from the ModelFile and places it at the position
-	Model(ModelFile& modelFile, glm::vec3 position);
+	ModelInstance(ModelFile& modelFile, glm::vec3 position);
 	// Initializes the model from the ModelFile and uses the modelMatrix
-	Model(ModelFile& modelFile, glm::mat4 modelMat);
+	ModelInstance(ModelFile& modelFile, glm::mat4 modelMat);
 	// Deletes meshes
-	virtual ~Model() {};
+	virtual ~ModelInstance() {};
 
 	// Translate the model
 	void translate(glm::vec3 translation);

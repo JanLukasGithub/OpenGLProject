@@ -63,7 +63,7 @@ private:
     // Holds the indices of the materials
     std::vector<uint32> m_materialIndices{};
     // Holds the Models made from this ModelFile
-    std::vector<Model*> m_models{};
+    std::vector<ModelInstance*> m_models{};
 
 public:
     // Move constructor
@@ -72,7 +72,7 @@ public:
     virtual ~ModelFile() noexcept;
 
     // Adds the model to the list of models with this ModelFile
-    void addModel(Model* model) noexcept;
+    void addModel(ModelInstance* model) noexcept;
 
     // Renders all models in the list
     void renderModels() noexcept;

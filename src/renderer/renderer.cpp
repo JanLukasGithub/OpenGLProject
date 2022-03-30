@@ -174,7 +174,7 @@ void Renderer::initUniforms() {
     m_invModelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_invModelView");
 
     // Update uniform locations of models
-    Model::initUniforms(m_shader3d);
+    ModelInstance::initUniforms(m_shader3d);
     Mesh::initUniforms(m_shader3d);
     // Update uniform locations of fonts
     Font::initUniforms(m_shaderFont);

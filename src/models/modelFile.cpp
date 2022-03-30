@@ -48,7 +48,7 @@ ModelFile::~ModelFile() noexcept {
     }
 }
 
-void ModelFile::addModel(Model* model) noexcept {
+void ModelFile::addModel(ModelInstance* model) noexcept {
     m_models.push_back(model);
 }
 
@@ -59,12 +59,12 @@ void ModelFile::renderModels() noexcept {
     // Loop over meshes
     for (int i = 0; i < m_meshes.size(); i++) {
         // Use render() the first time
-        glUniformMatrix4fv(Model::modelMatLocation, 1, GL_FALSE, &((m_models[0]->getModelMat())[0][0]));
+        glUniformMatrix4fv(ModelInstance::modelMatLocation, 1, GL_FALSE, &((m_models[0]->getModelMat())[0][0]));
         m_meshes[i]->render();
 
         // Loop over models
         for (int j = 1; j < m_models.size(); j++) {
-            glUniformMatrix4fv(Model::modelMatLocation, 1, GL_FALSE, &((m_models[j]->getModelMat())[0][0]));
+            glUniformMatrix4fv(ModelInstance::modelMatLocation, 1, GL_FALSE, &((m_models[j]->getModelMat())[0][0]));
             // Use fastRender() after that
             m_meshes[i]->fastRender();
         }
