@@ -15,7 +15,7 @@ class ModelInstance;
 
 #include "mesh.h"
 #include "material.h"
-#include "modelFile.h"
+#include "model.h"
 #include "../shader.h"
 #include "../utils.h"
 

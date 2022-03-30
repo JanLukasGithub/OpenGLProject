@@ -1,4 +1,4 @@
-#include "modelFile.h"
+#include "model.h"
 
 int32 Model::addModelFile(const char* filename) {
     int32 index = indexOf(filename);
