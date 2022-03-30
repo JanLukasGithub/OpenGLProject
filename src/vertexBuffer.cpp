@@ -1,6 +1,6 @@
 #include "vertexBuffer.h"
 
-VertexBuffer::VertexBuffer(void* data, uint64 numVertices, bool* hasNormalMap) {
+VertexBuffer::VertexBuffer(const void* data, const uint64 numVertices) noexcept {
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
@@ -23,16 +23,16 @@ VertexBuffer::VertexBuffer(void* data, uint64 numVertices, bool* hasNormalMap) {
 	glBindVertexArray(0);
 }
 
-VertexBuffer::~VertexBuffer() {
+VertexBuffer::~VertexBuffer() noexcept {
 	glDeleteBuffers(1, &m_bufferId);
 }
 
-VertexBuffer* VertexBuffer::bind() {
+VertexBuffer* VertexBuffer::bind() noexcept {
 	glBindVertexArray(m_vao);
 	return this;
 }
 
-VertexBuffer* VertexBuffer::unbind() {
+VertexBuffer* VertexBuffer::unbind() noexcept {
 	glBindVertexArray(0);
 	return this;
 }

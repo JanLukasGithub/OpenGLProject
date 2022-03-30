@@ -12,7 +12,7 @@ void Mesh::initUniforms(Shader* shader) {
 }
 
 Mesh::Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, int materialIndex) : m_numIndices{ indices->size() },
-m_vbo{ new VertexBuffer(vertices->data(), vertices->size(), &m_hasNormalMap) }, m_ibo{ new IndexBuffer(indices->data(),
+m_vbo{ new VertexBuffer(vertices->data(), vertices->size()) }, m_ibo{ new IndexBuffer(indices->data(),
 m_numIndices, sizeof(indices[0])) }, m_vertices{ vertices }, m_indices{ indices },
 m_hasNormalMap{ Material::materials[materialIndex].normalMapName.compare("") != 0 }, m_materialIndex{ materialIndex },
 m_hasDiffuseMap{ Material::materials[materialIndex].diffuseMapName.compare("") != 0 } {}

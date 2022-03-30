@@ -11,11 +11,11 @@ private:
 	GLuint m_vao{ 0 };
 
 public:
-	VertexBuffer(void* data, uint64 numVertices, bool* hasNormalMap);
-	virtual ~VertexBuffer();
+	VertexBuffer(const void* data, const uint64 numVertices) noexcept;
+	virtual ~VertexBuffer() noexcept;
 
-	VertexBuffer* bind();
-	VertexBuffer* unbind();
+	VertexBuffer* bind() noexcept;
+	VertexBuffer* unbind() noexcept;
 };
 
 #endif /* VERTEXBUFFER_H_ */
