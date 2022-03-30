@@ -23,7 +23,7 @@ VertexBuffer::VertexBuffer(const void* data, const uint64 numVertices) noexcept 
 	glBindVertexArray(0);
 }
 
-VertexBuffer::VertexBuffer(const VertexBuffer& vbo) noexcept {
+VertexBuffer::VertexBuffer(const VertexBuffer& vbo) noexcept : m_size{ vbo.m_size } {
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
