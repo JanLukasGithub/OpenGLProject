@@ -1,6 +1,6 @@
 #include "model.h"
 
-Model& Model::addModelFile(const char* filename) {
+Model& Model::addModelFile(const char* const filename) {
     Model* model = getFromList(filename);
     if (model)
         return *model;
@@ -9,25 +9,25 @@ Model& Model::addModelFile(const char* filename) {
     return modelFiles[modelFiles.size() - 1];
 }
 
-int32 Model::indexOf(const char* const filename) {
+int32 Model::indexOf(const char* const filename) noexcept {
     std::vector<Model>::iterator found = std::find(modelFiles.begin(), modelFiles.end(), filename);
     return found == modelFiles.end() ? -1 : found.base() - modelFiles.data();
 }
 
-int32 Model::indexOf(const Model& model) {
+int32 Model::indexOf(const Model& model) noexcept {
     return indexOf(model.m_filename);
 }
 
-Model& Model::getFromList(int32 index) {
+Model& Model::getFromList(const int32 index) noexcept {
     return modelFiles[index];
 }
 
-Model* Model::getFromList(const char* const filename) {
+Model* Model::getFromList(const char* const filename) noexcept {
     int index = indexOf(filename);
     return index == -1 ? nullptr : &modelFiles[index];
 }
 
-int Model::getListSize() {
+int Model::getListSize() noexcept {
     return modelFiles.size();
 }
 
@@ -40,7 +40,7 @@ Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ model.m_
     }
 }
 
-Model::Model(const char* filename) : m_filename{ filename } {
+Model::Model(const char* const filename) : m_filename{ filename } {
     readModelFromFile();
 }
 

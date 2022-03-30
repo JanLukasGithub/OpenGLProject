@@ -40,31 +40,31 @@ public:
      *
      * @return the index of the model with the specified filename or -1 if none was found
      */
-    static int32 indexOf(const char* const filename);
+    static int32 indexOf(const char* const filename) noexcept;
 
     /**
      * @brief Get the index of the specified modelFile
      *
      * @return the index of the specified model or -1 if none was found
      */
-    static int32 indexOf(const Model& model);
+    static int32 indexOf(const Model& model) noexcept;
 
     // Only allow access to the members of the vector, not the vector itself. Doesn't do bounds checking
-    static Model& getFromList(int32 index);
+    static Model& getFromList(const int32 index) noexcept;
 
     /**
      * @brief Get the model from the specified filename
      * 
      * @return the model with the specified filename or nullptr if none exists. Is invalidated when a model is added
      */
-    static Model* getFromList(const char* const filename);
+    static Model* getFromList(const char* const filename) noexcept;
 
     // Return the size of the list
-    static int getListSize();
+    static int getListSize() noexcept;
 
 private:
     // Name of this model
-    const char* m_filename;
+    const char* const m_filename;
     // Meshes of this model file
     std::vector<Mesh*> m_meshes{};
     // Holds the indices of the materials
@@ -93,7 +93,7 @@ private:
     // Private constructor to force use of addModelFile(filename)
     Model(const char* filename);
     // Private copy constructor to prevent use of it
-    Model(const Model& model) {};
+    Model(const Model& model) : m_filename{model.m_filename} {};
     // Private copy assignment operator to prevent use of it
     Model& operator=(const Model& model) { return *this; }
 
