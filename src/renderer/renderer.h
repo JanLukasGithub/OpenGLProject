@@ -25,7 +25,7 @@
 #include "../lights.h"
 #include "../cameras/flyingCamera.h"
 #include "../timer/timer.h"
-#include "../models/model.h"
+#include "../models/modelInstance.h"
 #include "../models/mesh.h"
 #include "../font/font.h"
 

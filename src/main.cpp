@@ -27,7 +27,7 @@
 
 #include "utils.h"
 #include "sdlEventHandler.h"
-#include "models/model.h"
+#include "models/modelInstance.h"
 #include "font/font.h"
 #include "renderer/renderer.h"
 

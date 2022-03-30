@@ -1,4 +1,4 @@
-#include "model.h"
+#include "modelInstance.h"
 
 void ModelInstance::initUniforms(Shader* shader) {
 	ModelInstance::modelMatLocation = glGetUniformLocation(shader->getShaderId(), "u_modelMat");

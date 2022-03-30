@@ -18,7 +18,7 @@ class ModelFile;
 #include "../utils.h"
 #include "mesh.h"
 #include "material.h"
-#include "model.h"
+#include "modelInstance.h"
 
 // Representation of a model file (.obj or similar) in code. Allows you to create Models
 class ModelFile {
