@@ -1,12 +1,12 @@
 #include "model.h"
 
-int32 Model::addModelFile(const char* filename) {
-    int32 index = indexOf(filename);
-    if (index != -1)
-        return index;
+Model& Model::addModelFile(const char* filename) {
+    Model* model = getFromList(filename);
+    if (model)
+        return *model;
 
     modelFiles.push_back(Model(filename));
-    return modelFiles.size() - 1;
+    return modelFiles[modelFiles.size() - 1];
 }
 
 int32 Model::indexOf(const char* const filename) {

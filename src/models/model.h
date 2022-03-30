@@ -30,9 +30,9 @@ public:
      * while also loading the model if it wasn't loaded before
      *
      * @param filename
-     * @return the index of the model with the specified filename
+     * @return a reference to the model added. Is invalidated when another one is added
      */
-    static int32 addModelFile(const char* filename);
+    static Model& addModelFile(const char* filename);
 
     /**
      * @brief Get the index of the modelFile with the specified filename. addModelFile(filename) can do this as well,
@@ -55,7 +55,7 @@ public:
     /**
      * @brief Get the model from the specified filename
      * 
-     * @return the model with the specified filename or nullptr if none exists
+     * @return the model with the specified filename or nullptr if none exists. Is invalidated when a model is added
      */
     static Model* getFromList(const char* const filename);
 

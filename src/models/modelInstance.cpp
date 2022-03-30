@@ -5,15 +5,15 @@ void ModelInstance::initUniforms(Shader* shader) {
 }
 
 ModelInstance::ModelInstance(const char* filename) {
-	Model::getFromList(Model::addModelFile(filename)).addModel(this);
+	Model::addModelFile(filename).addModel(this);
 }
 
 ModelInstance::ModelInstance(const char* filename, glm::vec3 position) : m_modelMat{ glm::translate(glm::mat4(1.0f), position) } {
-	Model::getFromList(Model::addModelFile(filename)).addModel(this);
+	Model::addModelFile(filename).addModel(this);
 }
 
 ModelInstance::ModelInstance(const char* filename, glm::mat4 modelMat) : m_modelMat{ modelMat } {
-	Model::getFromList(Model::addModelFile(filename)).addModel(this);
+	Model::addModelFile(filename).addModel(this);
 }
 
 ModelInstance::ModelInstance(Model& modelFile) {
