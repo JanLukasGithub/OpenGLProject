@@ -51,7 +51,7 @@ bool userModelLoad() {
 
 	// Load model
 	try {
-		Model::addModelFile(modelname->c_str()).addModel(new ModelInstance(glm::vec3((numModels - 1) * 5.0f, 0.0f, 0.0f)));
+		Model::addModelFile(modelname->c_str()).addInstance(glm::vec3((numModels - 1) * 5.0f, 0.0f, 0.0f));
 		numModels++;
 	}
 	catch (const std::exception& e) {
@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
 	Renderer* renderer = new Renderer();
 
 	// Always load the floor
-	Model::addModelFile("assets/models/Floor/Floor.obj").addModel(new ModelInstance(glm::vec3(0.0f, -1.0f, 0.0f)));
+	Model::addModelFile("assets/models/Floor/Floor.obj").addInstance(glm::vec3(0.0f, -1.0f, 0.0f));
 	numModels++;
 
 	if (argc < 2) {
@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
 		// Load models
 		for (int i = 1; i < argc; i++) {
 			try {
-				Model::addModelFile(argv[i]).addModel(new ModelInstance(glm::vec3((numModels - 1) * 5.0f, 0.0f, 0.0f)));
+				Model::addModelFile(argv[i]).addInstance(glm::vec3((numModels - 1) * 5.0f, 0.0f, 0.0f));
 				numModels++;
 			}
 			catch (const std::exception& e) {
@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
 		}
 
 		if (handler->keyPressed(SDLK_l)) {
-			Model::addModelFile("assets/models/QuadrupedTank/QuadrupedTank.obj").addModel(new ModelInstance(renderer->getCamera().getPosition()));
+			Model::addModelFile("assets/models/QuadrupedTank/QuadrupedTank.obj").addInstance(renderer->getCamera().getPosition());
 			numModels++;
 		}
 
