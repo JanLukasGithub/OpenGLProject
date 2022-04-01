@@ -55,7 +55,8 @@ bool userModelLoad() {
 		numModels++;
 	}
 	catch (const std::exception& e) {
-		std::cout << e.what() << std::endl;
+		std::cerr << "Error occurred while loading model " << modelname << "!" << std::endl;
+		std::cerr << e.what() << std::endl;
 	}
 
 	// User didn't abort
@@ -81,8 +82,8 @@ int main(int argc, char** argv) {
 				numModels++;
 			}
 			catch (const std::exception& e) {
-				std::cout << "Error occurred while loading model " << argv[i] << "!" << std::endl;
-				std::cout << e.what() << std::endl;
+				std::cerr << "Error occurred while loading model " << argv[i] << "!" << std::endl;
+				std::cerr << e.what() << std::endl;
 			}
 		}
 	}
