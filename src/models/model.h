@@ -78,8 +78,6 @@ public:
     // Deconstructor
     virtual ~Model() noexcept;
 
-    // Adds the model to the list of models with this Model
-    void addModel(ModelInstance* model) noexcept;
     // Adds an instance
     void addInstance() noexcept;
     // Adds an instance at the specified position

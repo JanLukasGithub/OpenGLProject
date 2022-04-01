@@ -53,10 +53,6 @@ Model::~Model() noexcept {
     }
 }
 
-void Model::addModel(ModelInstance* model) noexcept {
-    m_models.push_back(model);
-}
-
 void Model::addInstance() noexcept {
     m_models.push_back(new ModelInstance());
 }
