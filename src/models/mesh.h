@@ -48,9 +48,9 @@ public:
 	virtual ~Mesh();
 
 	// Renders this mesh
-	void render();
+	void render() const;
 	// Renders this mesh without setting vbo, ibo or anything. Use when rendering the same mesh multiple times
-	void fastRender();
+	void fastRender() const;
 
 	const std::vector<uint32>* getIndices() const noexcept;
 

@@ -33,7 +33,7 @@ Mesh::~Mesh() {
 	delete m_ibo;
 }
 
-void Mesh::render() {
+void Mesh::render() const {
 	Material material = Material::materials[m_materialIndex];
 
 	m_vbo->bind();
@@ -53,7 +53,7 @@ void Mesh::render() {
 	glDrawElements(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_INT, 0);
 }
 
-void Mesh::fastRender() {
+void Mesh::fastRender() const {
 	glDrawElements(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_INT, 0);
 }
 

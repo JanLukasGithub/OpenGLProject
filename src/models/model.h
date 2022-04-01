@@ -86,7 +86,7 @@ public:
     void addInstance(const glm::mat4 modelMat) noexcept;
 
     // Renders all models in the list
-    void renderModels() noexcept;
+    void renderModels() const noexcept;
 
     // Checks if the filename of model and filename are equal
     friend bool operator==(const Model& model, const char* const filename);

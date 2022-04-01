@@ -65,7 +65,7 @@ void Model::addInstance(const glm::mat4 modelMat) noexcept {
     m_models.push_back(new ModelInstance(modelMat));
 }
 
-void Model::renderModels() noexcept {
+void Model::renderModels() const noexcept {
     if (m_models.size() < 1)
         return;
 
