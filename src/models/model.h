@@ -32,7 +32,7 @@ public:
      * @param filename
      * @return a reference to the model added. Is invalidated when another one is added
      */
-    static Model& addModelFile(const char* filename);
+    static Model& addModelFile(const char* const filename);
 
     /**
      * @brief Get the index of the modelFile with the specified filename. addModelFile(filename) can do this as well,
