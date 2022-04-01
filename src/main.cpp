@@ -27,6 +27,7 @@
 
 #include "utils.h"
 #include "sdlEventHandler.h"
+#include "models/model.h"
 #include "models/modelInstance.h"
 #include "font/font.h"
 #include "renderer/renderer.h"
@@ -50,7 +51,7 @@ bool userModelLoad() {
 
 	// Load model
 	try {
-		new ModelInstance(modelname->c_str(), glm::vec3((numModels - 1) * 5.0f, 0.0f, 0.0f));
+		Model::addModelFile(modelname->c_str()).addModel(new ModelInstance(modelname->c_str(), glm::vec3((numModels - 1) * 5.0f, 0.0f, 0.0f)));
 		numModels++;
 	}
 	catch (const std::exception& e) {
@@ -66,7 +67,7 @@ int main(int argc, char** argv) {
 	Renderer* renderer = new Renderer();
 
 	// Always load the floor
-	new ModelInstance("assets/models/Floor/Floor.obj", glm::vec3(0.0f, -1.0f, 0.0f));
+	Model::addModelFile("assets/models/Floor/Floor.obj").addModel(new ModelInstance("assets/models/Floor/Floor.obj", glm::vec3(0.0f, -1.0f, 0.0f)));
 	numModels++;
 
 	if (argc < 2) {
@@ -76,7 +77,7 @@ int main(int argc, char** argv) {
 		// Load models
 		for (int i = 1; i < argc; i++) {
 			try {
-				new ModelInstance(argv[i], glm::vec3((numModels - 1) * 5.0f, 0.0f, 0.0f));
+				Model::addModelFile(argv[i]).addModel(new ModelInstance(argv[i], glm::vec3((numModels - 1) * 5.0f, 0.0f, 0.0f)));
 				numModels++;
 			}
 			catch (const std::exception& e) {
@@ -117,7 +118,7 @@ int main(int argc, char** argv) {
 		}
 
 		if (handler->keyPressed(SDLK_l)) {
-			new ModelInstance("assets/models/QuadrupedTank/QuadrupedTank.obj", renderer->getCamera().getPosition());
+			Model::addModelFile("assets/models/QuadrupedTank/QuadrupedTank.obj").addModel(new ModelInstance("assets/models/QuadrupedTank/QuadrupedTank.obj", renderer->getCamera().getPosition()));
 			numModels++;
 		}
 

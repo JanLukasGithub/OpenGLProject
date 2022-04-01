@@ -4,29 +4,17 @@ void ModelInstance::initUniforms(Shader* shader) {
 	ModelInstance::modelMatLocation = glGetUniformLocation(shader->getShaderId(), "u_modelMat");
 }
 
-ModelInstance::ModelInstance(const char* filename) {
-	Model::addModelFile(filename).addModel(this);
-}
+ModelInstance::ModelInstance(const char* filename) {}
 
-ModelInstance::ModelInstance(const char* filename, glm::vec3 position) : m_modelMat{ glm::translate(glm::mat4(1.0f), position) } {
-	Model::addModelFile(filename).addModel(this);
-}
+ModelInstance::ModelInstance(const char* filename, glm::vec3 position) : m_modelMat{ glm::translate(glm::mat4(1.0f), position) } {}
 
-ModelInstance::ModelInstance(const char* filename, glm::mat4 modelMat) : m_modelMat{ modelMat } {
-	Model::addModelFile(filename).addModel(this);
-}
+ModelInstance::ModelInstance(const char* filename, glm::mat4 modelMat) : m_modelMat{ modelMat } {}
 
-ModelInstance::ModelInstance(Model& modelFile) {
-	modelFile.addModel(this);
-}
+ModelInstance::ModelInstance(Model& modelFile) {}
 
-ModelInstance::ModelInstance(Model& modelFile, glm::vec3 position) : m_modelMat{ glm::translate(glm::mat4(1.0f), position) } {
-	modelFile.addModel(this);
-}
+ModelInstance::ModelInstance(Model& modelFile, glm::vec3 position) : m_modelMat{ glm::translate(glm::mat4(1.0f), position) } {}
 
-ModelInstance::ModelInstance(Model& modelFile, glm::mat4 modelMat) : m_modelMat{ modelMat } {
-	modelFile.addModel(this);
-}
+ModelInstance::ModelInstance(Model& modelFile, glm::mat4 modelMat) : m_modelMat{ modelMat } {}
 
 void ModelInstance::translate(glm::vec3 translation) {
 	m_modelMat = glm::translate(m_modelMat, translation);
