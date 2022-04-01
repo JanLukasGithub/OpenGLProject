@@ -28,7 +28,7 @@
 #include "utils.h"
 #include "sdlEventHandler.h"
 #include "models/model.h"
-#include "models/modelInstance.h"
+#include "models/modelUtils.h"
 #include "font/font.h"
 #include "renderer/renderer.h"
 
@@ -66,6 +66,8 @@ bool userModelLoad() {
 int main(int argc, char** argv) {
 	// Renderer
 	Renderer* renderer = new Renderer();
+
+	utils::loadModelsFrom("assets/models/");
 
 	// Always load the floor
 	Model::addModelFile("assets/models/Floor/Floor.obj").addInstance(glm::vec3(0.0f, -1.0f, 0.0f));
