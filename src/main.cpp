@@ -36,10 +36,9 @@ int numModels = 0;
 /**
  * @brief asks the user for a model to load in std input and loads the model
  *
- * @param modelList
  * @return false if user input was "none", "n" or "", true otherwise
  */
-bool userModelLoad(Renderer* renderer) {
+bool userModelLoad() {
 	std::string* modelname = new std::string();
 	// Ask the user what model he wants to load
 	std::cout << "Please input the filename of the model you want to load or \"none\", \"n\" or \"\" to abort" << std::endl;
@@ -72,7 +71,7 @@ int main(int argc, char** argv) {
 
 	if (argc < 2) {
 		// Load models
-		while (userModelLoad(renderer));
+		while (userModelLoad());
 	} else {
 		// Load models
 		for (int i = 1; i < argc; i++) {
