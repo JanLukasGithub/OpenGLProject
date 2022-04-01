@@ -3,21 +3,10 @@ class ModelInstance;
 #ifndef MODELS_MODEL_H_
 #define MODELS_MODEL_H_
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
-#include <algorithm>
-
-#include "../../lib/stb_image.h"
 #include "../../lib/glm/glm.hpp"
 #include "../../lib/glm/gtc/matrix_transform.hpp"
 
-#include "mesh.h"
-#include "material.h"
-#include "model.h"
 #include "../shader.h"
-#include "../utils.h"
 
 class ModelInstance {
 public:
@@ -30,18 +19,12 @@ private:
 	glm::mat4 m_modelMat{ 1.0f };
 
 public:
-	// Reads the model from filename and initializes it with shader
-	ModelInstance(const char* filename);
-	// Reads the model from filename, initializes it with shader and adds the offset
-	ModelInstance(const char* filename, glm::vec3 position);
-	// Reads the model from filename, initializes it with shader and uses the modelMatrix
-	ModelInstance(const char* filename, glm::mat4 modelMat);
-	// Initializes the model from the ModelFile
-	ModelInstance(Model& modelFile);
-	// Initializes the model from the ModelFile and places it at the position
-	ModelInstance(Model& modelFile, glm::vec3 position);
-	// Initializes the model from the ModelFile and uses the modelMatrix
-	ModelInstance(Model& modelFile, glm::mat4 modelMat);
+	// Model at position 0, 0, 0
+	ModelInstance();
+	// Model at specified position
+	ModelInstance(glm::vec3 position);
+	// Model using the specified modelMat
+	ModelInstance(glm::mat4 modelMat);
 	// Deletes meshes
 	virtual ~ModelInstance() {};
 
