@@ -15,7 +15,7 @@ void utils::loadModelsFrom(const char* const path) noexcept {
             return;
 
         try {
-            Model::addModelFile(path);
+            Model::addModelFile((new std::string(path))->c_str());
         } catch (const std::exception& e) {
 		std::cerr << "Error occurred while loading model " << path << "!" << std::endl;
             std::cerr << e.what() << std::endl;
