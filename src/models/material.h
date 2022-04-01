@@ -33,8 +33,6 @@ public:
 	 * @return true if all members except for 'diffuseMap' and 'normalMap' are equal, false otherwise
 	 */
 	bool operator==(const Material& mat);
-
-	friend std::ostream& operator<<(std::ostream& out, const Material& mat);
 };
 
 #endif
