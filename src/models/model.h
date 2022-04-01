@@ -40,14 +40,14 @@ public:
      *
      * @return the index of the model with the specified filename or -1 if none was found
      */
-    static int32 indexOf(const char* const filename) noexcept;
+    static const int32 indexOf(const char* const filename) noexcept;
 
     /**
      * @brief Get the index of the specified modelFile
      *
      * @return the index of the specified model or -1 if none was found
      */
-    static int32 indexOf(const Model& model) noexcept;
+    static const int32 indexOf(const Model& model) noexcept;
 
     // Only allow access to the members of the vector, not the vector itself. Doesn't do bounds checking
     static Model& getFromList(const int32 index) noexcept;
@@ -60,7 +60,7 @@ public:
     static Model* getFromList(const char* const filename) noexcept;
 
     // Return the size of the list
-    static int getListSize() noexcept;
+    static const int getListSize() noexcept;
 
 private:
     // Name of this model
@@ -80,6 +80,12 @@ public:
 
     // Adds the model to the list of models with this Model
     void addModel(ModelInstance* model) noexcept;
+    // Adds an instance
+    void addInstance() noexcept;
+    // Adds an instance at the specified position
+    void addInstance(const glm::vec3 position) noexcept;
+    // Adds an instance using the specified model matrix
+    void addInstance(const glm::mat4 modelMat) noexcept;
 
     // Renders all models in the list
     void renderModels() noexcept;

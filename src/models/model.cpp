@@ -9,12 +9,12 @@ Model& Model::addModelFile(const char* const filename) {
     return modelFiles[modelFiles.size() - 1];
 }
 
-int32 Model::indexOf(const char* const filename) noexcept {
+const int32 Model::indexOf(const char* const filename) noexcept {
     std::vector<Model>::iterator found = std::find(modelFiles.begin(), modelFiles.end(), filename);
     return found == modelFiles.end() ? -1 : found.base() - modelFiles.data();
 }
 
-int32 Model::indexOf(const Model& model) noexcept {
+const int32 Model::indexOf(const Model& model) noexcept {
     return indexOf(model.m_filename);
 }
 
@@ -27,7 +27,7 @@ Model* Model::getFromList(const char* const filename) noexcept {
     return index == -1 ? nullptr : &modelFiles[index];
 }
 
-int Model::getListSize() noexcept {
+const int Model::getListSize() noexcept {
     return modelFiles.size();
 }
 
@@ -55,6 +55,18 @@ Model::~Model() noexcept {
 
 void Model::addModel(ModelInstance* model) noexcept {
     m_models.push_back(model);
+}
+
+void Model::addInstance() noexcept {
+    m_models.push_back(new ModelInstance());
+}
+
+void Model::addInstance(const glm::vec3 position) noexcept {
+    m_models.push_back(new ModelInstance(position));
+}
+
+void Model::addInstance(const glm::mat4 modelMat) noexcept {
+    m_models.push_back(new ModelInstance(modelMat));
 }
 
 void Model::renderModels() noexcept {
