@@ -65,21 +65,16 @@ void main() {
 	// Vector from fragment to camera (camera always at 0,0,0)
 	vec3 view = normalize(-v_position);
 	
-	// Normal
-	vec3 normal = vec3(0.5, 0.5, 1.0);
-	// Normal from normal map if it exists
-	if (u_hasNormalMap)
-		normal = texture(u_normalMap, v_textureCoords).rgb;
+	// Normal from normal map if it exists or default if not
+	vec3 normal = int(u_hasNormalMap) * texture(u_normalMap, v_textureCoords).rgb + int(!u_hasNormalMap) * vec3(0.5, 0.5, 1.0);
 	// Scale from 0.0 - 1.0 to -1.0 - 1.0
 	normal = normalize(normal * 2.0 - 1.0);
 	// Actual normal
 	normal = normalize(v_tbn * normal);
 	
 	// Get diffuse color from material or texture
-	vec4 diffuseColor = vec4(u_material.diffuse, 1.0);
-	if (u_hasDiffuseMap) {
-		diffuseColor = texture(u_diffuseMap, v_textureCoords);
-	}
+	vec4 diffuseColor = int(u_hasDiffuseMap) * texture(u_diffuseMap, v_textureCoords) + int(!u_hasDiffuseMap) * vec4(u_material.diffuse, 1.0);
+	// If the alpha is to small, don't render the fragment
 	if (diffuseColor.w < 0.9) {
 		discard;
 	}
@@ -114,16 +109,12 @@ void main() {
 	distance = length(u_spotLight.position - v_position);
 	attenuation = 1.0f / ((1.0f) + (u_spotLight.linear * distance) + (u_spotLight.quadratic * distance * distance));
 	
-	if (theta > u_spotLight.outerCone) {
-		float epsilon = u_spotLight.innerCone - u_spotLight.outerCone;
-		float intensity = clamp((theta - u_spotLight.outerCone) / epsilon, 0.0f, 1.0f);
+	float epsilon = u_spotLight.innerCone - u_spotLight.outerCone;
+	float intensity = clamp((theta - u_spotLight.outerCone) / epsilon, 0.0f, 1.0f) * int(theta > u_spotLight.outerCone);
 	
-		ambient += attenuation * u_spotLight.ambient * diffuseColor.xyz;
-		diffuse += intensity * attenuation * max(dot(normal, light), 0.0) * diffuseColor.xyz * u_spotLight.diffuse;
-		specular += intensity * attenuation * pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * u_spotLight.specular;
-	} else {
-		ambient += attenuation * u_spotLight.ambient * diffuseColor.xyz;
-	}
+	diffuse += intensity * attenuation * max(dot(normal, light), 0.0) * diffuseColor.xyz * u_spotLight.diffuse;
+	specular += intensity * attenuation * pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * u_spotLight.specular;
+	ambient += attenuation * u_spotLight.ambient * diffuseColor.xyz;
 
 	// Final color
     f_color = vec4(ambient + diffuse + specular + u_material.emissive, 1.0f);
