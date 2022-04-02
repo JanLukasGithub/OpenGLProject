@@ -24,16 +24,12 @@ void main() {
     gl_Position = u_modelViewProj * worldSpacePosition;
     
     v_position = vec3(u_modelView * worldSpacePosition);
-    
-    v_tbn = mat3(1.0);
-    if (u_hasNormalMap) {
-        vec3 t = normalize(mat3(u_invModelView) * a_tangent);
-        vec3 n = normalize(mat3(u_invModelView) * a_normal);
-        t = normalize(t - dot(t, n) * n); // Reorthogonalize with Gram-Schmidt process
-        vec3 b = normalize(mat3(u_invModelView) * cross(n, t));
-        mat3 tbn = transpose(mat3(t, b, n)); // Transpose is equal to inverse in this case
-        v_tbn = tbn;
-    }
+
+    vec3 t = normalize(mat3(u_invModelView) * a_tangent);
+    vec3 n = normalize(mat3(u_invModelView) * a_normal);
+    t = normalize(t - dot(t, n) * n); // Reorthogonalize with Gram-Schmidt process
+    vec3 b = normalize(mat3(u_invModelView) * cross(n, t));
+    v_tbn = transpose(mat3(t, b, n)) * int(u_hasNormalMap) + mat3(1.0) * int (!u_hasNormalMap);
     
     v_textureCoords = a_textureCoords;
 }
