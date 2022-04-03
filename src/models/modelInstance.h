@@ -1,5 +1,3 @@
-class ModelInstance;
-
 #ifndef MODELS_MODEL_H_
 #define MODELS_MODEL_H_
 

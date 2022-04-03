@@ -1,5 +1,3 @@
-class FpsCamera;
-
 #ifndef CAMERAS_FPSCAMERA_H_
 #define CAMERAS_FPSCAMERA_H_
 

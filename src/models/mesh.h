@@ -1,5 +1,3 @@
-class Mesh;
-
 #ifndef MESH_H_
 #define MESH_H_
 

@@ -1,5 +1,3 @@
-class SdlEventHandler;
-
 #ifndef SDLEVENTHANDLER_H_
 #define SDLEVENTHANDLER_H_
 

@@ -1,5 +1,3 @@
-class Gui;
-
 #include <GL/glew.h>
 
 #include "../utils.h"

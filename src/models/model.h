@@ -1,5 +1,3 @@
-class Model;
-
 #ifndef _MODEL_FILE_H_
 #define _MODEL_FILE_H_
 
