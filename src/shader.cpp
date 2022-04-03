@@ -49,18 +49,25 @@ std::string Shader::parse(const char* filename) {
     FILE* file;
     file = fopen(filename, "rb");
     if (file == nullptr) {
-        std::cerr << "File " << filename << " could not be read" << std::endl;
+        std::cerr << "Shader " << filename << " could not be opened!" << std::endl;
         return 0;
     }
 
     std::string contents;
-    fseek(file, 0, SEEK_END);
-    size_t filesize = ftell(file);
-    rewind(file);
-    contents.resize(filesize);
+    try {
+        fseek(file, 0, SEEK_END);
+        size_t filesize = ftell(file);
+        rewind(file);
+        contents.resize(filesize);
 
-    fread(&contents[0], 1, filesize, file);
-    fclose(file);
+        if (fread(&contents[0], 1, filesize, file) != filesize) {
+            std::cerr << "Shader " << filename << " had issues during reading! This may cause problems!" << std::endl;
+        }
+        fclose(file);
+    } catch (...) {
+        std::cerr << "Shader " << filename << " could not be read!" << std::endl;
+        fclose(file);
+    }
 
     return contents;
 }
