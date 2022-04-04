@@ -28,6 +28,7 @@
 #include "../models/modelInstance.h"
 #include "../models/mesh.h"
 #include "../font/font.h"
+#include "../terrain/terrain.h"
 
 class Renderer {
 public:

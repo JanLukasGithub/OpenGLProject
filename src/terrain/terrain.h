@@ -3,9 +3,15 @@
 
 #include "../renderer/IRenderable.h"
 #include "../utils.h"
+#include "../shader.h"
 
 // Represents a part of the terrain. Multiple instances can be used
 class Terrain : IRenderable {
+private:
+    inline static int offsetUniformLocation{0};
+    inline static int sizeUniformLocation{0};
+public:
+    static void initUniforms(const Shader* shader);
 private:
     // Offset of the smallest corner from 0, 0, 0
     const int m_offsetX, m_offsetZ;

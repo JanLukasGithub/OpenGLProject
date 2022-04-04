@@ -173,11 +173,12 @@ void Renderer::initUniforms() {
     m_modelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelView");
     m_invModelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_invModelView");
 
-    // Update uniform locations of models
+    // Update uniforms
     ModelInstance::initUniforms(m_shader3d);
     Mesh::initUniforms(m_shader3d);
-    // Update uniform locations of fonts
     Font::initUniforms(m_shaderFont);
+    // TODO own shader for terrain
+    Terrain::initUniforms(m_shader3d);
 }
 
 void Renderer::reset() {
