@@ -16,9 +16,9 @@ public:
     static void initUniforms(const Shader* shader);
 private:
     // Vertex Buffer 
-    int m_vao, m_vboBufferId;
+    GLuint m_vao, m_vboBufferId;
     // Index Buffer
-    int m_iboBufferId;
+    GLuint m_iboBufferId;
 
     // Offset of the smallest corner from 0, 0, 0
     const int m_offsetX, m_offsetZ;
@@ -29,12 +29,18 @@ private:
     // Terrain heights of the terrain chunk this represents. Has the size (m_sizeX / 2) * (m_sizeZ / 2) = (m_sizeX * m_sizeZ) / 4
     // (16384m / 2m)² * 2Byte ≈ 268MB. 32km ≈ 1GB
     // short just to get a 16bit value, treat as a float
-    const short m_heightMap[];
+    short* m_heightMap;
 
 public:
+    Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const short* const heightMap) noexcept;
+    Terrain(Terrain&& terrain) noexcept;
+    virtual ~Terrain() noexcept;
+
     // Renders this part of the terrain
     virtual void render() const noexcept override;
 
+private:
+    void init() noexcept;
 };
 
 #endif
