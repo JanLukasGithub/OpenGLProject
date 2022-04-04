@@ -17,9 +17,10 @@
 #include "mesh.h"
 #include "material.h"
 #include "modelInstance.h"
+#include "../renderer/IRenderable.h"
 
 // Representation of a model file (.obj or similar) in code. Allows you to create Models
-class Model {
+class Model : IRenderable {
 private:
     inline static std::vector<Model> modelFiles{};
 public:
@@ -85,6 +86,7 @@ public:
 
     // Renders all models in the list
     void renderModels() const noexcept;
+    virtual void render() const noexcept override;
 
     // Checks if the filename of model and filename are equal
     friend bool operator==(const Model& model, const char* const filename);
