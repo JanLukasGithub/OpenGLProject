@@ -34,6 +34,9 @@ void Terrain::render() const noexcept {
     glUniform1i(sizeUniformLocation, m_sizeX);
     glUniform2i(offsetUniformLocation, m_offsetX, m_offsetZ);
 
+    glBindVertexArray(m_vao);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboBufferId);
+
     for (int i = 0; i < m_sizeZ - 1; i++) {
         glDrawRangeElements(GL_TRIANGLE_STRIP, i * m_sizeX * 2, (i + 1) * m_sizeX * 2, m_sizeX * 2, GL_UNSIGNED_INT, 0);
     }
@@ -57,15 +60,14 @@ void Terrain::init() noexcept {
     // Ibo
     glGenBuffers(1, &m_iboBufferId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboBufferId);
-
     // Actually allocates memory for the buffer with the size m_sizeX * m_sizeZ * 4 but doesn't initialize that memory
-    glBufferData(GL_ARRAY_BUFFER, m_sizeX * m_sizeZ * 4, nullptr, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_sizeX * m_sizeZ * 4, nullptr, GL_STATIC_DRAW);
 
     // A buffer with m_sizeX * 2 per strip, tightly packed together m_sizeZ - 1 times
     for (uint32 z = 0; z < m_sizeZ - 1; z++) {
         for (uint32 x = z * m_sizeX; x < (z + 1) * m_sizeX; x++) {
             uint32 values[] = { x, x + m_sizeX };
-            glBufferSubData(GL_ARRAY_BUFFER, x * sizeof(values), sizeof(values), &values);
+            glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, x * sizeof(values), sizeof(values), &values);
         }
     }
 }
