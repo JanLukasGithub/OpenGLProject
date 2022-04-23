@@ -94,9 +94,8 @@ int main(int argc, char** argv) {
 	// Handle SDL events (keyboard, mouse, ...)
 	SdlEventHandler* handler = new SdlEventHandler();
 
-	short heightMap[] = { glm::detail::toFloat16(0.0f), glm::detail::toFloat16(1.0f), glm::detail::toFloat16(1.0f), glm::detail::toFloat16(0.0f),
-		glm::detail::toFloat16(0.0f), glm::detail::toFloat16(1.0f), glm::detail::toFloat16(1.0f), glm::detail::toFloat16(0.0f), glm::detail::toFloat16(1.0f) };
-	Terrain* terrain = new Terrain(0, 0, 3, 3, heightMap);
+	short heightMap[10000]{ glm::detail::toFloat16(0.0f) };
+	Terrain* terrain = new Terrain(0, 0, 100, 100, heightMap);
 
 	bool isEscMenuOpen = false;
 	bool running = true;
