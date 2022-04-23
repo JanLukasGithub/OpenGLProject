@@ -6,25 +6,18 @@ void Terrain::initUniforms(const Shader* shader) {
 }
 
 Terrain::Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const short* const heightMap) noexcept : m_offsetX{ offsetX },
-m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ }, m_heightMap{ new short[sizeX * sizeZ] } {
-    memcpy(m_heightMap, heightMap, sizeof(*m_heightMap)* sizeX* sizeZ);
-
-    init();
+m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
+    init(heightMap);
 }
 
 Terrain::Terrain(Terrain&& terrain) noexcept : m_offsetX{ terrain.m_offsetX }, m_offsetZ{ terrain.m_offsetZ }, m_sizeX{ terrain.m_sizeX },
-m_sizeZ{ terrain.m_sizeZ }, m_heightMap{ terrain.m_heightMap }, m_iboBufferId{ terrain.m_iboBufferId }, m_vboBufferId{ terrain.m_vboBufferId },
-m_vao{ terrain.m_vao } {
-    terrain.m_heightMap = nullptr;
-
+m_sizeZ{ terrain.m_sizeZ }, m_iboBufferId{ terrain.m_iboBufferId }, m_vboBufferId{ terrain.m_vboBufferId }, m_vao{ terrain.m_vao } {
     terrain.m_iboBufferId = 0;
     terrain.m_vboBufferId = 0;
     terrain.m_vao = 0;
 }
 
 Terrain::~Terrain() noexcept {
-    delete[] m_heightMap;
-
     glDeleteBuffers(1, &m_iboBufferId);
     glDeleteBuffers(1, &m_vboBufferId);
     glDeleteVertexArrays(1, &m_vao);
@@ -42,7 +35,7 @@ void Terrain::render() const noexcept {
     }
 }
 
-void Terrain::init() noexcept {
+void Terrain::init(const short* const heightMap) noexcept {
     // Vao
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);
@@ -50,7 +43,7 @@ void Terrain::init() noexcept {
     // Vbo
     glGenBuffers(1, &m_vboBufferId);
     glBindBuffer(GL_ARRAY_BUFFER, m_vboBufferId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(*m_heightMap) * m_sizeX * m_sizeZ, m_heightMap, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(*heightMap) * m_sizeX * m_sizeZ, heightMap, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 1, GL_HALF_FLOAT, GL_FALSE, 0, 0);
