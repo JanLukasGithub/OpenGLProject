@@ -13,7 +13,6 @@
 
 // Glm
 #include "../lib/glm/glm.hpp"
-#include "../lib/glm/detail/type_half.hpp"
 
 // SDL
 #define SDL_MAIN_HANDLED
