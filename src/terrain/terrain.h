@@ -14,6 +14,7 @@ private:
     inline static int sizeUniformLocation{0};
 public:
     static void initUniforms(const Shader* shader);
+
 private:
     // Vertex Buffer 
     GLuint m_vao, m_vboBufferId;
@@ -33,6 +34,19 @@ public:
 
     // Renders this part of the terrain
     virtual void render() const noexcept override;
+
+    // Has to read from VRAM -> bad performance
+    // Returns NaN when x and/or z are out of bounds
+    float getHeightAt(int x, int z) const;
+
+    // Has to write to VRAM -> bad performance
+    // Does nothing when x and/or z are out of bounds
+    void setHeightAt(int x, int z, float value) const;
+
+    int getSizeX() const noexcept;
+    int getSizeZ() const noexcept;
+    int getOffsetX() const noexcept;
+    int getOffsetZ() const noexcept;
 
 private:
     void init(const short* const heightMap) noexcept;

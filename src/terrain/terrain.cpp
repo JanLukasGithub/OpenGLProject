@@ -64,3 +64,30 @@ void Terrain::init(const short* const heightMap) noexcept {
         }
     }
 }
+
+float Terrain::getHeightAt(int x, int z) const {
+    if (x >= m_sizeX || z >= m_sizeZ || x < 0 || z < 0)
+        return NAN;
+
+    short storeTo{};
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_vboBufferId);
+    glGetBufferSubData(GL_ARRAY_BUFFER, (z * m_sizeX + x) * sizeof(storeTo), sizeof(storeTo), &storeTo);
+
+    return glm::detail::toFloat32(storeTo);
+}
+
+void Terrain::setHeightAt(int x, int z, float value) const {
+    if (x >= m_sizeX || z >= m_sizeZ || x < 0 || z < 0)
+        return;
+
+    short halfFloatValue{ glm::detail::toFloat16(value) };
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_vboBufferId);
+    glBufferSubData(GL_ARRAY_BUFFER, (z * m_sizeX + x) * sizeof(halfFloatValue), sizeof(halfFloatValue), &halfFloatValue);
+}
+
+int Terrain::getOffsetX() const noexcept { return m_offsetX; }
+int Terrain::getOffsetZ() const noexcept { return m_offsetZ; }
+int Terrain::getSizeX() const noexcept { return m_sizeX; }
+int Terrain::getSizeZ() const noexcept { return m_sizeZ; }
