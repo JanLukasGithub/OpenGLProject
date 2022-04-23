@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
 	SdlEventHandler* handler = new SdlEventHandler();
 
 	short heightMap[10000]{ glm::detail::toFloat16(0.0f) };
-	Terrain* terrain = new Terrain(0, 0, 100, 100, heightMap);
+	Terrain* terrain = new Terrain(-50, -50, 100, 100, heightMap);
 
 	bool isEscMenuOpen = false;
 	bool running = true;
