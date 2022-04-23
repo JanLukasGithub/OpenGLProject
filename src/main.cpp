@@ -13,6 +13,7 @@
 
 // Glm
 #include "../lib/glm/glm.hpp"
+#include "../lib/glm/detail/type_half.hpp"
 
 // SDL
 #define SDL_MAIN_HANDLED
@@ -31,6 +32,7 @@
 #include "models/modelUtils.h"
 #include "font/font.h"
 #include "renderer/renderer.h"
+#include "terrain/terrain.h"
 
 int numModels = 0;
 
@@ -51,7 +53,7 @@ bool userModelLoad() {
 
 	// Load model
 	try {
-		Model::addModelFile(modelname->c_str()).addInstance(glm::vec3((numModels - 1) * 5.0f, 0.0f, 0.0f));
+		Model::addModelFile(modelname->c_str()).addInstance(glm::vec3(numModels * 5.0f, 0.0f, 0.0f));
 		numModels++;
 	}
 	catch (const std::exception& e) {
@@ -69,10 +71,6 @@ int main(int argc, char** argv) {
 
 	utils::loadModelsFrom("assets/models/");
 
-	// Always load the floor
-	Model::addModelFile("assets/models/Floor/Floor.obj").addInstance(glm::vec3(0.0f, -1.0f, 0.0f));
-	numModels++;
-
 	if (argc < 2) {
 		// Load models
 		while (userModelLoad());
@@ -80,7 +78,7 @@ int main(int argc, char** argv) {
 		// Load models
 		for (int i = 1; i < argc; i++) {
 			try {
-				Model::addModelFile(argv[i]).addInstance(glm::vec3((numModels - 1) * 5.0f, 0.0f, 0.0f));
+				Model::addModelFile(argv[i]).addInstance(glm::vec3(numModels * 5.0f, 0.0f, 0.0f));
 				numModels++;
 			}
 			catch (const std::exception& e) {
@@ -95,6 +93,10 @@ int main(int argc, char** argv) {
 
 	// Handle SDL events (keyboard, mouse, ...)
 	SdlEventHandler* handler = new SdlEventHandler();
+
+	short heightMap[] = { glm::detail::toFloat16(0.0f), glm::detail::toFloat16(1.0f), glm::detail::toFloat16(1.0f), glm::detail::toFloat16(0.0f),
+		glm::detail::toFloat16(0.0f), glm::detail::toFloat16(1.0f), glm::detail::toFloat16(1.0f), glm::detail::toFloat16(0.0f), glm::detail::toFloat16(1.0f) };
+	Terrain* terrain = new Terrain(0, 0, 3, 3, heightMap);
 
 	bool isEscMenuOpen = false;
 	bool running = true;
@@ -145,6 +147,11 @@ int main(int argc, char** argv) {
 		for (int i = 0; i < Model::getListSize(); i++) {
 			Model::getFromList(i).renderModels();
 		}
+
+		// Start rendering terrain
+		renderer->setupTerrainRender();
+
+		terrain->render();
 
 		// Start rendering font
 		renderer->setupFontRender();
