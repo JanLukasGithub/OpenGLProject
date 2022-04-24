@@ -96,8 +96,10 @@ int main(int argc, char** argv) {
 	Terrain* terrain;
 
 	{	// Get rid of height map data right after initialization of terrain
-		short heightMap[10000]{ glm::detail::toFloat16(0.0f) };
-		terrain = new Terrain(-50, -50, 100, 100, heightMap);
+		const int sizeX = 100, sizeZ = 100;
+
+		short heightMap[sizeX * sizeZ]{ glm::detail::toFloat16(0.0f) };
+		terrain = new Terrain(-50, -50, sizeX, sizeZ, heightMap);
 	}
 
 	bool isEscMenuOpen = false;
