@@ -5,7 +5,7 @@ void Terrain::initUniforms(const Shader* shader) {
     Terrain::sizeUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_size");
 }
 
-Terrain::Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float* const heightMap) noexcept : m_offsetX{ offsetX },
+Terrain::Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float heightMap[]) noexcept : m_offsetX{ offsetX },
 m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
     float16 halfFloatHeightMap[sizeX * sizeZ]{};
 
@@ -18,7 +18,7 @@ m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
     init(halfFloatHeightMap);
 }
 
-Terrain::Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float16* const heightMap) noexcept : m_offsetX{ offsetX },
+Terrain::Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float16 heightMap[]) noexcept : m_offsetX{ offsetX },
 m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
     init(heightMap);
 }
