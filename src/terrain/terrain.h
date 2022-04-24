@@ -28,7 +28,10 @@ private:
     const int m_sizeX, m_sizeZ;
 
 public:
-    Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const short* const heightMap) noexcept;
+    // High memory usage as the heightMap has to be copied as it uses half floats internally
+    Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float* const heightMap) noexcept;
+    // The height map uses half floats. Use glm::detail::toFloat16() and glm::detail::toFloat32() to convert from/to half floats
+    Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float16* const heightMap) noexcept;
     Terrain(Terrain&& terrain) noexcept;
     virtual ~Terrain() noexcept;
 
@@ -49,7 +52,7 @@ public:
     int getOffsetZ() const noexcept;
 
 private:
-    void init(const short* const heightMap) noexcept;
+    void init(const float16* const heightMap) noexcept;
 };
 
 #endif

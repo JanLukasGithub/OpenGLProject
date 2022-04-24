@@ -5,7 +5,20 @@ void Terrain::initUniforms(const Shader* shader) {
     Terrain::sizeUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_size");
 }
 
-Terrain::Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const short* const heightMap) noexcept : m_offsetX{ offsetX },
+Terrain::Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float* const heightMap) noexcept : m_offsetX{ offsetX },
+m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
+    float16 halfFloatHeightMap[sizeX * sizeZ]{};
+
+    for (int x = 0; x < sizeX; x++) {
+        for (int z = 0; z < sizeZ; z++) {
+            halfFloatHeightMap[z * sizeX + x] = glm::detail::toFloat16(heightMap[z * sizeX + x]);
+        }
+    }
+
+    init(halfFloatHeightMap);
+}
+
+Terrain::Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float16* const heightMap) noexcept : m_offsetX{ offsetX },
 m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
     init(heightMap);
 }
@@ -35,7 +48,7 @@ void Terrain::render() const noexcept {
     }
 }
 
-void Terrain::init(const short* const heightMap) noexcept {
+void Terrain::init(const float16* const heightMap) noexcept {
     // Vao
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);
@@ -69,7 +82,7 @@ float Terrain::getHeightAt(int x, int z) const {
     if (x >= m_sizeX || z >= m_sizeZ || x < 0 || z < 0)
         return NAN;
 
-    short storeTo{};
+    float16 storeTo{};
 
     glBindBuffer(GL_ARRAY_BUFFER, m_vboBufferId);
     glGetBufferSubData(GL_ARRAY_BUFFER, (z * m_sizeX + x) * sizeof(storeTo), sizeof(storeTo), &storeTo);
@@ -81,7 +94,7 @@ void Terrain::setHeightAt(int x, int z, float value) const {
     if (x >= m_sizeX || z >= m_sizeZ || x < 0 || z < 0)
         return;
 
-    short halfFloatValue{ glm::detail::toFloat16(value) };
+    float16 halfFloatValue{ glm::detail::toFloat16(value) };
 
     glBindBuffer(GL_ARRAY_BUFFER, m_vboBufferId);
     glBufferSubData(GL_ARRAY_BUFFER, (z * m_sizeX + x) * sizeof(halfFloatValue), sizeof(halfFloatValue), &halfFloatValue);
