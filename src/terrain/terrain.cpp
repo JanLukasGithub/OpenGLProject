@@ -97,6 +97,8 @@ void Terrain::setHeightAt(int x, int z, float value) const {
     float16 halfFloatValue{ glm::detail::toFloat16(value) };
 
     glBindBuffer(GL_ARRAY_BUFFER, m_vboBufferId);
+    // Ensures that the data can be written immediately instead of waiting for rendering to finish
+    glInvalidateBufferData(m_vboBufferId);
     glBufferSubData(GL_ARRAY_BUFFER, (z * m_sizeX + x) * sizeof(halfFloatValue), sizeof(halfFloatValue), &halfFloatValue);
 }
 
