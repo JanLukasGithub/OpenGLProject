@@ -27,18 +27,13 @@ public:
 	static void initUniforms(Shader* shader);
 
 private:
-	// If there's a diffuse/normal map
 	bool m_hasNormalMap;
 	bool m_hasDiffuseMap;
 
 	uint64 m_numIndices;
 	VertexBuffer* m_vbo;
 	IndexBuffer* m_ibo;
-	// Index of the material in the material list
 	int m_materialIndex;
-	// Just for memory cleanup
-	std::vector<Vertex>* m_vertices;
-	std::vector<uint32>* m_indices;
 
 public:
 	Mesh(std::vector<Vertex>* vertices, std::vector<uint32>* indices, int materialIndex);
@@ -50,10 +45,6 @@ public:
 	// Renders this mesh without setting vbo, ibo or anything. Use when rendering the same mesh multiple times
 	void fastRender() const;
 
-	const std::vector<uint32>* getIndices() const noexcept;
-
-	const std::vector<Vertex>* getVertices() const noexcept;
-
 private:
 	// Currently not finished, DON'T USE
 	Mesh& operator=(const Mesh& mesh);
@@ -61,4 +52,4 @@ private:
 	Mesh(const Mesh& mesh);
 };
 
-#endif /* MESH_H_ */
+#endif
