@@ -20,4 +20,4 @@ public:
 	VertexBuffer* unbind() noexcept;
 };
 
-#endif /* VERTEXBUFFER_H_ */
+#endif
