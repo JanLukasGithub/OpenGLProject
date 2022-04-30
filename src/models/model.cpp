@@ -214,59 +214,46 @@ void Model::processNodes(const aiScene* scene, aiNode* node) {
 }
 
 void Model::processMesh(aiMesh* mesh) {
-    // Index of the material, materials were loaded already
-    uint64 localMaterialIndex = mesh->mMaterialIndex;
     uint64 numVertices = mesh->mNumVertices;
-    // Dynamically allocated to ensure the variable lives after exiting function
+    // Dynamically allocated to ensure the variable lives after exiting function. Owned by the Mesh created at the bottom of the function
+    // TODO: Remove dynamic allocation
     std::vector<Vertex>* vertices = new std::vector<Vertex>();
+    vertices->reserve(numVertices);
 
-    // Dynamically allocated to ensure the variable lives after exiting function
+    // Dynamically allocated to ensure the variable lives after exiting function. Owned by the Mesh created at the bottom of the function
+    // TODO: Remove dynamic allocation
     std::vector<uint32>* indices = new std::vector<uint32>();
 
-    // Get the indices -------------------------------------------------------------------------------------------
-    // Iterate over faces
     for (uint32_t i = 0; i < mesh->mNumFaces; i++) {
         aiFace face = mesh->mFaces[i];
-        // Add the indices to the list of indices
+
         for (uint32_t j = 0; j < face.mNumIndices; j++) {
             indices->push_back(face.mIndices[j]);
         }
     }
 
-    // Get the vertices ------------------------------------------------------------------------------------------
-    // Iterate over vertices
     for (uint64 i = 0; i < numVertices; i++) {
-        // Create a vertex
         Vertex v = { };
 
-        // Get the position
         v.position.x = mesh->mVertices[i].x;
         v.position.y = mesh->mVertices[i].y;
         v.position.z = mesh->mVertices[i].z;
 
-        // Get the normal
         v.normal.x = mesh->mNormals[i].x;
         v.normal.y = mesh->mNormals[i].y;
         v.normal.z = mesh->mNormals[i].z;
 
-        // Get the tangent
         v.tangent.x = mesh->mTangents[i].x;
         v.tangent.y = mesh->mTangents[i].y;
         v.tangent.z = mesh->mTangents[i].z;
 
-        // Check for textures existing
-        assert((*mesh->mNumUVComponents) > 0);
-        // Get the texture coords
         v.textureCoords.x = mesh->mTextureCoords[0][i].x;
         v.textureCoords.y = mesh->mTextureCoords[0][i].y;
 
-        // Add the vertex to the list of vertices
         vertices->push_back(v);
     }
 
-    // Material index in Material::materials
-    int globalMaterialIndex = m_materialIndices[localMaterialIndex];
+    int globalMaterialIndex = m_materialIndices[mesh->mMaterialIndex];
 
-    // Add the mesh to the list of meshes
     m_meshes.push_back(new Mesh(vertices, indices, globalMaterialIndex));
 }
