@@ -31,19 +31,6 @@
 
 int numModels = 0;
 
-// Loads the model from the specified filename. Handles exceptions by telling the user in std::cerr
-// TODO: Move to modelUtils
-void loadModel(const char* const filename) noexcept {
-	try {
-		Model::addModelFile(filename).addInstance(glm::vec3(numModels * 5.0f, 0.0f, 0.0f));
-		numModels++;
-	}
-	catch (const std::exception& e) {
-		std::cerr << "Error occurred while loading model " << filename << "!" << std::endl;
-		std::cerr << e.what() << std::endl;
-	}
-}
-
 /**
  * @brief asks the user for a model to load in std::cin and loads the model
  *
@@ -57,7 +44,7 @@ bool cliModelLoad() {
 	if (modelname->compare("none") * modelname->compare("n") * modelname->compare("") == 0)
 		return false;
 
-	loadModel(modelname->c_str());
+	numModels += utils::loadModelInstance(modelname->c_str(), glm::vec3(5.0f * numModels, 0.0f, 0.0f));
 
 	return true;
 }
@@ -71,7 +58,7 @@ int main(int argc, char** argv) {
 		while (cliModelLoad());
 	} else {
 		for (int i = 1; i < argc; i++) {
-			loadModel(argv[i]);
+			numModels += utils::loadModelInstance(argv[i], glm::vec3(5.0f * numModels, 0.0f, 0.0f));
 		}
 	}
 
@@ -84,7 +71,7 @@ int main(int argc, char** argv) {
 	{	// Get rid of height map data right after initialization of terrain
 		const int sizeX = 100, sizeZ = 100;
 
-		short heightMap[sizeX * sizeZ]{ glm::detail::toFloat16(0.0f) };
+		short heightMap[sizeX * sizeZ]{};
 		terrain = new Terrain(-50, -50, sizeX, sizeZ, heightMap);
 	}
 
@@ -108,8 +95,7 @@ int main(int argc, char** argv) {
 		}
 
 		if (handler->keyPressed(SDLK_l)) {
-			Model::addModelFile("assets/models/QuadrupedTank/QuadrupedTank.obj").addInstance(renderer->getCamera().getPosition());
-			numModels++;
+			numModels += utils::loadModelInstance("assets/models/QuadrupedTank/QuadrupedTank.obj", renderer->getCamera().getPosition());
 		}
 
 		if (handler->keyJustPressed(SDLK_ESCAPE)) {
