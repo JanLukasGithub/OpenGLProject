@@ -29,4 +29,4 @@ struct SpotLight {
 	float innerCone, outerCone;
 };
 
-#endif /* LIGHTS_LIGHTS_H_ */
+#endif

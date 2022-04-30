@@ -25,4 +25,3 @@ IndexBuffer* IndexBuffer::unbind() noexcept {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	return this;
 }
-

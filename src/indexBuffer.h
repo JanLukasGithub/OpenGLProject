@@ -19,4 +19,4 @@ public:
 	IndexBuffer* unbind() noexcept;
 };
 
-#endif /* INDEXBUFFER_H_ */
+#endif
