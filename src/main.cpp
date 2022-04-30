@@ -32,6 +32,7 @@
 int numModels = 0;
 
 // Loads the model from the specified filename. Handles exceptions by telling the user in std::cerr
+// TODO: Move to modelUtils
 void loadModel(const char* const filename) noexcept {
 	try {
 		Model::addModelFile(filename).addInstance(glm::vec3(numModels * 5.0f, 0.0f, 0.0f));
