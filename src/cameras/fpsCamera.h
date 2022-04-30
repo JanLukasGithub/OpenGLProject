@@ -2,7 +2,6 @@
 #define CAMERAS_FPSCAMERA_H_
 
 #include "camera.h"
-#include "../sdlEventHandler.h"
 
 class FpsCamera : public Camera {
 protected:
@@ -13,7 +12,6 @@ protected:
 	glm::vec3 up{ 0.0f, 1.0f, 0.0f };
 
 public:
-	// Setting this to a negative value reverses horizontal camera movement
 	static constexpr float cameraSpeed = 5.0f;
 
 	FpsCamera(float fov, float width, float height);
@@ -22,10 +20,8 @@ public:
 	virtual void update() override;
 	virtual void handleInputs(SdlEventHandler* handler, float32 delta) override;
 
-	// Negative amount means moving backwards, multiplies by cameraSpeed on it's own
 	void moveFront(float amount);
-	// Negative amount means moving to the left, multiplies by cameraSpeed on it's own
 	void moveRight(float amount);
 };
 
-#endif /* CAMERAS_FPSCAMERA_H_ */
+#endif

@@ -71,7 +71,7 @@ void Terrain::initVertexBuffer(const float16* const heightMap) noexcept {
 void Terrain::initIndexBuffer() noexcept {
     glGenBuffers(1, &m_iboBufferId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboBufferId);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_sizeX * (m_sizeZ - 1) * sizeof(uint32) * 2, nullptr, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_sizeX * (m_sizeZ - 1) * sizeof(uint32) * 2, nullptr, GL_DYNAMIC_DRAW);
 
     // A buffer with m_sizeX * 2 indices per strip, tightly packed together m_sizeZ - 1 times
     for (uint32 z = 0; z < m_sizeZ - 1; z++) {

@@ -26,7 +26,6 @@ void FpsCamera::update() {
 }
 
 void FpsCamera::handleInputs(SdlEventHandler* handler, float32 delta) {
-	// Move the camera
 	if (handler->keyPressed(SDLK_w))
 		moveFront(delta);
 

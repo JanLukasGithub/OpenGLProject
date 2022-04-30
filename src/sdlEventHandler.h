@@ -31,18 +31,18 @@ public:
 	bool keyPressed(SDL_Keycode keycode);
 	// Returns if the key was pressed last frame
 	bool lastKeyPressed(SDL_Keycode keycode);
-	// Returns if the key was just pressed this frame (=is now pressed but wasn't last frame)
+	// Returns if the key was just pressed this frame
 	bool keyJustPressed(SDL_Keycode keycode);
-	// Returns if the key was just released this frame (=isn't pressed now but was last frame)
+	// Returns if the key was just released this frame
 	bool keyJustReleased(SDL_Keycode keycode);
 
 	// Returns if the mouse button is pressed
 	bool mouseButtonPressed(uint8 button);
 	// Returns if the mouse button was pressed last frame
 	bool lastMouseButtonPressed(uint8 button);
-	// Returns if the mouse button was just pressed this frame (=is now pressed but wasn't last frame)
+	// Returns if the mouse button was just pressed this frame
 	bool mouseButtonJustPressed(uint8 button);
-	// Returns if the mouse button was just released this frame (=isn't pressed now but was last frame)
+	// Returns if the mouse button was just released this frame
 	bool mouseButtonJustReleased(uint8 button);
 
 	// Functions to get mouse movement
@@ -51,11 +51,11 @@ public:
 
 private:
 	// This changes the value of the inputBitfield
-	void updateKeyboardInputs(const SDL_Keycode key, const bool isDown);
+	void updateKeyboardInput(const SDL_Keycode key, const bool isDown);
 	// This changes the values of mouseXRel and mouseYRel
 	void updateMouseMovement(const int32 xRel, const int32 yRel);
 	// This changes the value of the mouseInputBitfield
-	void updateMouseInputs(const Uint8 button, const bool isDown);
+	void updateMouseInput(const uint8 button, const bool isDown);
 };
 
 // The constants you can use for Mouse Buttons
@@ -67,4 +67,4 @@ namespace SdlMouseButtons {
 	constexpr uint8 MOUSE_BUTTON_X2 = SDL_BUTTON_X2;
 }
 
-#endif /* SDLEVENTHANDLER_H_ */
+#endif

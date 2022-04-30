@@ -5,7 +5,7 @@
 
 #include "../utils.h"
 
-// Timer that doesn't need to be updated regularly
+// Timer
 class Timer {
 private:
     std::chrono::_V2::system_clock::time_point m_startTime;

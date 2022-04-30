@@ -29,4 +29,4 @@ private:
 	GLuint createShader(const char* vertexShaderFileName, const char* fragmentShaderFileName);
 };
 
-#endif /* SHADER_H_ */
+#endif

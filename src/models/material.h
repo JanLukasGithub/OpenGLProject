@@ -26,7 +26,7 @@ public:
 	Material() noexcept;
 
 	/**
-	 * @brief compares this material to another one ignoring the 'diffuseMap' and 'normalMap' members
+	 * @brief compares this material to another one ignoring the 'diffuseMap' and 'normalMap' members, but not 'diffuseMapName' and 'normalMapName'
 	 * 
 	 * @return true if all members except for 'diffuseMap' and 'normalMap' are equal, false otherwise
 	 */

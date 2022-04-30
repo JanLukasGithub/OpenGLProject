@@ -8,55 +8,44 @@ void Font::initUniforms(Shader* fontShader) {
 }
 
 Font::Font(const char* filename, Shader* fontShader) {
-    // Open the file:
     std::streampos fileSize;
     std::ifstream file(filename, std::ios::binary);
 
-    // Get its size
     file.seekg(0, std::ios::end);
     fileSize = file.tellg();
     file.seekg(0, std::ios::beg);
 
-    // Buffers to store data in
     std::vector<byte> ttfBuffer = std::vector<byte>(fileSize);
     std::vector<byte> tmpBitmap = std::vector<byte>(PH_PW * PH_PW);
 
-    // Read file to the buffer
     file.read((char*)ttfBuffer.data(), fileSize);
 
     stbtt_BakeFontBitmap(ttfBuffer.data(), 0, 32.0f, tmpBitmap.data(), PH_PW, PH_PW, FIRST_CHAR, NUM_CHARS, m_cdata);
 
-    // Generate OpenGL texture
     glGenTextures(1, &m_fontTexture);
     glBindTexture(GL_TEXTURE_2D, m_fontTexture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, PH_PW, PH_PW, 0, GL_ALPHA, GL_UNSIGNED_BYTE, tmpBitmap.data());
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    // Generate vertex array
     glGenVertexArrays(1, &m_fontVao);
     glBindVertexArray(m_fontVao);
-    // Generate vertex buffer on GPU
+
     glGenBuffers(1, &m_fontVertexBufferId);
     glBindBuffer(GL_ARRAY_BUFFER, m_fontVertexBufferId);
-    // Generate vertex buffer on CPU
+
     m_fontVertexBufferCapacity = 20;
     m_fontVertexBufferData = new FontVertex[m_fontVertexBufferCapacity * 6];
-    // Setup vertex buffer on GPU with right size
     glBufferData(GL_ARRAY_BUFFER, sizeof(FontVertex) * 6 * m_fontVertexBufferCapacity, nullptr, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(FontVertex), 0);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(FontVertex), (const void*)offsetof(FontVertex, texture_coords));
-    // Unbind vertex array
-    glBindVertexArray(0);
 }
 
 Font::~Font() {
     if (m_fontVertexBufferData)
         delete[] m_fontVertexBufferData;
 
-    // Delete stuff in vram
     glDeleteVertexArrays(1, &m_fontVao);
     glDeleteBuffers(1, &m_fontVertexBufferId);
     glDeleteTextures(1, &m_fontTexture);
@@ -68,30 +57,23 @@ void Font::drawString(float x, float y, const char* text) {
 
     uint32 len = strlen(text);
 
-    // If the existing buffer is to small
     if (m_fontVertexBufferCapacity < len) {
-        // Use the length of the text as new buffer size
         m_fontVertexBufferCapacity = len;
-        // Update both GPU buffer and CPU buffer
+
         glBufferData(GL_ARRAY_BUFFER, sizeof(FontVertex) * 6 * m_fontVertexBufferCapacity, nullptr, GL_DYNAMIC_DRAW);
         delete[] m_fontVertexBufferData;
         m_fontVertexBufferData = new FontVertex[m_fontVertexBufferCapacity * 6];
     }
 
-    // Bind the texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_fontTexture);
     glUniform1i(Font::textureUniformLocation, 0);
 
-    // Pointer to data
     FontVertex* vData = m_fontVertexBufferData;
     uint32 numVertices = 0;
 
-    // Draw chars
     while (*text) {
-        // Check if char is printable
         if (*text >= FIRST_CHAR && *text < FIRST_CHAR + NUM_CHARS) {
-            // Get the quad
             stbtt_aligned_quad q;
             stbtt_GetBakedQuad(m_cdata, PH_PW, PH_PW, *text - FIRST_CHAR, &x, &y, &q, 1);
 
