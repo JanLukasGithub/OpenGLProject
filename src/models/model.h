@@ -53,7 +53,7 @@ public:
 
     /**
      * @brief Get the model from the specified filename
-     * 
+     *
      * @return the model with the specified filename or nullptr if none exists. Is invalidated when a model is added
      */
     static Model* getFromList(const char* const filename) noexcept;
@@ -97,14 +97,16 @@ private:
     // Private constructor to force use of addModelFile(filename)
     Model(const char* filename);
     // Private copy constructor to prevent use of it
-    Model(const Model& model) : m_filename{model.m_filename} {};
+    Model(const Model& model) : m_filename{ model.m_filename } {};
     // Private copy assignment operator to prevent use of it
     Model& operator=(const Model& model) { return *this; }
 
     // Reads model from file using assimp
     void readModelFromFile();
-    // Processes the materials, returns the number of materials loaded
+    // Processes the materials
     void processMaterials(const aiScene* scene);
+    // Processes a color. Use AI_MATKEY_COLOR_XXX for the first three arguments
+    void processColor(aiMaterial* aiMaterial, const char* pKey, unsigned int type, unsigned int idx, glm::vec3& storeTo);
     // Processes the nodes recursively
     void processNodes(const aiScene* scene, aiNode* node);
     // Processes the mesh

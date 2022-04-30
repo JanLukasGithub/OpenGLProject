@@ -69,16 +69,12 @@ void Model::renderModels() const noexcept {
     if (m_models.size() < 1)
         return;
 
-    // Loop over meshes
     for (int i = 0; i < m_meshes.size(); i++) {
-        // Use render() the first time
         glUniformMatrix4fv(ModelInstance::modelMatLocation, 1, GL_FALSE, &((m_models[0]->getModelMat())[0][0]));
         m_meshes[i]->render();
 
-        // Loop over models
         for (int j = 1; j < m_models.size(); j++) {
             glUniformMatrix4fv(ModelInstance::modelMatLocation, 1, GL_FALSE, &((m_models[j]->getModelMat())[0][0]));
-            // Use fastRender() after that
             m_meshes[i]->fastRender();
         }
     }
@@ -96,30 +92,24 @@ bool operator==(const Model& model1, const Model& model2) {
     return model1 == model2.m_filename;
 }
 
-// Reads ModelFile files using assimp
 void Model::readModelFromFile() {
-    // Assimp will do the work for us
     Assimp::Importer importer;
 
-    // Read the file
     const aiScene* scene = importer.ReadFile(m_filename, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph | aiProcess_JoinIdenticalVertices | aiProcess_ImproveCacheLocality);
 
-    // Check for success
     if (!scene || (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !scene->mRootNode) {
         std::cerr << "Error while loading the Model with assimp: " << importer.GetErrorString() << std::endl;
         throw std::exception();
     }
 
-    // Notify user
     debugOutputEndl("Loading Model from file...");
-    // Process the materials
+
     processMaterials(scene);
-    // Process the nodes recursively
+
     processNodes(scene, scene->mRootNode);
 }
 
 void Model::processMaterials(const aiScene* scene) {
-    // Get the amount of materials and make enough space for them in the vector to save time
     uint32 numMaterials = scene->mNumMaterials;
     m_materialIndices.reserve(numMaterials);
 
@@ -130,29 +120,11 @@ void Model::processMaterials(const aiScene* scene) {
         // Material from assimp
         aiMaterial* aiMaterial = scene->mMaterials[i];
 
-        // Load diffuse color
-        aiColor3D diffuse(0.0f, 0.0f, 0.0f);
-        if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse)) {
-            // No diffuse color, so default color black will be used
-            debugOutputEndl("No diffuse color, using default color black!");
-        }
-        mat.diffuse = { diffuse.r, diffuse.g, diffuse.b };
+        processColor(aiMaterial, AI_MATKEY_COLOR_DIFFUSE, mat.diffuse);
 
-        // Load specular color
-        aiColor3D specular(0.0f, 0.0f, 0.0f);
-        if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_COLOR_SPECULAR, specular)) {
-            // No specular color, so default color black will be used
-            debugOutputEndl("No specular color, using default color black!");
-        }
-        mat.specular = { specular.r, specular.g, specular.b };
+        processColor(aiMaterial, AI_MATKEY_COLOR_SPECULAR, mat.specular);
 
-        // Load emissive color
-        aiColor3D emissive(0.0f, 0.0f, 0.0f);
-        if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, emissive)) {
-            // No emissive color, so default color black will be used
-            debugOutputEndl("No emissive color, using default color black!");
-        }
-        mat.emissive = { emissive.r, emissive.g, emissive.b };
+        processColor(aiMaterial, AI_MATKEY_COLOR_EMISSIVE, mat.emissive);
 
         // Load shininess
         float shininess(0.0f);
@@ -283,14 +255,20 @@ void Model::processMaterials(const aiScene* scene) {
     }
 }
 
+void Model::processColor(aiMaterial* aiMaterial, const char* pKey, unsigned int type, unsigned int idx, glm::vec3& storeTo) {
+    aiColor3D color(0.0f, 0.0f, 0.0f);
+    if (AI_SUCCESS != aiMaterial->Get(pKey, type, idx, color)) {
+        debugOutputEndl("No color found, using default color black!");
+    }
+    storeTo = { color.r, color.g, color.b };
+}
+
 void Model::processNodes(const aiScene* scene, aiNode* node) {
-    // Process the meshes from this node
     for (uint32_t i = 0; i < node->mNumMeshes; i++) {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
         processMesh(mesh);
     }
 
-    // Process the next node recursively
     for (uint32_t i = 0; i < node->mNumChildren; i++) {
         processNodes(scene, node->mChildren[i]);
     }
