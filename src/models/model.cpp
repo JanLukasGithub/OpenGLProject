@@ -215,20 +215,17 @@ void Model::processNodes(const aiScene* scene, aiNode* node) {
 
 void Model::processMesh(aiMesh* mesh) {
     uint64 numVertices = mesh->mNumVertices;
-    // Dynamically allocated to ensure the variable lives after exiting function. Owned by the Mesh created at the bottom of the function
-    // TODO: Remove dynamic allocation
-    std::vector<Vertex>* vertices = new std::vector<Vertex>();
-    vertices->reserve(numVertices);
 
-    // Dynamically allocated to ensure the variable lives after exiting function. Owned by the Mesh created at the bottom of the function
-    // TODO: Remove dynamic allocation
-    std::vector<uint32>* indices = new std::vector<uint32>();
+    std::vector<Vertex> vertices{};
+    vertices.reserve(numVertices);
+
+    std::vector<uint32> indices{};
 
     for (uint32_t i = 0; i < mesh->mNumFaces; i++) {
         aiFace face = mesh->mFaces[i];
 
         for (uint32_t j = 0; j < face.mNumIndices; j++) {
-            indices->push_back(face.mIndices[j]);
+            indices.push_back(face.mIndices[j]);
         }
     }
 
@@ -250,7 +247,7 @@ void Model::processMesh(aiMesh* mesh) {
         v.textureCoords.x = mesh->mTextureCoords[0][i].x;
         v.textureCoords.y = mesh->mTextureCoords[0][i].y;
 
-        vertices->push_back(v);
+        vertices.push_back(v);
     }
 
     int globalMaterialIndex = m_materialIndices[mesh->mMaterialIndex];
