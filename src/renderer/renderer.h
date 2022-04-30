@@ -28,6 +28,7 @@
 #include "../models/modelInstance.h"
 #include "../models/mesh.h"
 #include "../font/font.h"
+#include "../terrain/terrain.h"
 
 class Renderer {
 public:
@@ -39,6 +40,7 @@ private:
     Shader* m_shader3d;
     Shader* m_shaderFont;
     Shader* m_shader2d;
+    Shader* m_shaderTerrain;
     Font* m_fontRenderer;
 
     // Not dynamically allocated
@@ -86,6 +88,8 @@ public:
     void setupFontRender();
     // Sets up shader and OpenGL settings for rendering 2d images
     void setup2DRender();
+    // Sets up shader and OpenGL settings for rendering terrain
+    void setupTerrainRender();
     // Draws things on the screen
     void endFrame();
 

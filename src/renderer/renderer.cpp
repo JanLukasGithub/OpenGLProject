@@ -10,6 +10,7 @@ Renderer::~Renderer() {
     delete m_shader3d;
     delete m_shaderFont;
     delete m_shader2d;
+    delete m_shaderTerrain;
 
     delete m_fontRenderer;
 }
@@ -68,6 +69,7 @@ void Renderer::init() {
     m_shader3d = new Shader("src/shaders/3d.vs", "src/shaders/3d.fs");
     m_shaderFont = new Shader("src/shaders/font.vs", "src/shaders/font.fs");
     m_shader2d = new Shader("src/shaders/2d.vs", "src/shaders/2d.fs");
+    m_shaderTerrain = new Shader("src/shaders/terrain.vs", "src/shaders/terrain.fs");
 
     initLights();
 
@@ -173,17 +175,18 @@ void Renderer::initUniforms() {
     m_modelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelView");
     m_invModelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_invModelView");
 
-    // Update uniform locations of models
+    // Update uniforms
     ModelInstance::initUniforms(m_shader3d);
     Mesh::initUniforms(m_shader3d);
-    // Update uniform locations of fonts
     Font::initUniforms(m_shaderFont);
+    Terrain::initUniforms(m_shaderTerrain);
 }
 
 void Renderer::reset() {
     m_shader3d->update("src/shaders/3d.vs", "src/shaders/3d.fs");
     m_shaderFont->update("src/shaders/font.vs", "src/shaders/font.fs");
     m_shader2d->update("src/shaders/2d.vs", "src/shaders/2d.fs");
+    m_shaderTerrain->update("src/shaders/terrain.vs", "src/shaders/terrain.fs");
 
     initLights();
     initUniforms();
@@ -241,11 +244,19 @@ void Renderer::setup2DRender() {
     m_shader2d->bind();
 
     glm::mat4 ortho = glm::ortho(0.0f, (float)m_windowWidth, (float)m_windowHeight, 0.0f);
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderFont->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &ortho[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shader2d->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &ortho[0][0]);
     glDisable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDisable(GL_DEPTH_TEST);
+}
+
+void Renderer::setupTerrainRender() {
+    // Use terrain shader
+    m_shaderTerrain->bind();
+
+    m_modelViewProj = m_camera.getViewProjection() * m_modelMatrix;
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &m_modelViewProj[0][0]);
 }
 
 void Renderer::endFrame() {

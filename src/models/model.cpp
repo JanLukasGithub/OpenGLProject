@@ -84,6 +84,10 @@ void Model::renderModels() const noexcept {
     }
 }
 
+void Model::render() const noexcept {
+    renderModels();
+}
+
 bool operator==(const Model& ModelFile, const char* const filename) {
     return strcmp(ModelFile.m_filename, filename) == 0;
 }
