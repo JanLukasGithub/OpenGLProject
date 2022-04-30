@@ -76,8 +76,6 @@ public:
     Renderer();
     virtual ~Renderer();
 
-    // Initializes rendering
-    void init();
     // Resets rendering. Enables you to "hot swap" shaders or potentially recover from rendering issues
     void reset();
     // Resets Screen for rendering the next frame
@@ -114,9 +112,19 @@ private:
     // Private assignment operator
     Renderer& operator=(const Renderer& renderer) { return *this; }
 
+    // Initializes rendering
+    void init();
+
+    // Initializes SDL
+    void initSDL();
     // (Re-)Initializes the lights
     void initLights();
-
+    // Initializes the performance counter
+    void initCounter();
+    // Initializes the camera
+    void initCamera();
+    // Initializes the model matrices
+    void initMatrices();
     // (Re-)Initializes the uniforms
     void initUniforms();
 };
