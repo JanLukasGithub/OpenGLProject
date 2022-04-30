@@ -37,7 +37,10 @@ const char* getFilename(const char* path);
 /* Example: "../folder/name.extension" -> "extension" */
 const char* getFileExtension(const char* path);
 
-/* Example: "../folder/name.extension" -> "../folder/" */
+/**
+ * Example: "../folder/name.extension" -> "../folder/" 
+ * Returned char* is dynamically allocated
+ */
 const char* getFilePath(const char* path);
 
 /* Only prints out information if compiled with debug flags.
@@ -58,4 +61,4 @@ void debugOutput(const T* t);
 template<typename T>
 void debugOutput(const T t);
 
-#endif /* UTILS_H_ */
+#endif

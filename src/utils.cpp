@@ -1,59 +1,48 @@
 #include "utils.h"
 
 const char* getFilename(const char* path) {
-	// Length of the path string
 	uint64 len = strlen(path);
-	/* Pointer to one after the last / or \ */
+
 	const char* lastSlash = path;
-	/* Actually get the pointer to the last / or \ */
 	for (long unsigned int i = 0; i < len; i++) {
 		if (path[i] == '/' || path[i] == '\\') {
 			lastSlash = path + i + 1;
 		}
 	}
-	/* Return the pointer to one after the last / or \ */
+
 	return lastSlash;
 }
 
 const char* getFileExtension(const char* path) {
-	// Length of the path string
 	uint64 len = strlen(path);
-	// Pointer to one after the last .
+
 	const char* lastPoint = path;
-	// Actually get the pointer to the last .
 	for (long unsigned int i = 0; i < len; i++) {
 		if (path[i] == '.') {
 			lastPoint = path + i + 1;
 		}
 	}
-	// Return the pointer to one after the last .
+
 	return lastPoint;
 }
 
 const char* getFilePath(const char* path) {
-	// Length of the path string
 	uint64 len = strlen(path);
-	/* Pointer to one after the last / or \ */
+
 	const char* lastSlash = path;
-	/* Actually get the pointer to the last / or \ */
 	for (uint64 i = 0; i < len; i++) {
 		if (path[i] == '/' || path[i] == '\\') {
 			lastSlash = path + i + 1;
 		}
 	}
 
-	// Length of the new string
 	uint64 newStringLen = lastSlash - path;
-	// The new string
 	char* newString = new char[newStringLen + 1];
-	// Ensuring the string is actually null-initialized
-	for (int i = 0; i <= newStringLen; i++) {
+	for (int i = 0; i < newStringLen + 1; i++) {
 		newString[i] = '\0';
 	}
 
-	// Copy as many chars to the new string as it's long
 	strncpy(newString, path, newStringLen);
-	// Return the pointer to the new string
 	return newString;
 }
 
