@@ -61,47 +61,44 @@ uniform sampler2D u_normalMap;
 uniform bool u_hasDiffuseMap;
 uniform bool u_hasNormalMap;
 
-void main() {
-	// Vector from fragment to camera (camera always at 0,0,0)
-	vec3 view = normalize(-v_position);
-	
-	// Normal from normal map if it exists or default if not
-	vec3 normal = int(u_hasNormalMap) * texture(u_normalMap, v_textureCoords).rgb + int(!u_hasNormalMap) * vec3(0.5, 0.5, 1.0);
-	// Scale from 0.0 - 1.0 to -1.0 - 1.0
-	normal = normalize(normal * 2.0 - 1.0);
-	// Actual normal
-	normal = normalize(v_tbn * normal);
-	
-	// Get diffuse color from material or texture
-	vec4 diffuseColor = int(u_hasDiffuseMap) * texture(u_diffuseMap, v_textureCoords) + int(!u_hasDiffuseMap) * vec4(u_material.diffuse, 1.0);
-	// If the alpha is to small, don't render the fragment
-	if (diffuseColor.w < 0.9) {
-		discard;
-	}
+vec3 view;
+vec3 normal;
+vec4 diffuseColor;
 
-	// Transform direction to view space
+vec3 light;
+vec3 reflection;
+
+vec3 ambient;
+vec3 diffuse;
+vec3 specular;
+
+float distance;
+float attenuation;
+
+void directionalLight() {
 	vec3 directionalLightDirection = -(u_directionalLight.direction * mat3(u_modelView));
 	
-	// Directional light
-	vec3 light = normalize(directionalLightDirection);
-	vec3 reflection = reflect(directionalLightDirection, normal);
+	light = normalize(directionalLightDirection);
+	reflection = reflect(directionalLightDirection, normal);
 	
-	vec3 ambient = diffuseColor.xyz * u_directionalLight.ambient;
-	vec3 diffuse = max(dot(normal, light), 0.0) * diffuseColor.xyz * u_directionalLight.diffuse;
-	vec3 specular = pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * u_directionalLight.specular;
+	ambient = diffuseColor.xyz * u_directionalLight.ambient;
+	diffuse = max(dot(normal, light), 0.0) * diffuseColor.xyz * u_directionalLight.diffuse;
+	specular = pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * u_directionalLight.specular;
+}
 
-	// Point light
+void pointLight() {
 	light = normalize(u_pointLight.position - v_position);
 	reflection = reflect(-light, normal);
 	
-	float distance = length(u_pointLight.position - v_position);
-	float attenuation = 1.0f / ((1.0f) + (u_pointLight.linear * distance) + (u_pointLight.quadratic * distance * distance));
+	distance = length(u_pointLight.position - v_position);
+	attenuation = 1.0f / ((1.0f) + (u_pointLight.linear * distance) + (u_pointLight.quadratic * distance * distance));
 	
 	ambient += attenuation * diffuseColor.xyz * u_pointLight.ambient;
 	diffuse += attenuation * max(dot(normal, light), 0.0) * diffuseColor.xyz * u_pointLight.diffuse;
 	specular += attenuation * pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * u_pointLight.specular;
+}
 
-	// Spotlight
+void spotLight() {
 	light = normalize(u_spotLight.position - v_position);
 	reflection = reflect(-light, normal);
 	float theta = dot(light, u_spotLight.direction);
@@ -115,7 +112,24 @@ void main() {
 	diffuse += intensity * attenuation * max(dot(normal, light), 0.0) * diffuseColor.xyz * u_spotLight.diffuse;
 	specular += intensity * attenuation * pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * u_spotLight.specular;
 	ambient += attenuation * u_spotLight.ambient * diffuseColor.xyz;
+}
 
-	// Final color
-    f_color = vec4(ambient + diffuse + specular + u_material.emissive, 1.0f);
+void main() {
+	// Vector from fragment to camera (camera always at 0,0,0)
+	view = normalize(-v_position);
+	
+	normal = int(u_hasNormalMap) * texture(u_normalMap, v_textureCoords).rgb + int(!u_hasNormalMap) * vec3(0.5, 0.5, 1.0);
+	normal = normalize(normal * 2.0 - 1.0);
+	normal = normalize(v_tbn * normal);
+	
+	diffuseColor = int(u_hasDiffuseMap) * texture(u_diffuseMap, v_textureCoords) + int(!u_hasDiffuseMap) * vec4(u_material.diffuse, 1.0);
+	if (diffuseColor.w < 0.9) {
+		discard;
+	}
+
+	directionalLight();
+	pointLight();
+	spotLight();
+
+    f_color = vec4(ambient + diffuse + specular + u_material.emissive, diffuseColor.w);
 }
