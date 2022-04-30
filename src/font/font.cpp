@@ -68,30 +68,23 @@ void Font::drawString(float x, float y, const char* text) {
 
     uint32 len = strlen(text);
 
-    // If the existing buffer is to small
     if (m_fontVertexBufferCapacity < len) {
-        // Use the length of the text as new buffer size
         m_fontVertexBufferCapacity = len;
-        // Update both GPU buffer and CPU buffer
+
         glBufferData(GL_ARRAY_BUFFER, sizeof(FontVertex) * 6 * m_fontVertexBufferCapacity, nullptr, GL_DYNAMIC_DRAW);
         delete[] m_fontVertexBufferData;
         m_fontVertexBufferData = new FontVertex[m_fontVertexBufferCapacity * 6];
     }
 
-    // Bind the texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_fontTexture);
     glUniform1i(Font::textureUniformLocation, 0);
 
-    // Pointer to data
     FontVertex* vData = m_fontVertexBufferData;
     uint32 numVertices = 0;
 
-    // Draw chars
     while (*text) {
-        // Check if char is printable
         if (*text >= FIRST_CHAR && *text < FIRST_CHAR + NUM_CHARS) {
-            // Get the quad
             stbtt_aligned_quad q;
             stbtt_GetBakedQuad(m_cdata, PH_PW, PH_PW, *text - FIRST_CHAR, &x, &y, &q, 1);
 
