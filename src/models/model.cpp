@@ -113,154 +113,93 @@ void Model::processMaterials(const aiScene* scene) {
     uint32 numMaterials = scene->mNumMaterials;
     m_materialIndices.reserve(numMaterials);
 
-    // Process every material
     for (uint32 i = 0; i < numMaterials; i++) {
-        // Material struct
         Material mat = { };
-        // Material from assimp
-        aiMaterial* aiMaterial = scene->mMaterials[i];
+        aiMaterial* aiMat = scene->mMaterials[i];
 
-        processColor(aiMaterial, AI_MATKEY_COLOR_DIFFUSE, mat.diffuse);
+        mat.diffuse = getColor(aiMat, AI_MATKEY_COLOR_DIFFUSE);
+        mat.specular = getColor(aiMat, AI_MATKEY_COLOR_SPECULAR);
+        mat.emissive = getColor(aiMat, AI_MATKEY_COLOR_EMISSIVE);
 
-        processColor(aiMaterial, AI_MATKEY_COLOR_SPECULAR, mat.specular);
+        mat.shininess = getFloat(aiMat, AI_MATKEY_SHININESS);
 
-        processColor(aiMaterial, AI_MATKEY_COLOR_EMISSIVE, mat.emissive);
+        mat.specular *= getFloat(aiMat, AI_MATKEY_SHININESS_STRENGTH);
 
-        // Load shininess
-        float shininess(0.0f);
-        if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_SHININESS, shininess)) {
-            // No shininess, so default value 0 will be used
-            debugOutputEndl("No shininess, using default value 0!");
-        }
-        mat.shininess = shininess;
+        mat.diffuseMapName = getTexturePath(aiMat, aiTextureType_DIFFUSE);
+        mat.normalMapName = getTexturePath(aiMat, aiTextureType_NORMALS);
 
-        // Load shininess strength and multiply specular by it
-        float shininessStrength(1.0f);
-        if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_SHININESS_STRENGTH, shininessStrength)) {
-            // No shininess strength, so default value 1 will be used
-            debugOutputEndl("No shininess strength, using default value 1!");
-        }
-        mat.specular.x *= shininessStrength;
-        mat.specular.y *= shininessStrength;
-        mat.specular.z *= shininessStrength;
-
-        // Get the number of diffuse and normal maps
-        uint32_t numDiffuseMaps = aiMaterial->GetTextureCount(aiTextureType_DIFFUSE);
-        uint32_t numNormalMaps = aiMaterial->GetTextureCount(aiTextureType_NORMALS);
-
-        // Load the diffuse map name; in case none exists use the default one
-        if (numDiffuseMaps > 0) {
-            aiString diffuseMapNameBuffer{ };
-            if (numDiffuseMaps > 1)
-                debugOutputEndl("More than one diffuse map present!");
-            aiMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &diffuseMapNameBuffer);
-            mat.diffuseMapName = std::string(getFilePath(m_filename)) + diffuseMapNameBuffer.C_Str();
-        } else {
-            debugOutputEndl("No diffuse map, using default diffuse map!");
-            mat.diffuseMapName = std::string("");
-        }
-
-        // Load the normal map name; in case none exists use the default one
-        if (numNormalMaps > 0) {
-            aiString normalMapNameBuffer{ };
-            if (numNormalMaps > 1)
-                debugOutputEndl("More than one normal map present!");
-            aiMaterial->GetTexture(aiTextureType_NORMALS, 0, &normalMapNameBuffer);
-            mat.normalMapName = std::string(std::string(getFilePath(m_filename)) + normalMapNameBuffer.C_Str());
-        } else {
-            debugOutputEndl("No normal map, using default normal map!");
-            mat.normalMapName = std::string("");
-        }
-
-        // Try to find an equal material already in the list of materials
         std::vector<Material>::iterator found = std::find(Material::materials.begin(), Material::materials.end(), mat);
-
-        // If the material is already in the materials list
         if (found != Material::materials.end()) {
-            // Add the material's index to the list
             m_materialIndices.push_back(found.base() - Material::materials.data());
-            // Don't load textures again
             continue;
         }
 
-        // Variables for stbi image loading
-        int32 textureWidth = 0;
-        int32 textureHeight = 0;
-        int32 bitsPerPixel = 0;
+        loadTexture(mat.diffuseMapName, &mat.diffuseMap);
+        loadTexture(mat.normalMapName, &mat.normalMap);
 
-        // Load the textures -------------------------------------------------------------------------------------
-        // Make space for textures in VRAM
-        glGenTextures(2, &mat.diffuseMap);
-        // Flip texture to fit Model
-        stbi_set_flip_vertically_on_load(true);
-        if (mat.diffuseMapName.compare("") != 0) {
-            // Buffer to store texture
-            auto textureBuffer = stbi_load(mat.diffuseMapName.data(), &textureWidth, &textureHeight, &bitsPerPixel, 4);
-            // Check if texture loaded
-            if (!textureBuffer) {
-                std::cerr << "Couldn't load image at " << mat.diffuseMapName.data() << "! Aborting!" << std::endl;
-                assert(textureBuffer);
-            }
-            assert(mat.diffuseMap);
-
-            // Bind the diffuse texture
-            glBindTexture(GL_TEXTURE_2D, mat.diffuseMap);
-
-            // Settings for diffuse texture
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-            // Load texture in VRAM
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, textureWidth, textureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureBuffer);
-
-            // Delete the texture from the buffer
-            stbi_image_free(textureBuffer);
-        }
-
-        if (mat.normalMapName.compare("") != 0) {
-            // Buffer to store texture
-            auto textureBuffer = stbi_load(mat.normalMapName.data(), &textureWidth, &textureHeight, &bitsPerPixel, 4);
-            // Check if texture loaded
-            if (!textureBuffer) {
-                std::cerr << "Couldn't load image at " << mat.normalMapName.data() << "! Aborting!" << std::endl;
-                assert(textureBuffer);
-            }
-            assert(mat.normalMap);
-
-            // Bind the normal map
-            glBindTexture(GL_TEXTURE_2D, mat.normalMap);
-
-            // Settings for normal map
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-            // Load texture in VRAM
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, textureWidth, textureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureBuffer);
-
-            // Delete the texture from the buffer
-            stbi_image_free(textureBuffer);
-        }
-
-        // Reset the bound texture
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-        // Add the material to the material list
         Material::materials.push_back(mat);
-        // Add the material's index to the list
-        m_materialIndices.push_back(Material::materials.end().base() - Material::materials.data() - 1);
+        m_materialIndices.push_back(Material::materials.size() - 1);
     }
 }
 
-void Model::processColor(aiMaterial* aiMaterial, const char* pKey, unsigned int type, unsigned int idx, glm::vec3& storeTo) {
+glm::vec3 Model::getColor(aiMaterial* mat, const char* pKey, unsigned int type, unsigned int idx) {
     aiColor3D color(0.0f, 0.0f, 0.0f);
-    if (AI_SUCCESS != aiMaterial->Get(pKey, type, idx, color)) {
+    if (AI_SUCCESS != mat->Get(pKey, type, idx, color)) {
         debugOutputEndl("No color found, using default color black!");
     }
-    storeTo = { color.r, color.g, color.b };
+    return glm::vec3(color.r, color.g, color.b);
+}
+
+float Model::getFloat(aiMaterial* mat, const char* pKey, unsigned int type, unsigned int idx) {
+    float value(0.0f);
+    if (AI_SUCCESS != mat->Get(pKey, type, idx, value)) {
+        debugOutputEndl("No value, using default value 0!");
+    }
+    return value;
+}
+
+std::string Model::getTexturePath(aiMaterial* mat, aiTextureType type) {
+    uint32 numTextures = mat->GetTextureCount(type);
+
+    if (numTextures > 0) {
+        aiString textureNameBuffer{ };
+        mat->GetTexture(type, 0, &textureNameBuffer);
+        return std::string(getFilePath(m_filename)) + textureNameBuffer.C_Str();
+    } else {
+        debugOutputEndl("No texture found, using default texture!");
+        return std::string("");
+    }
+}
+
+void Model::loadTexture(std::string& path, GLuint* textureId) {
+    if (path.compare("") == 0)
+        return;
+
+    int32 textureWidth = 0;
+    int32 textureHeight = 0;
+    int32 bitsPerPixel = 0;
+
+    stbi_set_flip_vertically_on_load(true);
+
+    auto textureBuffer = stbi_load(path.c_str(), &textureWidth, &textureHeight, &bitsPerPixel, 4);
+    if (!textureBuffer) {
+        std::cerr << "Couldn't load image at " << path.c_str() << "! Aborting!" << std::endl;
+        throw std::exception();
+    }
+
+    glGenTextures(1, textureId);
+    glBindTexture(GL_TEXTURE_2D, *textureId);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, textureWidth, textureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureBuffer);
+
+    stbi_image_free(textureBuffer);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Model::processNodes(const aiScene* scene, aiNode* node) {
