@@ -1,16 +1,11 @@
 # specify cmake version required
 cmake_minimum_required(VERSION 3.0.0)
-# project is called "OpenGL" and is not released yet so version is 0.1.0
 project(OpenGLProject VERSION 0.1.0)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "/home/jan/visual-studio-code-workspace/OpenGL")
-
-# there's no tests but duh
-include(CTest)
-enable_testing()
 
 # SET(GCC_COVERAGE_COMPILE_FLAGS "-D _DEBUG")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
@@ -37,7 +32,7 @@ target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARY})
 find_package(SDL2 REQUIRED)
 target_link_libraries(${PROJECT_NAME} SDL2::SDL2)
 # get assimp
-find_package(ASSIMP REQUIRED)
+find_package(assimp REQUIRED)
 target_link_libraries(${PROJECT_NAME} ${ASSIMP_LIBRARIES})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
