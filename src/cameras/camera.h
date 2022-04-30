@@ -5,9 +5,7 @@
 #include "../../lib/glm/gtc/matrix_transform.hpp"
 
 #include "../utils.h"
-
-// Forward declaration
-class SdlEventHandler;
+#include "../sdlEventHandler.h"
 
 class Camera {
 protected:
@@ -30,4 +28,4 @@ public:
 	glm::vec3 getPosition();
 };
 
-#endif /* CAMERAS_CAMERA_H_ */
+#endif
