@@ -53,6 +53,8 @@ public:
 
 private:
     void init(const float16* const heightMap) noexcept;
+    void initVertexBuffer(const float16* const heightMap) noexcept;
+    void initIndexBuffer() noexcept;
 };
 
 #endif

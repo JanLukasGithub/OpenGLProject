@@ -49,11 +49,15 @@ void Terrain::render() const noexcept {
 }
 
 void Terrain::init(const float16* const heightMap) noexcept {
-    // Vao
+    initVertexBuffer(heightMap);
+
+    initIndexBuffer();
+}
+
+void Terrain::initVertexBuffer(const float16* const heightMap) noexcept {
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);
 
-    // Vbo
     glGenBuffers(1, &m_vboBufferId);
     glBindBuffer(GL_ARRAY_BUFFER, m_vboBufferId);
     glBufferData(GL_ARRAY_BUFFER, sizeof(*heightMap) * m_sizeX * m_sizeZ, heightMap, GL_STATIC_DRAW);
@@ -62,11 +66,11 @@ void Terrain::init(const float16* const heightMap) noexcept {
     glVertexAttribPointer(0, 1, GL_HALF_FLOAT, GL_FALSE, 0, 0);
 
     glBindVertexArray(0);
+}
 
-    // Ibo
+void Terrain::initIndexBuffer() noexcept {
     glGenBuffers(1, &m_iboBufferId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboBufferId);
-    // Null-initialize ibo
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_sizeX * (m_sizeZ - 1) * sizeof(uint32) * 2, nullptr, GL_STATIC_DRAW);
 
     // A buffer with m_sizeX * 2 indices per strip, tightly packed together m_sizeZ - 1 times
