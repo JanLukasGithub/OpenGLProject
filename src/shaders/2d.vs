@@ -1,4 +1,4 @@
-#version 330 core
+#version 450
 
 layout(location = 0) in vec2 a_position;
 layout(location = 1) in vec2 a_textureCoords;

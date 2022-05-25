@@ -1,4 +1,4 @@
-#version 330 core
+#version 450
 
 layout(location = 0) in float a_height;
 

@@ -1,4 +1,4 @@
-#version 330 core
+#version 450
 
 // a_ means attribute
 layout(location = 0) in vec3 a_position;

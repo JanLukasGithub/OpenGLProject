@@ -1,4 +1,4 @@
-#version 330 core
+#version 450
 
 // f_ means fragment
 layout(location = 0) out vec4 f_color;
