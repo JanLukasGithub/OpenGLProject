@@ -37,7 +37,7 @@ GLuint Shader::compile(std::string shaderSource, GLenum type) {
         char* message = new char[length];
         glGetShaderInfoLog(id, length, &length, message);
 
-        std::cout << "Shader compile infos: " << message << std::endl;
+        std::cerr << "While compiling Shader:\n" << shaderSource << "\n\nReceived errors:\n" << message << std::endl;
 
         delete[] message;
         return 0;
