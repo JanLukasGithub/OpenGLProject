@@ -40,10 +40,8 @@ public:
 	Mesh(Mesh&& mesh);
 	virtual ~Mesh();
 
-	// Renders this mesh
-	void render() const;
-	// Renders this mesh without setting vbo, ibo or anything. Use when rendering the same mesh multiple times
-	void fastRender() const;
+	// Renders this mesh num times
+	void render(GLsizei num) const;
 
 private:
 	// Currently not finished, DON'T USE

@@ -27,7 +27,7 @@ Mesh::~Mesh() {
 	delete m_ibo;
 }
 
-void Mesh::render() const {
+void Mesh::render(GLsizei num) const {
 	Material material = Material::materials[m_materialIndex];
 
 	m_vbo->bind();
@@ -44,11 +44,8 @@ void Mesh::render() const {
 	glBindTexture(GL_TEXTURE_2D, material.normalMap);
 	glUniform1i(normalMapLocation, 1);
 	glActiveTexture(GL_TEXTURE0);
-	glDrawElements(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_INT, 0);
-}
-
-void Mesh::fastRender() const {
-	glDrawElements(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_INT, 0);
+	
+	glDrawElementsInstanced(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_INT, 0, num);
 }
 
 // UNFINISHED ---------------------------------------------------------------------------------------------------------------------------------
