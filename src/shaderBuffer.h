@@ -7,12 +7,6 @@
 
 template<typename T>
 class ShaderBuffer {
-private:
-    GLuint m_bufferId{ 0 };
-    uint64 m_numElementsSize;
-    uint64 m_numElementsCapacity;
-    GLuint m_bufferBinding;
-
 public:
     ShaderBuffer(const T* data, const uint64 numElements, const GLuint bufferBinding);
     ShaderBuffer(ShaderBuffer<T>&& buf);
@@ -23,6 +17,12 @@ public:
 
     ShaderBuffer& bind();
     ShaderBuffer& unbind();
+
+private:
+    GLuint m_bufferId{ 0 };
+    uint64 m_numElementsSize;
+    uint64 m_numElementsCapacity;
+    GLuint m_bufferBinding;
 };
 
 #endif
