@@ -1,7 +1,7 @@
 #include "shaderBuffer.h"
 
 template<typename T>
-ShaderBuffer<T>::ShaderBuffer(const T* data, const uint64 numElements, GLuint bufferBinding) : m_numElementsSize{ numElements }, m_numElementsCapacity{ size },
+ShaderBuffer<T>::ShaderBuffer(const T* data, const uint64 numElements, GLuint bufferBinding) : m_numElementsSize{ numElements }, m_numElementsCapacity{ numElements },
 m_bufferBinding{ bufferBinding } {
     glGenBuffers(1, &m_bufferId);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_bufferId);
