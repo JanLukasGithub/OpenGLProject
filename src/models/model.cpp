@@ -31,16 +31,13 @@ const int Model::getListSize() noexcept {
     return modelFiles.size();
 }
 
-Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ model.m_meshes }, m_models{ model.m_models } {
+Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ model.m_meshes }, m_modelMatBuffer{ std::move(model.m_modelMatBuffer) } {
     for (unsigned int i = 0; i < model.m_meshes.size(); i++) {
         model.m_meshes[i] = nullptr;
     }
-    for (unsigned int i = 0; i < model.m_models.size(); i++) {
-        model.m_models[i] = nullptr;
-    }
 }
 
-Model::Model(const char* const filename) : m_filename{ filename } {
+Model::Model(const char* const filename) : m_filename{ filename }, m_modelMatBuffer{ nullptr, 0, 0 } {
     readModelFromFile();
 }
 
@@ -48,35 +45,27 @@ Model::~Model() noexcept {
     for (unsigned int i = 0; i < m_meshes.size(); i++) {
         delete m_meshes[i];
     }
-    for (unsigned int i = 0; i < m_models.size(); i++) {
-        delete m_models[i];
-    }
 }
 
 void Model::addInstance() noexcept {
-    m_models.push_back(new ModelInstance());
+    glm::mat4 modelMat{ 1.0f };
+    m_modelMatBuffer.add(&modelMat, 1);
 }
 
 void Model::addInstance(const glm::vec3 position) noexcept {
-    m_models.push_back(new ModelInstance(position));
+    glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), position);
+    m_modelMatBuffer.add(&modelMat, 1);
 }
 
 void Model::addInstance(const glm::mat4 modelMat) noexcept {
-    m_models.push_back(new ModelInstance(modelMat));
+    m_modelMatBuffer.add(&modelMat, 1);
 }
 
 void Model::renderModels() const noexcept {
-    if (m_models.size() < 1)
-        return;
+    m_modelMatBuffer.bind();
 
     for (int i = 0; i < m_meshes.size(); i++) {
-        glUniformMatrix4fv(ModelInstance::modelMatLocation, 1, GL_FALSE, &((m_models[0]->getModelMat())[0][0]));
-        m_meshes[i]->render();
-
-        for (int j = 1; j < m_models.size(); j++) {
-            glUniformMatrix4fv(ModelInstance::modelMatLocation, 1, GL_FALSE, &((m_models[j]->getModelMat())[0][0]));
-            m_meshes[i]->fastRender();
-        }
+        m_meshes[i]->render(m_modelMatBuffer.getSize());
     }
 }
 

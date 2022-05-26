@@ -18,6 +18,7 @@
 #include "material.h"
 #include "modelInstance.h"
 #include "../renderer/IRenderable.h"
+#include "../shaderBuffer.h"
 
 // Representation of a model file (.obj or similar) in code. Allows you to create Models
 class Model : IRenderable {
@@ -68,8 +69,8 @@ private:
     std::vector<Mesh*> m_meshes{};
     // Holds the indices of the materials
     std::vector<uint32> m_materialIndices{};
-    // Holds the Models made from this Model
-    std::vector<ModelInstance*> m_models{};
+    // Buffer to store model locations to
+    ShaderBuffer<glm::mat4> m_modelMatBuffer;
 
 public:
     // Move constructor
@@ -96,10 +97,6 @@ public:
 private:
     // Private constructor to force use of addModelFile(filename)
     Model(const char* filename);
-    // Private copy constructor to prevent use of it
-    Model(const Model& model) : m_filename{ model.m_filename } {};
-    // Private copy assignment operator to prevent use of it
-    Model& operator=(const Model& model) { return *this; }
 
     // Reads model from file using assimp
     void readModelFromFile();
