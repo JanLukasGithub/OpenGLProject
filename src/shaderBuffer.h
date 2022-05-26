@@ -27,7 +27,7 @@ public:
         glDeleteBuffers(1, &m_bufferId);
     }
 
-    ShaderBuffer& add(const T* data, const uint64 numElements) {
+    void add(const T* data, const uint64 numElements) {
         GLuint oldBufferId = m_bufferId;
         uint64 oldNumElements = m_numElementsSize;
 
@@ -37,7 +37,7 @@ public:
 
         if (m_numElementsSize <= m_numElementsCapacity) {
             glBufferSubData(GL_COPY_READ_BUFFER, oldNumElements * sizeof(T), numElements + sizeof(T), data);
-            return *this;
+            return;
         }
 
         glGenBuffers(1, &m_bufferId);
@@ -50,15 +50,13 @@ public:
         glDeleteBuffers(1, &oldBufferId);
 
         m_numElementsCapacity = m_numElementsSize;
-
-        return *this;
     }
 
-    ShaderBuffer& add(const std::vector<T>& data) {
+    void add(const std::vector<T>& data) {
         add(data.data(), data.size());
     }
 
-    ShaderBuffer& remove(const uint64 index, const uint64 numElements) {
+    void remove(const uint64 index, const uint64 numElements) {
         glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_bufferId);
 
         GLsizeiptr tempBufferSize = (m_numElementsSize - index - numElements) * sizeof(T);
@@ -73,20 +71,14 @@ public:
         glDeleteBuffers(1, &tempBuffer);
 
         m_numElementsSize -= numElements;
-
-        return *this;
     }
 
-    ShaderBuffer& bind() const {
+    void bind() const {
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, m_bufferId);
-
-        return *this;
     }
     
-    ShaderBuffer& unbind() const {
+    void unbind() const {
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, 0);
-
-        return *this;
     }
 
     uint64 getSize() const {
