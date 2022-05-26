@@ -77,22 +77,22 @@ public:
         return *this;
     }
 
-    ShaderBuffer& bind() {
+    ShaderBuffer& bind() const {
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, m_bufferId);
 
         return *this;
     }
     
-    ShaderBuffer& unbind() {
+    ShaderBuffer& unbind() const {
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, 0);
 
         return *this;
     }
 
-    uint64 getSize() {
+    uint64 getSize() const {
         return m_numElementsSize;
     }
-    uint64 getCapacity() {
+    uint64 getCapacity() const {
         return m_numElementsCapacity;
     }
 
