@@ -3,6 +3,8 @@
 
 #include <GL/glew.h>
 
+#include <vector>
+
 #include "utils.h"
 
 template<typename T>
@@ -13,6 +15,7 @@ public:
     virtual ~ShaderBuffer();
 
     ShaderBuffer& add(const T* data, const uint64 numElements);
+    ShaderBuffer& add(const std::vector<T>& data);
     ShaderBuffer& remove(const uint64 index, const uint64 numElements);
 
     ShaderBuffer& bind();

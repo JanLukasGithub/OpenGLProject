@@ -49,6 +49,11 @@ ShaderBuffer<T>& ShaderBuffer<T>::add(const T* data, const uint64 numElements) {
 }
 
 template<typename T>
+ShaderBuffer<T>& ShaderBuffer<T>::add(const std::vector<T>& data) {
+    add(data.data(), data.size());
+}
+
+template<typename T>
 ShaderBuffer<T>& ShaderBuffer<T>::remove(const uint64 index, const uint64 numElements) {
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_bufferId);
 
