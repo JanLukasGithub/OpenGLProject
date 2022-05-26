@@ -89,6 +89,13 @@ public:
         return *this;
     }
 
+    uint64 getSize() {
+        return m_numElementsSize;
+    }
+    uint64 getCapacity() {
+        return m_numElementsCapacity;
+    }
+
 private:
     GLuint m_bufferId{ 0 };
     uint64 m_numElementsSize;
