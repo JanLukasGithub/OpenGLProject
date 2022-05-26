@@ -1,72 +1,82 @@
 #include "shaderBuffer.h"
 
-ShaderBuffer::ShaderBuffer(const void* data, const uint64 size, GLuint bufferBinding) : m_size{ size }, m_capacity{ size }, m_bufferBinding{ bufferBinding } {
+template<typename T>
+ShaderBuffer<T>::ShaderBuffer(const T* data, const uint64 numElements, GLuint bufferBinding) : m_numElementsSize{ numElements }, m_numElementsCapacity{ size },
+m_bufferBinding{ bufferBinding } {
     glGenBuffers(1, &m_bufferId);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_bufferId);
-    glBufferData(GL_SHADER_STORAGE_BUFFER, size, data, GL_DYNAMIC_READ);
+    glBufferData(GL_SHADER_STORAGE_BUFFER, numElements * sizeof(T), data, GL_DYNAMIC_READ);
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bufferBinding, m_bufferId);
 }
 
-ShaderBuffer::ShaderBuffer(ShaderBuffer&& buf) : m_bufferId{ buf.m_bufferId }, m_size{ buf.m_size }, m_bufferBinding{ buf.m_bufferBinding }, m_capacity{ buf.m_capacity } {
+template<typename T>
+ShaderBuffer<T>::ShaderBuffer(ShaderBuffer<T>&& buf) : m_bufferId{ buf.m_bufferId }, m_numElementsSize{ buf.m_numElementsSize },
+m_bufferBinding{ buf.m_bufferBinding }, m_numElementsCapacity{ buf.m_numElementsCapacity } {
     buf.m_bufferId = 0;
 }
 
-ShaderBuffer::~ShaderBuffer() {
+template<typename T>
+ShaderBuffer<T>::~ShaderBuffer() {
     glDeleteBuffers(1, &m_bufferId);
 }
 
-ShaderBuffer& ShaderBuffer::add(const void* newData, const uint64 addedSize) {
+template<typename T>
+ShaderBuffer<T>& ShaderBuffer<T>::add(const T* data, const uint64 numElements) {
     GLuint oldBufferId = m_bufferId;
-    GLsizeiptr oldBufferSize = m_size;
+    uint64 oldNumElements = m_numElementsSize;
 
-    m_size = oldBufferSize + addedSize;
+    m_numElementsSize += numElements;
 
     glBindBuffer(GL_COPY_READ_BUFFER, oldBufferId);
 
-    if (m_size <= m_capacity) {
-        glBufferSubData(GL_COPY_READ_BUFFER, oldBufferSize, addedSize, newData);
+    if (m_numElementsSize <= m_numElementsCapacity) {
+        glBufferSubData(GL_COPY_READ_BUFFER, oldNumElements * sizeof(T), numElements + sizeof(T), data);
         return *this;
     }
 
     glGenBuffers(1, &m_bufferId);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_bufferId);
-    glBufferData(GL_SHADER_STORAGE_BUFFER, oldBufferSize + addedSize, nullptr, GL_DYNAMIC_READ);
+    glBufferData(GL_SHADER_STORAGE_BUFFER, m_numElementsSize * sizeof(T), nullptr, GL_DYNAMIC_READ);
 
-    glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_SHADER_STORAGE_BUFFER, 0, 0, oldBufferSize);
-    glBufferSubData(GL_SHADER_STORAGE_BUFFER, oldBufferSize, addedSize, newData);
+    glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_SHADER_STORAGE_BUFFER, 0, 0, oldNumElements * sizeof(T));
+    glBufferSubData(GL_SHADER_STORAGE_BUFFER, oldNumElements * sizeof(T), numElements * sizeof(T), data);
 
     glDeleteBuffers(1, &oldBufferId);
 
-    m_capacity = m_size;
+    m_numElementsCapacity = m_numElementsSize;
 
     return *this;
 }
 
-ShaderBuffer& ShaderBuffer::remove(const uint64 offset, const uint64 size) {
+template<typename T>
+ShaderBuffer<T>& ShaderBuffer<T>::remove(const uint64 index, const uint64 numElements) {
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_bufferId);
 
+    GLsizeiptr tempBufferSize = (m_numElementsSize - index - numElements) * sizeof(T);
     GLuint tempBuffer;
     glGenBuffers(1, &tempBuffer);
     glBindBuffer(GL_COPY_READ_BUFFER, tempBuffer);
-    glBufferData(GL_COPY_READ_BUFFER, m_size - offset - size, nullptr, GL_DYNAMIC_READ);
+    glBufferData(GL_COPY_READ_BUFFER, tempBufferSize, nullptr, GL_DYNAMIC_READ);
 
-    glCopyBufferSubData(GL_SHADER_STORAGE_BUFFER, GL_COPY_READ_BUFFER, offset + size, 0, m_size - offset - size);
-    glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_SHADER_STORAGE_BUFFER, 0, offset, m_size - offset - size);
+    glCopyBufferSubData(GL_SHADER_STORAGE_BUFFER, GL_COPY_READ_BUFFER, (index + numElements) * sizeof(T), 0, tempBufferSize);
+    glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_SHADER_STORAGE_BUFFER, 0, index * sizeof(T), tempBufferSize);
 
     glDeleteBuffers(1, &tempBuffer);
 
-    m_size -= size;
+    m_numElementsSize -= numElements;
 
     return *this;
 }
 
-ShaderBuffer& ShaderBuffer::bind() {
+template<typename T>
+ShaderBuffer<T>& ShaderBuffer<T>::bind() {
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, m_bufferId);
 
     return *this;
 }
 
-ShaderBuffer& ShaderBuffer::unbind() {
+template<typename T>
+ShaderBuffer<T>& ShaderBuffer<T>::unbind() {
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, 0);
 
     return *this;

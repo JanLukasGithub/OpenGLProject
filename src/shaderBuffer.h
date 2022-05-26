@@ -5,20 +5,21 @@
 
 #include "utils.h"
 
+template<typename T>
 class ShaderBuffer {
 private:
     GLuint m_bufferId{ 0 };
-    GLsizeiptr m_size;
-    GLsizeiptr m_capacity;
+    uint64 m_numElementsSize;
+    uint64 m_numElementsCapacity;
     GLuint m_bufferBinding;
 
 public:
-    ShaderBuffer(const void* data, const uint64 size, const GLuint bufferBinding);
-    ShaderBuffer(ShaderBuffer&& buf);
+    ShaderBuffer(const T* data, const uint64 numElements, const GLuint bufferBinding);
+    ShaderBuffer(ShaderBuffer<T>&& buf);
     virtual ~ShaderBuffer();
 
-    ShaderBuffer& add(const void* newData, const uint64 size);
-    ShaderBuffer& remove(const uint64 index, const uint64 size);
+    ShaderBuffer& add(const T* data, const uint64 numElements);
+    ShaderBuffer& remove(const uint64 index, const uint64 numElements);
 
     ShaderBuffer& bind();
     ShaderBuffer& unbind();

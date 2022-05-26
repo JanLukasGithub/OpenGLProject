@@ -11,6 +11,10 @@ out vec3 v_position;
 out vec2 v_textureCoords;
 out mat3 v_tbn;
 
+layout(std430, binding = 0) buffer b_modelMats {
+    mat4 matrices[];
+};
+
 uniform mat4 u_modelMat;
 uniform mat4 u_modelViewProj;
 uniform mat4 u_modelView;
