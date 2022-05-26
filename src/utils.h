@@ -40,7 +40,7 @@ const char* getFilename(const char* path);
 const char* getFileExtension(const char* path);
 
 /**
- * Example: "../folder/name.extension" -> "../folder/" 
+ * Example: "../folder/name.extension" -> "../folder/"
  * Returned char* is dynamically allocated
  */
 const char* getFilePath(const char* path);
@@ -48,19 +48,35 @@ const char* getFilePath(const char* path);
 /* Only prints out information if compiled with debug flags.
  * Automatically adds a std::endl at the end */
 template<typename T>
-void debugOutputEndl(const T* t);
+void debugOutputEndl(const T* t) {
+#ifdef _DEBUG
+	std::cout << t << std::endl;
+#endif
+}
 
 /* Only prints out information if compiled with debug flags.
  * Automatically adds a std::endl at the end */
 template<typename T>
-void debugOutputEndl(const T t);
+void debugOutputEndl(const T t) {
+#ifdef _DEBUG
+	std::cout << t << std::endl;
+#endif
+}
 
 /* Only prints out information if compiled with debug flags. */
 template<typename T>
-void debugOutput(const T* t);
+void debugOutput(const T* t) {
+#ifdef _DEBUG
+	std::cout << t;
+#endif
+}
 
 /* Only prints out information if compiled with debug flags. */
 template<typename T>
-void debugOutput(const T t);
+void debugOutput(const T t) {
+#ifdef _DEBUG
+	std::cout << t;
+#endif
+}
 
 #endif

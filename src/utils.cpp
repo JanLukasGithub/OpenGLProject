@@ -45,36 +45,3 @@ const char* getFilePath(const char* path) {
 	strncpy(newString, path, newStringLen);
 	return newString;
 }
-
-template void debugOutputEndl<char>(const char* t);
-template void debugOutputEndl<unsigned char>(const unsigned char* t);
-template<typename T>
-void debugOutputEndl(const T* t) {
-#ifdef _DEBUG
-	std::cout << t << std::endl;
-#endif
-}
-
-template void debugOutputEndl<uint32>(const uint32 t);
-template<typename T>
-void debugOutputEndl(const T t) {
-#ifdef _DEBUG
-	std::cout << t << std::endl;
-#endif
-}
-
-template void debugOutput<char>(const char* t);
-template<typename T>
-void debugOutput(const T* t) {
-#ifdef _DEBUG
-	std::cout << t;
-#endif
-}
-
-template void debugOutput<double>(const double t);
-template<typename T>
-void debugOutput(const T t) {
-#ifdef _DEBUG
-	std::cout << t;
-#endif
-}
