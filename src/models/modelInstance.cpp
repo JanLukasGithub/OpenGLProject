@@ -1,9 +1,5 @@
 #include "modelInstance.h"
 
-void ModelInstance::initUniforms(const Shader* shader) {
-	ModelInstance::modelMatLocation = glGetUniformLocation(shader->getShaderId(), "u_modelMat");
-}
-
 ModelInstance::ModelInstance() {}
 
 ModelInstance::ModelInstance(const glm::vec3 position) : m_modelMat{ glm::translate(glm::mat4(1.0f), position) } {}

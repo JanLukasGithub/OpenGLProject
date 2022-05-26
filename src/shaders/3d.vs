@@ -11,11 +11,10 @@ out vec3 v_position;
 out vec2 v_textureCoords;
 out mat3 v_tbn;
 
-layout(std430, binding = 0) buffer b_modelMats {
+layout(std430, binding = 0) buffer matricesBlock {
     mat4 matrices[];
-};
+} b_modelMats;
 
-uniform mat4 u_modelMat;
 uniform mat4 u_modelViewProj;
 uniform mat4 u_modelView;
 uniform mat4 u_invModelView;
@@ -23,7 +22,7 @@ uniform mat4 u_invModelView;
 uniform bool u_hasNormalMap;
 
 void main() {
-    vec4 worldSpacePosition = u_modelMat * vec4(a_position, 1.0f);
+    vec4 worldSpacePosition = b_modelMats.matrices[gl_InstanceID] * vec4(a_position, 1.0f);
 
     gl_Position = u_modelViewProj * worldSpacePosition;
     

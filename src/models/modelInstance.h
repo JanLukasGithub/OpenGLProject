@@ -7,11 +7,6 @@
 #include "../shader.h"
 
 class ModelInstance {
-public:
-	// Location of model mat uniform
-	inline static int modelMatLocation;
-	static void initUniforms(const Shader* shader);
-
 private:
 	// Stores translation, rotation and scale
 	glm::mat4 m_modelMat{ 1.0f };
