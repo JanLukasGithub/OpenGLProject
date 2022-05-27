@@ -4,6 +4,10 @@ Shader::Shader(const std::string& vertexShaderFileName, const std::string& fragm
     m_shaderId = createShader(vertexShaderFileName, fragmentShaderFileName);
 }
 
+Shader::Shader(const std::string& vertexShaderFileName, const std::string& geometryShaderFilename, const std::string& fragmentShaderFileName) {
+    m_shaderId = createShader(vertexShaderFileName, geometryShaderFilename, fragmentShaderFileName);
+}
+
 Shader::~Shader() {
     glDeleteProgram(m_shaderId);
 }
@@ -20,6 +24,13 @@ void Shader::update(const std::string& vertexShaderFileName, const std::string& 
     this->unbind();
     glDeleteProgram(m_shaderId);
     m_shaderId = createShader(vertexShaderFileName, fragmentShaderFileName);
+    this->bind();
+}
+
+void Shader::update(const std::string& vertexShaderFileName, const std::string& geometryShaderFilename, const std::string& fragmentShaderFileName) {
+    this->unbind();
+    glDeleteProgram(m_shaderId);
+    m_shaderId = createShader(vertexShaderFileName, geometryShaderFilename, fragmentShaderFileName);
     this->bind();
 }
 
@@ -90,6 +101,42 @@ GLuint Shader::createShader(const std::string& vertexShaderFileName, const std::
     glDetachShader(program, fs);
 
     glDeleteShader(vs);
+    glDeleteShader(fs);
+
+    std::chrono::high_resolution_clock::time_point endTime = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> time_span = endTime - startTime;
+
+    debugOutput("Created shader in "); debugOutput(time_span.count()); debugOutputEndl("ms!");
+
+    return program;
+}
+
+GLuint Shader::createShader(const std::string& vertexShaderFileName, const std::string& geometryShaderFilename, const std::string& fragmentShaderFileName) {
+    debugOutputEndl("Creating shader...");
+
+    std::chrono::high_resolution_clock::time_point startTime = std::chrono::high_resolution_clock::now();
+
+    std::string vertexShaderSource = parse(vertexShaderFileName);
+    std::string geometryShaderSource = parse(geometryShaderFilename);
+    std::string fragmentShaderSource = parse(fragmentShaderFileName);
+
+    GLuint program = glCreateProgram();
+    GLuint vs = compile(vertexShaderSource, GL_VERTEX_SHADER);
+    GLuint gs = compile(geometryShaderSource, GL_GEOMETRY_SHADER);
+    GLuint fs = compile(fragmentShaderSource, GL_FRAGMENT_SHADER);
+
+    glAttachShader(program, vs);
+    glAttachShader(program, gs);
+    glAttachShader(program, fs);
+
+    glLinkProgram(program);
+
+    glDetachShader(program, vs);
+    glDetachShader(program, gs);
+    glDetachShader(program, fs);
+
+    glDeleteShader(vs);
+    glDeleteShader(gs);
     glDeleteShader(fs);
 
     std::chrono::high_resolution_clock::time_point endTime = std::chrono::high_resolution_clock::now();
