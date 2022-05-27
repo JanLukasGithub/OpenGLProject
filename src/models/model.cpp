@@ -145,7 +145,7 @@ std::string Model::getTexturePath(aiMaterial* mat, aiTextureType type) {
     if (numTextures > 0) {
         aiString textureNameBuffer{ };
         mat->GetTexture(type, 0, &textureNameBuffer);
-        return std::string(getFilePath(m_filename.c_str())) + textureNameBuffer.C_Str();
+        return getFilePath(m_filename) + textureNameBuffer.C_Str();
     } else {
         debugOutputEndl("No texture found, using default texture!");
         return std::string("");

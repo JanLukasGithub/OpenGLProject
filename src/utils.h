@@ -1,7 +1,7 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
-#include <cstring>
+#include <string>
 #include <iostream>
 
 #include "../lib/glm/glm.hpp"
@@ -34,16 +34,13 @@ struct Vertex {
 };
 
 /* Example: "../folder/name.extension" -> "name.extension" */
-const char* getFilename(const char* path);
+std::string getFilename(const std::string& path);
 
 /* Example: "../folder/name.extension" -> "extension" */
-const char* getFileExtension(const char* path);
+std::string getFileExtension(const std::string& path);
 
-/**
- * Example: "../folder/name.extension" -> "../folder/"
- * Returned char* is dynamically allocated
- */
-const char* getFilePath(const char* path);
+/** Example: "../folder/name.extension" -> "../folder/" */
+std::string getFilePath(const std::string& path);
 
 /* Only prints out information if compiled with debug flags.
  * Automatically adds a std::endl at the end */
