@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
 
 	SdlEventHandler* handler = new SdlEventHandler();
 
-	Terrain terrain{0, 0, "assets/heightMaps/heightmap.png"};
+	Terrain terrain{0, 0, "assets/heightMaps/heightmapCologne.png"};
 
 	bool isEscMenuOpen = false;
 	bool running = true;
