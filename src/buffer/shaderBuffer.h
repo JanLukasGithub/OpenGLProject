@@ -27,7 +27,7 @@ public:
         glDeleteBuffers(1, &m_bufferId);
     }
 
-    void add(const T* data, const uint64 numElements) {
+    void add(const T data[], const uint64 numElements) {
         GLuint oldBufferId = m_bufferId;
         uint64 oldNumElements = m_numElementsSize;
 
@@ -54,6 +54,10 @@ public:
 
     void add(const std::vector<T>& data) {
         add(data.data(), data.size());
+    }
+
+    void add(const T& data) {
+        add(&data, 1);
     }
 
     void remove(const uint64 index, const uint64 numElements) {
