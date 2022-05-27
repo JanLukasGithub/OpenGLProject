@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <algorithm>
-#include <cstring>
 #include <string>
 
 #include <assimp/Importer.hpp>
