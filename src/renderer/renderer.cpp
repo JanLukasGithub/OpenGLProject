@@ -41,6 +41,8 @@ void Renderer::init() {
     m_shader2d = new Shader("src/shaders/2d.vs", "src/shaders/2d.fs");
     m_shaderTerrain = new Shader("src/shaders/terrain.vs", "src/shaders/terrain.gs", "src/shaders/terrain.fs");
 
+    initUniforms();
+
     initLights();
 
     initCounter();
@@ -48,8 +50,6 @@ void Renderer::init() {
     initCamera();
 
     initMatrices();
-
-    initUniforms();
 
     m_fontRenderer = new Font{ "assets/fonts/OpenSans-Regular.ttf", m_shaderFont };
 }
@@ -80,7 +80,6 @@ void Renderer::initLights() {
     m_shader3d->bind();
 
     m_sun = DirectionalLight{
-        glGetUniformLocation(m_shader3d->getShaderId(), "u_directionalLight.direction"),
         // Direction
         glm::vec3(-1.0f),
         // Color
@@ -92,7 +91,6 @@ void Renderer::initLights() {
     glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_directionalLight.ambient"), 1, (float*)&m_sun.ambientColor.r);
 
     m_pointLight = PointLight{
-        glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.position"),
         // Position
         glm::vec4(0.0f, 0.0f, 10.0f, 1.0f),
         // Color
@@ -111,8 +109,6 @@ void Renderer::initLights() {
     glUniform1f(glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.quadratic"), m_pointLight.quadratic);
 
     m_flashlight = SpotLight{
-        glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.position"),
-        glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.direction"),
         // Position
         glm::vec3(0.0f, 0.0f, 0.0f),
         // Direction
@@ -130,8 +126,8 @@ void Renderer::initLights() {
         // Outer cone
         0.9f };
 
-    glUniform3fv(m_flashlight.positionUniformLocation, 1, (float*)&m_flashlight.position.x);
-    glUniform3fv(m_flashlight.directionUniformLocation, 1, (float*)&m_flashlight.direction.x);
+    glUniform3fv(LIGHTS::spotLightPositionUniformLocation, 1, (float*)&m_flashlight.position.x);
+    glUniform3fv(LIGHTS::spotLightDirectionUniformLocation, 1, (float*)&m_flashlight.direction.x);
 
     glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.diffuse"), 1, (float*)&m_flashlight.color.r);
     glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.specular"), 1, (float*)&m_flashlight.color.r);
@@ -166,6 +162,7 @@ void Renderer::initUniforms() {
     m_modelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelView");
     m_invModelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_invModelView");
 
+    LIGHTS::initUniforms(m_shader3d);
     Mesh::initUniforms(m_shader3d);
     Font::initUniforms(m_shaderFont);
     Terrain::initUniforms(m_shaderTerrain);
@@ -197,12 +194,12 @@ void Renderer::setup3DRender() {
     glm::mat4 invModelView = glm::transpose(glm::inverse(modelView));
 
     glm::vec4 transformedSunDirection = glm::transpose(glm::inverse(m_camera.getView())) * glm::vec4(m_sun.direction, 1.0f);
-    glUniform3fv(m_sun.directionUniformLocation, 1, (float*)&transformedSunDirection.x);
+    glUniform3fv(LIGHTS::directionalLightDirectionUniformLocation, 1, (float*)&transformedSunDirection.x);
 
     glm::mat4 pointLightMatrix = glm::rotate(glm::mat4(1.0f), m_delta, { 0.0f, 1.0f, 0.0f });
     m_pointLight.position = m_pointLight.position * pointLightMatrix;
     glm::vec3 transformedPointLightPosition = (glm::vec3)(m_camera.getView() * m_pointLight.position);
-    glUniform3fv(m_pointLight.positionUniformLocation, 1, (float*)&transformedPointLightPosition.x);
+    glUniform3fv(LIGHTS::pointLightPositionUniformLocation, 1, (float*)&transformedPointLightPosition.x);
 
     glUniformMatrix4fv(m_modelViewProjUniformLocation, 1, GL_FALSE, &m_modelViewProj[0][0]);
     glUniformMatrix4fv(m_modelViewUniformLocation, 1, GL_FALSE, &modelView[0][0]);

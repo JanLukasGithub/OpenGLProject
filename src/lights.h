@@ -3,15 +3,29 @@
 
 #include "../lib/glm/glm.hpp"
 
+#include "shader.h"
+
+namespace LIGHTS {
+	inline int directionalLightDirectionUniformLocation;
+	inline int pointLightPositionUniformLocation;
+	inline int spotLightPositionUniformLocation;
+	inline int spotLightDirectionUniformLocation;
+
+	inline void initUniforms(const Shader* shader) {
+		directionalLightDirectionUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_directionalLight.direction");
+		pointLightPositionUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_pointLight.position");
+		spotLightPositionUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_spotLight.position");
+		spotLightDirectionUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_spotLight.direction");
+	}
+}
+
 struct DirectionalLight {
-	int directionUniformLocation;
 	glm::vec3 direction;
 	glm::vec3 color;
 	glm::vec3 ambientColor;
 };
 
 struct PointLight {
-	int positionUniformLocation;
 	glm::vec4 position;
 	glm::vec3 color;
 	glm::vec3 ambientColor;
@@ -19,8 +33,6 @@ struct PointLight {
 };
 
 struct SpotLight {
-	int positionUniformLocation;
-	int directionUniformLocation;
 	glm::vec3 position;
 	glm::vec3 direction;
 	glm::vec3 color;
