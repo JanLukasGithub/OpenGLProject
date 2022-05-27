@@ -39,7 +39,7 @@ void Renderer::init() {
     m_shader3d = new Shader("src/shaders/3d.vs", "src/shaders/3d.fs");
     m_shaderFont = new Shader("src/shaders/font.vs", "src/shaders/font.fs");
     m_shader2d = new Shader("src/shaders/2d.vs", "src/shaders/2d.fs");
-    m_shaderTerrain = new Shader("src/shaders/terrain.vs", "src/shaders/terrain.fs");
+    m_shaderTerrain = new Shader("src/shaders/terrain.vs", "src/shaders/terrain.gs", "src/shaders/terrain.fs");
 
     initLights();
 
@@ -175,7 +175,7 @@ void Renderer::reset() {
     m_shader3d->update("src/shaders/3d.vs", "src/shaders/3d.fs");
     m_shaderFont->update("src/shaders/font.vs", "src/shaders/font.fs");
     m_shader2d->update("src/shaders/2d.vs", "src/shaders/2d.fs");
-    m_shaderTerrain->update("src/shaders/terrain.vs", "src/shaders/terrain.fs");
+    m_shaderTerrain->update("src/shaders/terrain.vs", "src/shaders/terrain.gs", "src/shaders/terrain.fs");
 
     initLights();
     initUniforms();
