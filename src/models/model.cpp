@@ -164,7 +164,7 @@ void Model::loadTexture(std::string& path, GLuint* textureId) {
 
     auto textureBuffer = stbi_load(path.c_str(), &textureWidth, &textureHeight, &bitsPerPixel, 4);
     if (!textureBuffer) {
-        std::cerr << "Couldn't load image at " << path.c_str() << "! Aborting!" << std::endl;
+        std::cerr << "Couldn't load image at " << path << "! Aborting!" << std::endl;
         throw std::exception();
     }
 
