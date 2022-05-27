@@ -56,7 +56,7 @@ public:
         glBindBuffer(GL_COPY_READ_BUFFER, oldBufferId);
 
         if (m_numElementsSize <= m_numElementsCapacity) {
-            glBufferSubData(GL_COPY_READ_BUFFER, oldNumElements * sizeof(T), numElements + sizeof(T), data);
+            glBufferSubData(GL_COPY_READ_BUFFER, oldNumElements * sizeof(T), numElements * sizeof(T), data);
             return;
         }
 
