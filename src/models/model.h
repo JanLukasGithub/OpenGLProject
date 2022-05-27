@@ -17,7 +17,7 @@
 #include "mesh.h"
 #include "material.h"
 #include "../renderer/IRenderable.h"
-#include "../shaderBuffer.h"
+#include "../buffer/shaderBuffer.h"
 
 // Representation of a model file (.obj or similar) in code. Allows you to create Models
 class Model : IRenderable {

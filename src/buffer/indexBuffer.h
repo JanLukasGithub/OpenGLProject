@@ -3,7 +3,7 @@
 
 #include <GL/glew.h>
 
-#include "utils.h"
+#include "../utils.h"
 
 class IndexBuffer {
 private:

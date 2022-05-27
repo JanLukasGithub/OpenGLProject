@@ -7,8 +7,8 @@
 #include "../../lib/glm/glm.hpp"
 
 #include "../shader.h"
-#include "../vertexBuffer.h"
-#include "../indexBuffer.h"
+#include "../buffer/vertexBuffer.h"
+#include "../buffer/indexBuffer.h"
 #include "../utils.h"
 #include "material.h"
 

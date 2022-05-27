@@ -5,7 +5,7 @@
 
 #include <vector>
 
-#include "utils.h"
+#include "../utils.h"
 
 template<typename T>
 class ShaderBuffer {
