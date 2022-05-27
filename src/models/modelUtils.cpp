@@ -1,6 +1,6 @@
 #include "modelUtils.h"
 
-void utils::loadModelsFrom(const char* const path) noexcept {
+void utils::loadModelsFrom(const std::string& path) noexcept {
     const std::filesystem::path filesystemPath{ path };
     if (std::filesystem::is_directory(filesystemPath)) {
 
@@ -10,11 +10,11 @@ void utils::loadModelsFrom(const char* const path) noexcept {
 
     } else if (std::filesystem::is_regular_file(filesystemPath)) {
 
-        if (!std::string(path).ends_with(".obj"))
+        if (!path.ends_with(".obj"))
             return;
 
         try {
-            Model::addModelFile((new std::string(path))->c_str());
+            Model::addModelFile(path);
         }
         catch (const std::exception& e) {
             std::cerr << "Error occurred while loading model " << path << "!" << std::endl;
@@ -23,7 +23,7 @@ void utils::loadModelsFrom(const char* const path) noexcept {
     }
 }
 
-bool utils::loadModelInstance(const char* const filename, const glm::vec3 position) noexcept {
+bool utils::loadModelInstance(const std::string& filename, const glm::vec3 position) noexcept {
     try {
         Model::addModelFile(filename).addInstance(position);
         return true;
