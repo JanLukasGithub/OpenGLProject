@@ -66,14 +66,7 @@ int main(int argc, char** argv) {
 
 	SdlEventHandler* handler = new SdlEventHandler();
 
-	Terrain* terrain;
-
-	{	// Get rid of height map data right after initialization of terrain
-		const int sizeX = 100, sizeZ = 100;
-
-		short heightMap[sizeX * sizeZ]{};
-		terrain = new Terrain(-50, -50, sizeX, sizeZ, heightMap);
-	}
+	Terrain terrain{0, 0, "assets/heightMaps/heightmap.png"};
 
 	bool isEscMenuOpen = false;
 	bool running = true;
@@ -116,7 +109,7 @@ int main(int argc, char** argv) {
 
 		renderer->setupTerrainRender();
 
-		terrain->render();
+		terrain.render();
 
 		renderer->setupFontRender();
 
