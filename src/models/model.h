@@ -16,7 +16,6 @@
 #include "../utils.h"
 #include "mesh.h"
 #include "material.h"
-#include "modelInstance.h"
 #include "../renderer/IRenderable.h"
 #include "../shaderBuffer.h"
 
@@ -66,7 +65,7 @@ private:
     // Name of this model
     const char* const m_filename;
     // Meshes of this model file
-    std::vector<Mesh*> m_meshes{};
+    std::vector<Mesh> m_meshes{};
     // Holds the indices of the materials
     std::vector<uint32> m_materialIndices{};
     // Buffer to store model locations to
@@ -116,7 +115,7 @@ private:
     void processMesh(aiMesh* mesh);
 
 public:
-    std::vector<Mesh*>& getMeshes() { return m_meshes; }
+    std::vector<Mesh>& getMeshes() { return m_meshes; }
 };
 
 #endif

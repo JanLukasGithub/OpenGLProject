@@ -31,21 +31,13 @@ const int Model::getListSize() noexcept {
     return modelFiles.size();
 }
 
-Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ model.m_meshes }, m_modelMatBuffer{ std::move(model.m_modelMatBuffer) } {
-    for (unsigned int i = 0; i < model.m_meshes.size(); i++) {
-        model.m_meshes[i] = nullptr;
-    }
-}
+Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ std::move(model.m_meshes) }, m_modelMatBuffer{ std::move(model.m_modelMatBuffer) } {}
 
 Model::Model(const char* const filename) : m_filename{ filename }, m_modelMatBuffer{ nullptr, 0, 0 } {
     readModelFromFile();
 }
 
-Model::~Model() noexcept {
-    for (unsigned int i = 0; i < m_meshes.size(); i++) {
-        delete m_meshes[i];
-    }
-}
+Model::~Model() noexcept {}
 
 void Model::addInstance() noexcept {
     glm::mat4 modelMat{ 1.0f };
@@ -65,7 +57,7 @@ void Model::renderModels() const noexcept {
     m_modelMatBuffer.bind();
 
     for (int i = 0; i < m_meshes.size(); i++) {
-        m_meshes[i]->render(m_modelMatBuffer.getSize());
+        m_meshes[i].render(m_modelMatBuffer.getSize());
     }
 }
 
@@ -241,5 +233,5 @@ void Model::processMesh(aiMesh* mesh) {
 
     int globalMaterialIndex = m_materialIndices[mesh->mMaterialIndex];
 
-    m_meshes.push_back(new Mesh(vertices, indices, globalMaterialIndex));
+    m_meshes.push_back(Mesh(vertices, indices, globalMaterialIndex));
 }
