@@ -12,17 +12,26 @@ class ShaderBuffer {
 public:
     ShaderBuffer(const T* data, const uint64 numElements, const GLuint bufferBinding) : m_numElementsSize{ numElements }, m_numElementsCapacity{ numElements },
         m_bufferBinding{ bufferBinding } {
-        glGenBuffers(1, &m_bufferId);
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bufferBinding, m_bufferId);
-        glBufferData(GL_SHADER_STORAGE_BUFFER, numElements * sizeof(T), data, GL_DYNAMIC_READ);
+        genBuffer(data);
+    }
+
+    ShaderBuffer(const T& data, const GLuint bufferBinding) : m_numElementsSize{ 1 }, m_numElementsCapacity{ 1 }, m_bufferBinding{ bufferBinding } {
+        genBuffer(&data);
+    }
+
+    ShaderBuffer(const std::vector<T>& data, const GLuint bufferBinding) : m_numElementsSize{ data.size() }, m_numElementsCapacity{ data.size() },
+        m_bufferBinding{ bufferBinding } {
+        genBuffer(data.data());
+    }
+
+    ShaderBuffer(const GLuint bufferBinding) : m_numElementsSize{ 1 }, m_numElementsCapacity{ 1 }, m_bufferBinding{ bufferBinding } {
+        genBuffer(nullptr);
     }
 
     ShaderBuffer(const ShaderBuffer& buf) : m_numElementsSize{ buf.m_numElementsSize }, m_numElementsCapacity{ buf.m_numElementsCapacity },
         m_bufferBinding{ buf.m_bufferBinding } {
 
-        glGenBuffers(1, &m_bufferId);
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, m_bufferId);
-        glBufferData(GL_SHADER_STORAGE_BUFFER, m_numElementsCapacity, nullptr, GL_DYNAMIC_READ);
+        genBuffer(nullptr);
 
         glBindBuffer(GL_COPY_READ_BUFFER, buf.m_bufferId);
 
@@ -51,16 +60,14 @@ public:
             return;
         }
 
-        glGenBuffers(1, &m_bufferId);
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, m_bufferId);
-        glBufferData(GL_SHADER_STORAGE_BUFFER, m_numElementsSize * sizeof(T), nullptr, GL_DYNAMIC_READ);
+        m_numElementsCapacity = m_numElementsSize;
+
+        genBuffer(nullptr);
 
         glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_SHADER_STORAGE_BUFFER, 0, 0, oldNumElements * sizeof(T));
         glBufferSubData(GL_SHADER_STORAGE_BUFFER, oldNumElements * sizeof(T), numElements * sizeof(T), data);
 
         glDeleteBuffers(1, &oldBufferId);
-
-        m_numElementsCapacity = m_numElementsSize;
     }
 
     void add(const std::vector<T>& data) {
@@ -108,6 +115,12 @@ private:
     uint64 m_numElementsSize;
     uint64 m_numElementsCapacity;
     GLuint m_bufferBinding;
+
+    void genBuffer(const T* data) {
+        glGenBuffers(1, &m_bufferId);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, m_bufferId);
+        glBufferData(GL_SHADER_STORAGE_BUFFER, m_numElementsCapacity * sizeof(T), data, GL_DYNAMIC_READ);
+    }
 };
 
 #endif
