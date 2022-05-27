@@ -158,11 +158,11 @@ void Model::loadTexture(std::string& path, GLuint* textureId) {
 
     int32 textureWidth = 0;
     int32 textureHeight = 0;
-    int32 bitsPerPixel = 0;
+    int32 bytesPerPixel = 0;
 
     stbi_set_flip_vertically_on_load(true);
 
-    auto textureBuffer = stbi_load(path.c_str(), &textureWidth, &textureHeight, &bitsPerPixel, 4);
+    auto textureBuffer = stbi_load(path.c_str(), &textureWidth, &textureHeight, &bytesPerPixel, 4);
     if (!textureBuffer) {
         std::cerr << "Couldn't load image at " << path << "! Aborting!" << std::endl;
         throw std::exception();
