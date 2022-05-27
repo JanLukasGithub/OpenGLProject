@@ -1,11 +1,15 @@
 #ifndef TERRAIN_H_
 #define TERRAIN_H_
 
+#include "../../lib/stb_image.h"
+
 #include "../../lib/glm/detail/type_half.hpp"
 
 #include "../renderer/IRenderable.h"
 #include "../utils.h"
 #include "../shader.h"
+
+#include <vector>
 
 // Represents a part of the terrain. Multiple instances can be used
 class Terrain : IRenderable {
@@ -25,13 +29,15 @@ private:
     const int m_offsetX, m_offsetZ;
 
     // Width and length of the terrain chunk this represents
-    const int m_sizeX, m_sizeZ;
+    int m_sizeX, m_sizeZ;
 
 public:
     // High memory usage as the heightMap has to be copied as it uses half floats internally
     Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float heightMap[]) noexcept;
     // The height map uses half floats. Use glm::detail::toFloat16() and glm::detail::toFloat32() to convert from/to half floats
     Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float16 heightMap[]) noexcept;
+    // Loads height map from an image height map file
+    Terrain(const int offsetX, const int offsetZ, const std::string& filename);
     Terrain(Terrain&& terrain) noexcept;
     virtual ~Terrain() noexcept;
 

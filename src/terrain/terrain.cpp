@@ -9,10 +9,8 @@ Terrain::Terrain(const int offsetX, const int offsetZ, const int sizeX, const in
 m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
     float16 halfFloatHeightMap[sizeX * sizeZ]{};
 
-    for (int x = 0; x < sizeX; x++) {
-        for (int z = 0; z < sizeZ; z++) {
-            halfFloatHeightMap[z * sizeX + x] = glm::detail::toFloat16(heightMap[z * sizeX + x]);
-        }
+    for (int i = 0; i < sizeX * sizeZ; i++) {
+        halfFloatHeightMap[i] = glm::detail::toFloat16(heightMap[i]);
     }
 
     init(halfFloatHeightMap);
@@ -21,6 +19,30 @@ m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
 Terrain::Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float16 heightMap[]) noexcept : m_offsetX{ offsetX },
 m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
     init(heightMap);
+}
+
+Terrain::Terrain(const int offsetX, const int offsetZ, const std::string& filename) : m_offsetX{ offsetX },
+m_offsetZ{ offsetZ } {
+    int32 bytesPerPixel = 0;
+
+    stbi_uc* textureBuffer = stbi_load(filename.c_str(), &m_sizeX, &m_sizeZ, &bytesPerPixel, 1);
+    if (!textureBuffer) {
+        std::cerr << "Couldn't load height map at " << filename << "! Aborting!" << std::endl;
+        throw std::exception();
+    }
+    if (bytesPerPixel != 1) {
+        std::cerr << "Height map loaded from " << filename << " uses " << bytesPerPixel << " bit per pixel! Aborting!" << std::endl;
+        throw std::exception();
+    }
+
+    std::vector<float16> heightMap{};
+    heightMap.resize(m_sizeX* m_sizeZ);
+
+    for (int i = 0; i < m_sizeX * m_sizeZ; i++) {
+        heightMap[i] = glm::detail::toFloat16((float)textureBuffer[i]);
+    }
+
+    init(heightMap.data());
 }
 
 Terrain::Terrain(Terrain&& terrain) noexcept : m_offsetX{ terrain.m_offsetX }, m_offsetZ{ terrain.m_offsetZ }, m_sizeX{ terrain.m_sizeX },
