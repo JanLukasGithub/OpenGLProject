@@ -1,13 +1,11 @@
-// Only this file implements stb_truetype
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "font.h"
 
 void Font::initUniforms(Shader* fontShader) {
-    // Get texture's uniform location
     Font::textureUniformLocation = glGetUniformLocation(fontShader->getShaderId(), "u_texture");
 }
 
-Font::Font(const char* filename, Shader* fontShader) {
+Font::Font(const std::string& filename, Shader* fontShader) {
     std::streampos fileSize;
     std::ifstream file(filename, std::ios::binary);
 
@@ -52,14 +50,12 @@ Font::~Font() {
     glDeleteTextures(1, &m_fontTexture);
 }
 
-void Font::drawString(float x, float y, const char* text) {
+void Font::drawString(float x, float y, const std::string& text) {
     glBindVertexArray(m_fontVao);
     glBindBuffer(GL_ARRAY_BUFFER, m_fontVertexBufferId);
 
-    uint32 len = strlen(text);
-
-    if (m_fontVertexBufferCapacity < len) {
-        m_fontVertexBufferCapacity = len;
+    if (m_fontVertexBufferCapacity < text.length()) {
+        m_fontVertexBufferCapacity = text.length();
 
         glBufferData(GL_ARRAY_BUFFER, sizeof(FontVertex) * 6 * m_fontVertexBufferCapacity, nullptr, GL_DYNAMIC_DRAW);
         delete[] m_fontVertexBufferData;
@@ -73,10 +69,10 @@ void Font::drawString(float x, float y, const char* text) {
     FontVertex* vData = m_fontVertexBufferData;
     uint32 numVertices = 0;
 
-    while (*text) {
-        if (*text >= FIRST_CHAR && *text < FIRST_CHAR + NUM_CHARS) {
+    for (int i = 0; i < text.length(); i++) {
+        if (text[i] >= FIRST_CHAR && text[i] < FIRST_CHAR + NUM_CHARS) {
             stbtt_aligned_quad q;
-            stbtt_GetBakedQuad(m_cdata, PH_PW, PH_PW, *text - FIRST_CHAR, &x, &y, &q, 1);
+            stbtt_GetBakedQuad(m_cdata, PH_PW, PH_PW, text[i] - FIRST_CHAR, &x, &y, &q, 1);
 
             vData[0].position = glm::vec2(q.x0, q.y0); vData[0].texture_coords = glm::vec2(q.s0, q.t0);
             vData[1].position = glm::vec2(q.x1, q.y0); vData[1].texture_coords = glm::vec2(q.s1, q.t0);
@@ -88,8 +84,6 @@ void Font::drawString(float x, float y, const char* text) {
             vData += 6;
             numVertices += 6;
         }
-
-        ++text;
     }
 
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(FontVertex) * numVertices, m_fontVertexBufferData);
