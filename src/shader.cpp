@@ -1,6 +1,6 @@
 #include "shader.h"
 
-Shader::Shader(const char* vertexShaderFileName, const char* fragmentShaderFileName) {
+Shader::Shader(const std::string& vertexShaderFileName, const std::string& fragmentShaderFileName) {
     m_shaderId = createShader(vertexShaderFileName, fragmentShaderFileName);
 }
 
@@ -16,14 +16,14 @@ void Shader::unbind() {
     glUseProgram(0);
 }
 
-void Shader::update(const char* vertexShaderFileName, const char* fragmentShaderFileName) {
+void Shader::update(const std::string& vertexShaderFileName, const std::string& fragmentShaderFileName) {
     this->unbind();
     glDeleteProgram(m_shaderId);
     m_shaderId = createShader(vertexShaderFileName, fragmentShaderFileName);
     this->bind();
 }
 
-GLuint Shader::compile(std::string shaderSource, GLenum type) {
+GLuint Shader::compile(const std::string& shaderSource, GLenum type) {
     GLuint id = glCreateShader(type);
     const char* src = shaderSource.c_str();
     glShaderSource(id, 1, &src, 0);
@@ -45,9 +45,9 @@ GLuint Shader::compile(std::string shaderSource, GLenum type) {
     return id;
 }
 
-std::string Shader::parse(const char* filename) {
+std::string Shader::parse(const std::string& filename) {
     FILE* file;
-    file = fopen(filename, "rb");
+    file = fopen(filename.c_str(), "rb");
     if (file == nullptr) {
         std::cerr << "Shader " << filename << " could not be opened!" << std::endl;
         return 0;
@@ -72,7 +72,7 @@ std::string Shader::parse(const char* filename) {
     return contents;
 }
 
-GLuint Shader::createShader(const char* vertexShaderFileName, const char* fragmentShaderFileName) {
+GLuint Shader::createShader(const std::string& vertexShaderFileName, const std::string& fragmentShaderFileName) {
     debugOutputEndl("Creating shader...");
 
     std::chrono::high_resolution_clock::time_point startTime = std::chrono::high_resolution_clock::now();

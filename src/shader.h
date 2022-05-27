@@ -1,9 +1,12 @@
 #ifndef SHADER_H_
 #define SHADER_H_
 
+#include <GL/glew.h>
+
 #include <iostream>
 #include <chrono>
-#include <GL/glew.h>
+#include <string>
+#include <fstream>
 
 #include "utils.h"
 
@@ -12,21 +15,21 @@ private:
 	GLuint m_shaderId;
 
 public:
-	Shader(const char* vertexShaderFileName, const char* fragmentShaderFileName);
+	Shader(const std::string& vertexShaderFileName, const std::string& fragmentShaderFileName);
 	virtual ~Shader();
 
 	void bind();
 	void unbind();
 
 	// Call to compile a new shader and use that one
-	void update(const char* vertexShaderFileName, const char* fragmentShaderFileName);
+	void update(const std::string& vertexShaderFileName, const std::string& fragmentShaderFileName);
 
 	GLuint getShaderId() const noexcept { return m_shaderId; }
 
 private:
-	GLuint compile(std::string shaderSource, GLenum type);
-	std::string parse(const char* filename);
-	GLuint createShader(const char* vertexShaderFileName, const char* fragmentShaderFileName);
+	GLuint compile(const std::string& shaderSource, GLenum type);
+	std::string parse(const std::string& filename);
+	GLuint createShader(const std::string& vertexShaderFileName, const std::string& fragmentShaderFileName);
 };
 
 #endif
