@@ -37,17 +37,12 @@ private:
 
 public:
 	Mesh(std::vector<Vertex>& vertices, std::vector<uint32>& indices, int materialIndex);
+	Mesh(const Mesh& mesh);
 	Mesh(Mesh&& mesh);
 	virtual ~Mesh();
 
 	// Renders this mesh num times
 	void render(GLsizei num) const;
-
-private:
-	// Currently not finished, DON'T USE
-	Mesh& operator=(const Mesh& mesh);
-	// Currently not finished, DON'T USE
-	Mesh(const Mesh& mesh);
 };
 
 #endif

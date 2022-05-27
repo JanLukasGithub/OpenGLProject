@@ -16,6 +16,9 @@ m_vbo{ new VertexBuffer(vertices.data(), vertices.size()) }, m_ibo{ new IndexBuf
 m_numIndices, sizeof(indices[0])) }, m_hasNormalMap{ Material::materials[materialIndex].normalMapName.compare("") != 0 }, m_materialIndex{ materialIndex },
 m_hasDiffuseMap{ Material::materials[materialIndex].diffuseMapName.compare("") != 0 } {}
 
+Mesh::Mesh(const Mesh& mesh) : m_numIndices{ mesh.m_numIndices }, m_vbo{ new VertexBuffer(*mesh.m_vbo) }, m_ibo{ new IndexBuffer(*mesh.m_ibo) }, 
+m_hasNormalMap{ mesh.m_hasNormalMap }, m_materialIndex{ mesh.m_materialIndex }, m_hasDiffuseMap{ mesh.m_hasDiffuseMap } {}
+
 Mesh::Mesh(Mesh&& mesh) : m_numIndices{ mesh.m_numIndices }, m_vbo{ mesh.m_vbo }, m_ibo{ mesh.m_ibo }, m_hasNormalMap{ mesh.m_hasNormalMap },
 m_materialIndex{ mesh.m_materialIndex }, m_hasDiffuseMap{ mesh.m_hasDiffuseMap } {
 	mesh.m_vbo = nullptr;
@@ -44,23 +47,6 @@ void Mesh::render(GLsizei num) const {
 	glBindTexture(GL_TEXTURE_2D, material.normalMap);
 	glUniform1i(normalMapLocation, 1);
 	glActiveTexture(GL_TEXTURE0);
-	
+
 	glDrawElementsInstanced(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_INT, 0, num);
-}
-
-// UNFINISHED ---------------------------------------------------------------------------------------------------------------------------------
-Mesh::Mesh(const Mesh& mesh) : m_numIndices{ mesh.m_numIndices }, m_vbo{ new VertexBuffer(*mesh.m_vbo) }, m_ibo{ new IndexBuffer(*mesh.m_ibo) },
-m_hasNormalMap{ mesh.m_hasNormalMap }, m_hasDiffuseMap{ mesh.m_hasDiffuseMap }, m_materialIndex{ mesh.m_materialIndex } {}
-
-Mesh& Mesh::operator=(const Mesh& mesh) {
-	if (this == &mesh)
-		return *this;
-
-	delete m_vbo;
-	delete m_ibo;
-
-	m_vbo = new VertexBuffer(*mesh.m_vbo);
-	m_ibo = new IndexBuffer(*mesh.m_ibo);
-
-	return *this;
 }
