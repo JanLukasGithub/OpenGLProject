@@ -1,6 +1,6 @@
 #include "model.h"
 
-Model& Model::addModelFile(const char* const filename) {
+Model& Model::addModelFile(const std::string& filename) {
     Model* model = getFromList(filename);
     if (model)
         return *model;
@@ -9,7 +9,7 @@ Model& Model::addModelFile(const char* const filename) {
     return modelFiles[modelFiles.size() - 1];
 }
 
-const int32 Model::indexOf(const char* const filename) noexcept {
+const int32 Model::indexOf(const std::string& filename) noexcept {
     std::vector<Model>::iterator found = std::find(modelFiles.begin(), modelFiles.end(), filename);
     return found == modelFiles.end() ? -1 : found.base() - modelFiles.data();
 }
@@ -22,7 +22,7 @@ Model& Model::getFromList(const int32 index) noexcept {
     return modelFiles[index];
 }
 
-Model* Model::getFromList(const char* const filename) noexcept {
+Model* Model::getFromList(const std::string& filename) noexcept {
     int index = indexOf(filename);
     return index == -1 ? nullptr : &modelFiles[index];
 }
@@ -31,52 +31,33 @@ const int Model::getListSize() noexcept {
     return modelFiles.size();
 }
 
-Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ model.m_meshes }, m_models{ model.m_models } {
-    for (unsigned int i = 0; i < model.m_meshes.size(); i++) {
-        model.m_meshes[i] = nullptr;
-    }
-    for (unsigned int i = 0; i < model.m_models.size(); i++) {
-        model.m_models[i] = nullptr;
-    }
-}
+Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ std::move(model.m_meshes) }, m_modelMatBuffer{ std::move(model.m_modelMatBuffer) } {}
 
-Model::Model(const char* const filename) : m_filename{ filename } {
+Model::Model(const std::string& filename) : m_filename{ filename }, m_modelMatBuffer{ nullptr, 0, 0 } {
     readModelFromFile();
 }
 
-Model::~Model() noexcept {
-    for (unsigned int i = 0; i < m_meshes.size(); i++) {
-        delete m_meshes[i];
-    }
-    for (unsigned int i = 0; i < m_models.size(); i++) {
-        delete m_models[i];
-    }
-}
+Model::~Model() noexcept {}
 
 void Model::addInstance() noexcept {
-    m_models.push_back(new ModelInstance());
+    glm::mat4 modelMat{ 1.0f };
+    m_modelMatBuffer.add(&modelMat, 1);
 }
 
 void Model::addInstance(const glm::vec3 position) noexcept {
-    m_models.push_back(new ModelInstance(position));
+    glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), position);
+    m_modelMatBuffer.add(&modelMat, 1);
 }
 
 void Model::addInstance(const glm::mat4 modelMat) noexcept {
-    m_models.push_back(new ModelInstance(modelMat));
+    m_modelMatBuffer.add(&modelMat, 1);
 }
 
 void Model::renderModels() const noexcept {
-    if (m_models.size() < 1)
-        return;
+    m_modelMatBuffer.bind();
 
     for (int i = 0; i < m_meshes.size(); i++) {
-        glUniformMatrix4fv(ModelInstance::modelMatLocation, 1, GL_FALSE, &((m_models[0]->getModelMat())[0][0]));
-        m_meshes[i]->render();
-
-        for (int j = 1; j < m_models.size(); j++) {
-            glUniformMatrix4fv(ModelInstance::modelMatLocation, 1, GL_FALSE, &((m_models[j]->getModelMat())[0][0]));
-            m_meshes[i]->fastRender();
-        }
+        m_meshes[i].render(m_modelMatBuffer.getSize());
     }
 }
 
@@ -84,8 +65,8 @@ void Model::render() const noexcept {
     renderModels();
 }
 
-bool operator==(const Model& ModelFile, const char* const filename) {
-    return strcmp(ModelFile.m_filename, filename) == 0;
+bool operator==(const Model& ModelFile, const std::string& filename) {
+    return filename == ModelFile.m_filename;
 }
 
 bool operator==(const Model& model1, const Model& model2) {
@@ -164,7 +145,7 @@ std::string Model::getTexturePath(aiMaterial* mat, aiTextureType type) {
     if (numTextures > 0) {
         aiString textureNameBuffer{ };
         mat->GetTexture(type, 0, &textureNameBuffer);
-        return std::string(getFilePath(m_filename)) + textureNameBuffer.C_Str();
+        return getFilePath(m_filename) + textureNameBuffer.C_Str();
     } else {
         debugOutputEndl("No texture found, using default texture!");
         return std::string("");
@@ -252,5 +233,5 @@ void Model::processMesh(aiMesh* mesh) {
 
     int globalMaterialIndex = m_materialIndices[mesh->mMaterialIndex];
 
-    m_meshes.push_back(new Mesh(vertices, indices, globalMaterialIndex));
+    m_meshes.push_back(Mesh(vertices, indices, globalMaterialIndex));
 }

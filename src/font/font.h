@@ -4,6 +4,7 @@
 #include <fstream>
 #include <GL/glew.h>
 #include <vector>
+#include <string>
 
 #include "../../lib/stb_truetype.h"
 
@@ -36,10 +37,10 @@ private:
     uint32 m_fontVertexBufferCapacity;
 
 public:
-    Font(const char* filename, Shader* fontShader);
+    Font(const std::string& filename, Shader* fontShader);
     ~Font();
 
-    void drawString(float x, float y, const char* text);
+    void drawString(float x, float y, const std::string& text);
 };
 
 #endif

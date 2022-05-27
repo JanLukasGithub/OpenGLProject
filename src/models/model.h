@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <algorithm>
-#include <cstring>
+#include <string>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -16,8 +16,8 @@
 #include "../utils.h"
 #include "mesh.h"
 #include "material.h"
-#include "modelInstance.h"
 #include "../renderer/IRenderable.h"
+#include "../buffer/shaderBuffer.h"
 
 // Representation of a model file (.obj or similar) in code. Allows you to create Models
 class Model : IRenderable {
@@ -31,7 +31,7 @@ public:
      * @param filename
      * @return a reference to the model added. Is invalidated when another one is added
      */
-    static Model& addModelFile(const char* const filename);
+    static Model& addModelFile(const std::string& filename);
 
     /**
      * @brief Get the index of the modelFile with the specified filename. addModelFile(filename) can do this as well,
@@ -39,7 +39,7 @@ public:
      *
      * @return the index of the model with the specified filename or -1 if none was found
      */
-    static const int32 indexOf(const char* const filename) noexcept;
+    static const int32 indexOf(const std::string& filename) noexcept;
 
     /**
      * @brief Get the index of the specified modelFile
@@ -56,20 +56,20 @@ public:
      *
      * @return the model with the specified filename or nullptr if none exists. Is invalidated when a model is added
      */
-    static Model* getFromList(const char* const filename) noexcept;
+    static Model* getFromList(const std::string& filename) noexcept;
 
     // Return the size of the list
     static const int getListSize() noexcept;
 
 private:
     // Name of this model
-    const char* const m_filename;
+    const std::string m_filename;
     // Meshes of this model file
-    std::vector<Mesh*> m_meshes{};
+    std::vector<Mesh> m_meshes{};
     // Holds the indices of the materials
     std::vector<uint32> m_materialIndices{};
-    // Holds the Models made from this Model
-    std::vector<ModelInstance*> m_models{};
+    // Buffer to store model locations to
+    ShaderBuffer<glm::mat4> m_modelMatBuffer;
 
 public:
     // Move constructor
@@ -89,17 +89,13 @@ public:
     virtual void render() const noexcept override;
 
     // Checks if the filename of model and filename are equal
-    friend bool operator==(const Model& model, const char* const filename);
+    friend bool operator==(const Model& model, const std::string& filename);
     // Checks if the filename of model1 and filename of model2 are equal
     friend bool operator==(const Model& model1, const Model& model2);
 
 private:
     // Private constructor to force use of addModelFile(filename)
-    Model(const char* filename);
-    // Private copy constructor to prevent use of it
-    Model(const Model& model) : m_filename{ model.m_filename } {};
-    // Private copy assignment operator to prevent use of it
-    Model& operator=(const Model& model) { return *this; }
+    Model(const std::string& filename);
 
     // Reads model from file using assimp
     void readModelFromFile();
@@ -119,7 +115,7 @@ private:
     void processMesh(aiMesh* mesh);
 
 public:
-    std::vector<Mesh*>& getMeshes() { return m_meshes; }
+    std::vector<Mesh>& getMeshes() { return m_meshes; }
 };
 
 #endif

@@ -1,8 +1,8 @@
 #include <GL/glew.h>
 
 #include "../utils.h"
-#include "../vertexBuffer.h"
-#include "../indexBuffer.h"
+#include "../buffer/vertexBuffer.h"
+#include "../buffer/indexBuffer.h"
 #include "../renderer/renderer.h"
 
 #ifndef GUI_GUI_H_

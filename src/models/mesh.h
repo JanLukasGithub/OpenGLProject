@@ -7,8 +7,8 @@
 #include "../../lib/glm/glm.hpp"
 
 #include "../shader.h"
-#include "../vertexBuffer.h"
-#include "../indexBuffer.h"
+#include "../buffer/vertexBuffer.h"
+#include "../buffer/indexBuffer.h"
 #include "../utils.h"
 #include "material.h"
 
@@ -37,19 +37,12 @@ private:
 
 public:
 	Mesh(std::vector<Vertex>& vertices, std::vector<uint32>& indices, int materialIndex);
+	Mesh(const Mesh& mesh);
 	Mesh(Mesh&& mesh);
 	virtual ~Mesh();
 
-	// Renders this mesh
-	void render() const;
-	// Renders this mesh without setting vbo, ibo or anything. Use when rendering the same mesh multiple times
-	void fastRender() const;
-
-private:
-	// Currently not finished, DON'T USE
-	Mesh& operator=(const Mesh& mesh);
-	// Currently not finished, DON'T USE
-	Mesh(const Mesh& mesh);
+	// Renders this mesh num times
+	void render(GLsizei num) const;
 };
 
 #endif
