@@ -31,9 +31,11 @@ VertexBuffer::VertexBuffer(const VertexBuffer& vbo) noexcept : m_size{ vbo.m_siz
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
+	glBindBuffer(GL_COPY_READ_BUFFER, vbo.m_bufferId);
+
 	glGenBuffers(1, &m_bufferId);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufferId);
-	glCopyBufferSubData(vbo.m_bufferId, m_bufferId, 0, 0, m_size);
+	glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_ARRAY_BUFFER, 0, 0, m_size);
 
 	initVertexAttribArray();
 

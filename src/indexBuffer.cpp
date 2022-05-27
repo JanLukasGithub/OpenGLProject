@@ -7,9 +7,11 @@ IndexBuffer::IndexBuffer(const void* data, const uint64 numIndices, const uint8 
 }
 
 IndexBuffer::IndexBuffer(const IndexBuffer& ibo) noexcept : m_size{ ibo.m_size } {
+	glBindBuffer(GL_COPY_READ_BUFFER, ibo.m_bufferId);
+
 	glGenBuffers(1, &m_bufferId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_bufferId);
-	glCopyBufferSubData(ibo.m_bufferId, m_bufferId, 0, 0, m_size);
+	glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_ELEMENT_ARRAY_BUFFER, 0, 0, m_size);
 }
 
 IndexBuffer::~IndexBuffer() noexcept {
