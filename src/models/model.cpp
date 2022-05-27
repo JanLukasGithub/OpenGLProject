@@ -33,7 +33,7 @@ const int Model::getListSize() noexcept {
 
 Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ std::move(model.m_meshes) }, m_modelMatBuffer{ std::move(model.m_modelMatBuffer) } {}
 
-Model::Model(const std::string& filename) : m_filename{ filename }, m_modelMatBuffer{ nullptr, 0, 0 } {
+Model::Model(const std::string& filename) : m_filename{ filename }, m_modelMatBuffer{ nullptr, 0, BUFFER_BINDING_MODEL_MAT } {
     readModelFromFile();
 }
 
