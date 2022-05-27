@@ -24,7 +24,7 @@ public:
         genBuffer(data.data());
     }
 
-    ShaderBuffer(const GLuint bufferBinding) : m_numElementsSize{ 1 }, m_numElementsCapacity{ 1 }, m_bufferBinding{ bufferBinding } {
+    ShaderBuffer(const GLuint bufferBinding) : m_numElementsSize{ 0 }, m_numElementsCapacity{ 0 }, m_bufferBinding{ bufferBinding } {
         genBuffer(nullptr);
     }
 
