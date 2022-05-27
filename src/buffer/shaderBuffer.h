@@ -13,9 +13,20 @@ public:
     ShaderBuffer(const T* data, const uint64 numElements, const GLuint bufferBinding) : m_numElementsSize{ numElements }, m_numElementsCapacity{ numElements },
         m_bufferBinding{ bufferBinding } {
         glGenBuffers(1, &m_bufferId);
-        glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_bufferId);
-        glBufferData(GL_SHADER_STORAGE_BUFFER, numElements * sizeof(T), data, GL_DYNAMIC_READ);
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bufferBinding, m_bufferId);
+        glBufferData(GL_SHADER_STORAGE_BUFFER, numElements * sizeof(T), data, GL_DYNAMIC_READ);
+    }
+
+    ShaderBuffer(const ShaderBuffer& buf) : m_numElementsSize{ buf.m_numElementsSize }, m_numElementsCapacity{ buf.m_numElementsCapacity },
+        m_bufferBinding{ buf.m_bufferBinding } {
+
+        glGenBuffers(1, &m_bufferId);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, m_bufferId);
+        glBufferData(GL_SHADER_STORAGE_BUFFER, m_numElementsCapacity, nullptr, GL_DYNAMIC_READ);
+
+        glBindBuffer(GL_COPY_READ_BUFFER, buf.m_bufferId);
+
+        glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_SHADER_STORAGE_BUFFER, 0, 0, m_numElementsSize);
     }
 
     ShaderBuffer(ShaderBuffer<T>&& buf) : m_bufferId{ buf.m_bufferId }, m_numElementsSize{ buf.m_numElementsSize },
@@ -41,7 +52,7 @@ public:
         }
 
         glGenBuffers(1, &m_bufferId);
-        glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_bufferId);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, m_bufferId);
         glBufferData(GL_SHADER_STORAGE_BUFFER, m_numElementsSize * sizeof(T), nullptr, GL_DYNAMIC_READ);
 
         glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_SHADER_STORAGE_BUFFER, 0, 0, oldNumElements * sizeof(T));
@@ -61,7 +72,7 @@ public:
     }
 
     void remove(const uint64 index, const uint64 numElements) {
-        glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_bufferId);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, m_bufferId);
 
         GLsizeiptr tempBufferSize = (m_numElementsSize - index - numElements) * sizeof(T);
         GLuint tempBuffer;
@@ -80,7 +91,7 @@ public:
     void bind() const {
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, m_bufferId);
     }
-    
+
     void unbind() const {
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, 0);
     }
