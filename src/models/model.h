@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <cstring>
+#include <string>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -31,7 +32,7 @@ public:
      * @param filename
      * @return a reference to the model added. Is invalidated when another one is added
      */
-    static Model& addModelFile(const char* const filename);
+    static Model& addModelFile(const std::string& filename);
 
     /**
      * @brief Get the index of the modelFile with the specified filename. addModelFile(filename) can do this as well,
@@ -39,7 +40,7 @@ public:
      *
      * @return the index of the model with the specified filename or -1 if none was found
      */
-    static const int32 indexOf(const char* const filename) noexcept;
+    static const int32 indexOf(const std::string& filename) noexcept;
 
     /**
      * @brief Get the index of the specified modelFile
@@ -56,14 +57,14 @@ public:
      *
      * @return the model with the specified filename or nullptr if none exists. Is invalidated when a model is added
      */
-    static Model* getFromList(const char* const filename) noexcept;
+    static Model* getFromList(const std::string& filename) noexcept;
 
     // Return the size of the list
     static const int getListSize() noexcept;
 
 private:
     // Name of this model
-    const char* const m_filename;
+    const std::string m_filename;
     // Meshes of this model file
     std::vector<Mesh> m_meshes{};
     // Holds the indices of the materials
@@ -89,13 +90,13 @@ public:
     virtual void render() const noexcept override;
 
     // Checks if the filename of model and filename are equal
-    friend bool operator==(const Model& model, const char* const filename);
+    friend bool operator==(const Model& model, const std::string& filename);
     // Checks if the filename of model1 and filename of model2 are equal
     friend bool operator==(const Model& model1, const Model& model2);
 
 private:
     // Private constructor to force use of addModelFile(filename)
-    Model(const char* filename);
+    Model(const std::string& filename);
 
     // Reads model from file using assimp
     void readModelFromFile();

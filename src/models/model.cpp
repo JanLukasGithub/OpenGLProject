@@ -1,6 +1,6 @@
 #include "model.h"
 
-Model& Model::addModelFile(const char* const filename) {
+Model& Model::addModelFile(const std::string& filename) {
     Model* model = getFromList(filename);
     if (model)
         return *model;
@@ -9,7 +9,7 @@ Model& Model::addModelFile(const char* const filename) {
     return modelFiles[modelFiles.size() - 1];
 }
 
-const int32 Model::indexOf(const char* const filename) noexcept {
+const int32 Model::indexOf(const std::string& filename) noexcept {
     std::vector<Model>::iterator found = std::find(modelFiles.begin(), modelFiles.end(), filename);
     return found == modelFiles.end() ? -1 : found.base() - modelFiles.data();
 }
@@ -22,7 +22,7 @@ Model& Model::getFromList(const int32 index) noexcept {
     return modelFiles[index];
 }
 
-Model* Model::getFromList(const char* const filename) noexcept {
+Model* Model::getFromList(const std::string& filename) noexcept {
     int index = indexOf(filename);
     return index == -1 ? nullptr : &modelFiles[index];
 }
@@ -33,7 +33,7 @@ const int Model::getListSize() noexcept {
 
 Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ std::move(model.m_meshes) }, m_modelMatBuffer{ std::move(model.m_modelMatBuffer) } {}
 
-Model::Model(const char* const filename) : m_filename{ filename }, m_modelMatBuffer{ nullptr, 0, 0 } {
+Model::Model(const std::string& filename) : m_filename{ filename }, m_modelMatBuffer{ nullptr, 0, 0 } {
     readModelFromFile();
 }
 
@@ -65,8 +65,8 @@ void Model::render() const noexcept {
     renderModels();
 }
 
-bool operator==(const Model& ModelFile, const char* const filename) {
-    return strcmp(ModelFile.m_filename, filename) == 0;
+bool operator==(const Model& ModelFile, const std::string& filename) {
+    return filename == ModelFile.m_filename;
 }
 
 bool operator==(const Model& model1, const Model& model2) {
@@ -145,7 +145,7 @@ std::string Model::getTexturePath(aiMaterial* mat, aiTextureType type) {
     if (numTextures > 0) {
         aiString textureNameBuffer{ };
         mat->GetTexture(type, 0, &textureNameBuffer);
-        return std::string(getFilePath(m_filename)) + textureNameBuffer.C_Str();
+        return std::string(getFilePath(m_filename.c_str())) + textureNameBuffer.C_Str();
     } else {
         debugOutputEndl("No texture found, using default texture!");
         return std::string("");
