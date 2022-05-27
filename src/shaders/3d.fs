@@ -16,6 +16,7 @@ struct Material {
 };
 
 struct DirectionalLight {
+	// Needs to be normalized
 	vec3 direction;
 	
 	vec3 diffuse;
