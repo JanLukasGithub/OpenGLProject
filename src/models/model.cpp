@@ -41,16 +41,16 @@ Model::~Model() noexcept {}
 
 void Model::addInstance() noexcept {
     glm::mat4 modelMat{ 1.0f };
-    m_modelMatBuffer.add(&modelMat, 1);
+    m_modelMatBuffer.add(modelMat);
 }
 
 void Model::addInstance(const glm::vec3 position) noexcept {
     glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), position);
-    m_modelMatBuffer.add(&modelMat, 1);
+    m_modelMatBuffer.add(modelMat);
 }
 
 void Model::addInstance(const glm::mat4 modelMat) noexcept {
-    m_modelMatBuffer.add(&modelMat, 1);
+    m_modelMatBuffer.add(modelMat);
 }
 
 void Model::renderModels() const noexcept {
