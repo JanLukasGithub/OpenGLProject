@@ -84,66 +84,32 @@ void Renderer::initLights() {
     m_lights = new Lights();
 
     m_sun = DirectionalLight{
-        .direction = glm::vec3(-1.0f),
-        .diffuseColor = glm::vec3(0.8f, 0.8f, 0.8f),
-        .specularColor = glm::vec3(0.8f, 0.8f, 0.8f),
-        .ambientColor = glm::vec3(0.16f, 0.16f, 0.16f) };
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_directionalLight.diffuse"), 1, (float*)&m_sun.diffuseColor.r);
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_directionalLight.specular"), 1, (float*)&m_sun.specularColor.r);
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_directionalLight.ambient"), 1, (float*)&m_sun.ambientColor.r);
+        .direction = glm::normalize(glm::vec4(-1.0f)),
+        .diffuseColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f),
+        .specularColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f),
+        .ambientColor = glm::vec4(0.16f, 0.16f, 0.16f, 1.0f)
+    };
 
     m_pointLight = PointLight{
-        // Position
-        glm::vec4(0.0f, 0.0f, 10.0f, 1.0f),
-        // Diffuse color
-        glm::vec3(0.2f, 0.2f, 1.0f),
-        // Specular color
-        glm::vec3(0.2f, 0.2f, 1.0f),
-        // Ambient color
-        glm::vec3(0.04f, 0.04f, 0.2f),
-        // Linear attenuation
-        0.027f,
-        // Quadratic attenuation
-        0.0026f };
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.diffuse"), 1, (float*)&m_pointLight.diffuseColor.r);
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.specular"), 1, (float*)&m_pointLight.specularColor.r);
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.ambient"), 1, (float*)&m_pointLight.ambientColor.r);
-
-    glUniform1f(glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.linear"), m_pointLight.linear);
-    glUniform1f(glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.quadratic"), m_pointLight.quadratic);
+        .position = glm::vec4(0.0f, 0.0f, 10.0f, 1.0f),
+        .diffuseColor = glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
+        .specularColor = glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
+        .ambientColor = glm::vec4(0.04f, 0.04f, 0.2f, 1.0f),
+        .linear = 0.027f,
+        .quadratic = 0.0026f
+    };
 
     m_flashlight = SpotLight{
-        // Position
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        // Direction
-        glm::vec3(0.0f, 0.0f, 1.0f),
-        // Diffuse color
-        glm::vec3(1.0f, 1.0f, 1.0f),
-        // Specular color
-        glm::vec3(1.0f, 1.0f, 1.0f),
-        // Ambient color
-        glm::vec3(0.2f, 0.2f, 0.2f),
-        // Linear attenuation
-        0.027f,
-        // Quadratic attenuation
-        0.0026f,
-        // Inner cone
-        1.0f,
-        // Outer cone
-        0.9f };
-
-    glUniform3fv(LIGHTS::spotLightPositionUniformLocation, 1, (float*)&m_flashlight.position.x);
-    glUniform3fv(LIGHTS::spotLightDirectionUniformLocation, 1, (float*)&m_flashlight.direction.x);
-
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.diffuse"), 1, (float*)&m_flashlight.diffuseColor.r);
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.specular"), 1, (float*)&m_flashlight.specularColor.r);
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.ambient"), 1, (float*)&m_flashlight.ambientColor.r);
-
-    glUniform1f(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.linear"), m_flashlight.linear);
-    glUniform1f(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.quadratic"), m_flashlight.quadratic);
-
-    glUniform1f(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.innerCone"), m_flashlight.innerCone);
-    glUniform1f(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.outerCone"), m_flashlight.outerCone);
+        .position = glm::vec4(0.0f),
+        .direction = glm::normalize(glm::vec4(0.0f, 0.0f, 1.0f, 0.0f)),
+        .diffuseColor = glm::vec4(1.0f),
+        .specularColor = glm::vec4(1.0f),
+        .ambientColor = glm::vec4(0.2f),
+        .linear = 0.027f,
+        .quadratic = 0.0026f,
+        .innerCone = 1.0f,
+        .outerCone = 0.9f
+    };
 
     m_lights->getDirectionalLightBuffer().add(m_sun);
     m_lights->getPointLightBuffer().add(m_pointLight);
@@ -172,7 +138,6 @@ void Renderer::initUniforms() {
     m_modelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelView");
     m_invModelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_invModelView");
 
-    LIGHTS::initUniforms(m_shader3d);
     Mesh::initUniforms(m_shader3d);
     Font::initUniforms(m_shaderFont);
     Terrain::initUniforms(m_shaderTerrain);
@@ -191,6 +156,10 @@ void Renderer::reset() {
 void Renderer::startFrame() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    m_modelViewProj = m_camera.getViewProjection() * m_modelMatrix;
+
+    m_pointLight.position = m_pointLight.position * glm::rotate(glm::mat4(1.0f), m_delta, { 0.0f, 1.0f, 0.0f });
 }
 
 void Renderer::setup3DRender() {
@@ -199,17 +168,29 @@ void Renderer::setup3DRender() {
 
     m_shader3d->bind();
 
-    m_modelViewProj = m_camera.getViewProjection() * m_modelMatrix;
     glm::mat4 modelView = m_camera.getView() * m_modelMatrix;
     glm::mat4 invModelView = glm::transpose(glm::inverse(modelView));
 
-    glm::vec4 transformedSunDirection = glm::transpose(glm::inverse(m_camera.getView())) * glm::vec4(m_sun.direction, 1.0f);
-    glUniform3fv(LIGHTS::directionalLightDirectionUniformLocation, 1, (float*)&transformedSunDirection.x);
+    DirectionalLight transformedSun{
+        // .direction = -(glm::vec3(glm::transpose(glm::inverse(m_camera.getView())) * glm::vec4(m_sun.direction, 1.0f))) * glm::mat3(modelView),
+        .direction = -(glm::transpose(glm::inverse(m_camera.getView())) * m_sun.direction) * modelView,
+        .diffuseColor = m_sun.diffuseColor,
+        .specularColor = m_sun.specularColor,
+        .ambientColor = m_sun.ambientColor
+    };
+    m_lights->getDirectionalLightBuffer().set(transformedSun, 0);
 
-    glm::mat4 pointLightMatrix = glm::rotate(glm::mat4(1.0f), m_delta, { 0.0f, 1.0f, 0.0f });
-    m_pointLight.position = m_pointLight.position * pointLightMatrix;
-    glm::vec3 transformedPointLightPosition = (glm::vec3)(m_camera.getView() * m_pointLight.position);
-    glUniform3fv(LIGHTS::pointLightPositionUniformLocation, 1, (float*)&transformedPointLightPosition.x);
+    PointLight transformedPoint{
+        .position = m_camera.getView() * m_pointLight.position,
+        .diffuseColor = m_pointLight.diffuseColor,
+        .specularColor = m_pointLight.specularColor,
+        .ambientColor = m_pointLight.ambientColor,
+        .linear = m_pointLight.linear,
+        .quadratic = m_pointLight.quadratic
+    };
+    m_lights->getPointLightBuffer().set(transformedPoint, 0);
+
+    m_lights->getSpotLightBuffer().set(m_flashlight, 0);
 
     m_lights->bind();
 
@@ -245,7 +226,6 @@ void Renderer::setupTerrainRender() {
 
     m_lights->bind();
 
-    m_modelViewProj = m_camera.getViewProjection() * m_modelMatrix;
     glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &m_modelViewProj[0][0]);
 }
 

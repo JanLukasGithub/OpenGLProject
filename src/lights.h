@@ -9,45 +9,33 @@
 #include "utils.h"
 #include "buffer/shaderBuffer.h"
 
-namespace LIGHTS {
-	inline int directionalLightDirectionUniformLocation;
-	inline int pointLightPositionUniformLocation;
-	inline int spotLightPositionUniformLocation;
-	inline int spotLightDirectionUniformLocation;
-
-	inline void initUniforms(const Shader* shader) {
-		directionalLightDirectionUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_directionalLight.direction");
-		pointLightPositionUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_pointLight.position");
-		spotLightPositionUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_spotLight.position");
-		spotLightDirectionUniformLocation = glGetUniformLocation(shader->getShaderId(), "u_spotLight.direction");
-	}
-}
-
 struct DirectionalLight {
-	glm::vec3 direction;
+	glm::vec4 direction;
 
-	glm::vec3 diffuseColor;
-	glm::vec3 specularColor;
-	glm::vec3 ambientColor;
+	glm::vec4 diffuseColor;
+	glm::vec4 specularColor;
+	glm::vec4 ambientColor;
 };
 
 struct PointLight {
 	glm::vec4 position;
 
-	glm::vec3 diffuseColor;
-	glm::vec3 specularColor;
-	glm::vec3 ambientColor;
+	glm::vec4 diffuseColor;
+	glm::vec4 specularColor;
+	glm::vec4 ambientColor;
 
 	float linear, quadratic;
+	// Needed for the amount of bytes to be a multiple of 16 (namely 80)
+	float alignment1 = 0, alignment2 = 0;
 };
 
 struct SpotLight {
-	glm::vec3 position;
-	glm::vec3 direction;
+	glm::vec4 position;
+	glm::vec4 direction;
 
-	glm::vec3 diffuseColor;
-	glm::vec3 specularColor;
-	glm::vec3 ambientColor;
+	glm::vec4 diffuseColor;
+	glm::vec4 specularColor;
+	glm::vec4 ambientColor;
 
 	float linear, quadratic;
 	float innerCone, outerCone;
