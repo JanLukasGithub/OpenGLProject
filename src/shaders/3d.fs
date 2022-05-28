@@ -77,26 +77,20 @@ vec3 view;
 vec3 normal;
 vec4 diffuseColor;
 
-vec3 light;
-vec3 reflection;
-
-vec3 ambient;
-vec3 diffuse;
-vec3 specular;
-
-float distance;
-float attenuation;
+vec3 ambient = vec3(0.0f);
+vec3 diffuse = vec3(0.0f);
+vec3 specular = vec3(0.0f);
 
 void directionalLight() {
 	for (int i = 0; i < b_directionalLights.directionalLights.length(); i++) {
 		DirectionalLight dirLight = b_directionalLights.directionalLights[i];
-
-		light = normalize(dirLight.direction.xyz);
-		reflection = reflect(dirLight.direction.xyz, normal);
 		
-		ambient = diffuseColor.xyz * dirLight.ambient.xyz;
-		diffuse = max(dot(normal, light), 0.0) * diffuseColor.xyz * dirLight.diffuse.xyz;
-		specular = pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * dirLight.specular.xyz;
+		vec3 light = normalize(dirLight.direction.xyz);
+		vec3 reflection = reflect(dirLight.direction.xyz, normal);
+		
+		ambient += diffuseColor.xyz * dirLight.ambient.xyz;
+		diffuse += max(dot(normal, light), 0.0) * diffuseColor.xyz * dirLight.diffuse.xyz;
+		specular += pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * dirLight.specular.xyz;
 	}
 }
 
@@ -104,11 +98,11 @@ void pointLight() {
 	for (int i = 0; i < b_pointLights.pointLights.length(); i++) {
 		PointLight pointLight = b_pointLights.pointLights[i];
 
-		light = normalize(pointLight.position.xyz - v_position);
-		reflection = reflect(-light, normal);
+		vec3 light = normalize(pointLight.position.xyz - v_position);
+		vec3 reflection = reflect(-light, normal);
 		
-		distance = length(pointLight.position.xyz - v_position);
-		attenuation = 1.0f / ((1.0f) + (pointLight.linear * distance) + (pointLight.quadratic * distance * distance));
+		float distance = length(pointLight.position.xyz - v_position);
+		float attenuation = 1.0f / ((1.0f) + (pointLight.linear * distance) + (pointLight.quadratic * distance * distance));
 		
 		ambient += attenuation * diffuseColor.xyz * pointLight.ambient.xyz;
 		diffuse += attenuation * max(dot(normal, light), 0.0) * diffuseColor.xyz * pointLight.diffuse.xyz;
@@ -120,12 +114,12 @@ void spotLight() {
 	for (int i = 0; i < b_spotLights.spotLights.length(); i++) {
 		SpotLight spotLight = b_spotLights.spotLights[i];
 
-		light = normalize(spotLight.position.xyz - v_position);
-		reflection = reflect(-light, normal);
+		vec3 light = normalize(spotLight.position.xyz - v_position);
+		vec3 reflection = reflect(-light, normal);
 		float theta = dot(light, spotLight.direction.xyz);
 		
-		distance = length(spotLight.position.xyz - v_position);
-		attenuation = 1.0f / ((1.0f) + (spotLight.linear * distance) + (spotLight.quadratic * distance * distance));
+		float distance = length(spotLight.position.xyz - v_position);
+		float attenuation = 1.0f / ((1.0f) + (spotLight.linear * distance) + (spotLight.quadratic * distance * distance));
 		
 		float epsilon = spotLight.innerCone - spotLight.outerCone;
 		float intensity = clamp((theta - spotLight.outerCone) / epsilon, 0.0f, 1.0f) * int(theta > spotLight.outerCone);
@@ -137,7 +131,6 @@ void spotLight() {
 }
 
 void main() {
-	// Vector from fragment to camera (camera always at 0,0,0)
 	view = normalize(-v_position);
 	
 	normal = int(u_hasNormalMap) * texture(u_normalMap, v_textureCoords).rgb + int(!u_hasNormalMap) * vec3(0.5, 0.5, 1.0);
