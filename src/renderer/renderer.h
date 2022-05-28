@@ -51,6 +51,9 @@ private:
     FlyingCamera m_camera{ FlyingCamera(90.0f, 800, 600) };
 
     // Without lights it'd be pretty dark
+    // For some reason this has to be dynamically allocated
+    Lights* m_lights;
+
     DirectionalLight m_sun;
     PointLight m_pointLight;
     SpotLight m_flashlight;

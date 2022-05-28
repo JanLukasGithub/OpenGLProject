@@ -13,6 +13,7 @@ Renderer::~Renderer() {
     delete m_shaderTerrain;
 
     delete m_fontRenderer;
+    delete m_lights;
 }
 
 void Renderer::init() {
@@ -79,6 +80,8 @@ void Renderer::initSDL() {
 void Renderer::initLights() {
     m_shader3d->bind();
 
+    m_lights = new Lights();
+
     m_sun = DirectionalLight{
         // Direction
         glm::vec3(-1.0f),
@@ -138,6 +141,10 @@ void Renderer::initLights() {
 
     glUniform1f(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.innerCone"), m_flashlight.innerCone);
     glUniform1f(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.outerCone"), m_flashlight.outerCone);
+
+    m_lights->getDirectionalLightBuffer().add(m_sun);
+    m_lights->getPointLightBuffer().add(m_pointLight);
+    m_lights->getSpotLightBuffer().add(m_flashlight);
 
     m_shader3d->unbind();
 }
@@ -201,6 +208,8 @@ void Renderer::setup3DRender() {
     glm::vec3 transformedPointLightPosition = (glm::vec3)(m_camera.getView() * m_pointLight.position);
     glUniform3fv(LIGHTS::pointLightPositionUniformLocation, 1, (float*)&transformedPointLightPosition.x);
 
+    m_lights->bind();
+
     glUniformMatrix4fv(m_modelViewProjUniformLocation, 1, GL_FALSE, &m_modelViewProj[0][0]);
     glUniformMatrix4fv(m_modelViewUniformLocation, 1, GL_FALSE, &modelView[0][0]);
     glUniformMatrix4fv(m_invModelViewUniformLocation, 1, GL_FALSE, &invModelView[0][0]);
@@ -230,6 +239,8 @@ void Renderer::setup2DRender() {
 
 void Renderer::setupTerrainRender() {
     m_shaderTerrain->bind();
+
+    m_lights->bind();
 
     m_modelViewProj = m_camera.getViewProjection() * m_modelMatrix;
     glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &m_modelViewProj[0][0]);
