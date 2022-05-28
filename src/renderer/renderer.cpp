@@ -131,6 +131,7 @@ void Renderer::initCamera() {
 void Renderer::initMatrices() {
     m_modelMatrix = glm::scale(m_modelMatrix, glm::vec3(1.0f));
     m_modelViewProj = m_camera.getViewProjection() * m_modelMatrix;
+    m_modelView = m_camera.getView() * m_modelMatrix;
 }
 
 void Renderer::initUniforms() {
@@ -158,6 +159,7 @@ void Renderer::startFrame() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     m_modelViewProj = m_camera.getViewProjection() * m_modelMatrix;
+    m_modelView = m_camera.getView() * m_modelMatrix;
 
     m_pointLight.position = m_pointLight.position * glm::rotate(glm::mat4(1.0f), m_delta, { 0.0f, 1.0f, 0.0f });
 }
@@ -168,12 +170,11 @@ void Renderer::setup3DRender() {
 
     m_shader3d->bind();
 
-    glm::mat4 modelView = m_camera.getView() * m_modelMatrix;
-    glm::mat4 invModelView = glm::transpose(glm::inverse(modelView));
+    glm::mat4 invModelView = glm::transpose(glm::inverse(m_modelView));
 
     DirectionalLight transformedSun{
         // .direction = -(glm::vec3(glm::transpose(glm::inverse(m_camera.getView())) * glm::vec4(m_sun.direction, 1.0f))) * glm::mat3(modelView),
-        .direction = -(glm::transpose(glm::inverse(m_camera.getView())) * m_sun.direction) * modelView,
+        .direction = -(glm::transpose(glm::inverse(m_camera.getView())) * m_sun.direction) * m_modelView,
         .diffuseColor = m_sun.diffuseColor,
         .specularColor = m_sun.specularColor,
         .ambientColor = m_sun.ambientColor
@@ -195,7 +196,7 @@ void Renderer::setup3DRender() {
     m_lights->bind();
 
     glUniformMatrix4fv(m_modelViewProjUniformLocation, 1, GL_FALSE, &m_modelViewProj[0][0]);
-    glUniformMatrix4fv(m_modelViewUniformLocation, 1, GL_FALSE, &modelView[0][0]);
+    glUniformMatrix4fv(m_modelViewUniformLocation, 1, GL_FALSE, &m_modelView[0][0]);
     glUniformMatrix4fv(m_invModelViewUniformLocation, 1, GL_FALSE, &invModelView[0][0]);
 }
 
@@ -227,6 +228,7 @@ void Renderer::setupTerrainRender() {
     m_lights->bind();
 
     glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &m_modelViewProj[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelView"), 1, GL_FALSE, &m_modelView[0][0]);
 }
 
 void Renderer::endFrame() {

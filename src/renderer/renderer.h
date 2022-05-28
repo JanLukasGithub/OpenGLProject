@@ -68,6 +68,7 @@ private:
     // Model matrix
     glm::mat4 m_modelMatrix{ glm::mat4(1.0f) };
     glm::mat4 m_modelViewProj{ 1.0f };
+    glm::mat4 m_modelView{ 1.0f };
 
     // Uniform locations. Not static because only one instance of this class should exist
     int m_modelViewProjUniformLocation;
