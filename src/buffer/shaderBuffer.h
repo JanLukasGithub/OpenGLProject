@@ -130,6 +130,20 @@ public:
         m_numElementsSize -= numElements;
     }
 
+    void set(const T data[], const uint64 numElements, const uint64 index) {
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, m_bufferId);
+
+        glBufferSubData(GL_SHADER_STORAGE_BUFFER, index * sizeof(T), numElements * sizeof(T), data);
+    }
+
+    void set(const std::vector<T>& data, const uint64 index) {
+        set(data.data(), data.size(), index);
+    }
+
+    void set(const T& data, const uint64 index) {
+        set(&data, 1, index);
+    }
+
     void bind() const {
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bufferBinding, m_bufferId);
     }
