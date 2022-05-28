@@ -16,7 +16,6 @@ struct Material {
 };
 
 struct DirectionalLight {
-	// Needs to be normalized
 	vec4 direction;
 
 	vec4 diffuse;
@@ -40,7 +39,6 @@ struct PointLight {
 
 struct SpotLight {
 	vec4 position;
-	// Needs to be normalized
 	vec4 direction;
 
 	vec4 diffuse;
@@ -116,7 +114,7 @@ void spotLight() {
 
 		vec3 light = normalize(spotLight.position.xyz - v_position);
 		vec3 reflection = reflect(-light, normal);
-		float theta = dot(light, spotLight.direction.xyz);
+		float theta = dot(light, normalize(spotLight.direction.xyz));
 		
 		float distance = length(spotLight.position.xyz - v_position);
 		float attenuation = 1.0f / ((1.0f) + (spotLight.linear * distance) + (spotLight.quadratic * distance * distance));
@@ -134,8 +132,7 @@ void main() {
 	view = normalize(-v_position);
 	
 	normal = int(u_hasNormalMap) * texture(u_normalMap, v_textureCoords).rgb + int(!u_hasNormalMap) * vec3(0.5, 0.5, 1.0);
-	normal = normalize(normal * 2.0 - 1.0);
-	normal = normalize(v_tbn * normal);
+	normal = normalize(v_tbn * normalize(normal * 2.0 - 1.0));
 	
 	diffuseColor = int(u_hasDiffuseMap) * texture(u_diffuseMap, v_textureCoords) + int(!u_hasDiffuseMap) * vec4(u_material.diffuse, 1.0);
 	if (diffuseColor.w < 0.9) {
