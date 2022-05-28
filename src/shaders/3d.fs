@@ -124,9 +124,9 @@ void spotLight() {
 		float epsilon = spotLight.innerCone - spotLight.outerCone;
 		float intensity = clamp((theta - spotLight.outerCone) / epsilon, 0.0f, 1.0f) * int(theta > spotLight.outerCone);
 		
+		ambient += attenuation * spotLight.ambient.xyz * diffuseColor.xyz;
 		diffuse += intensity * attenuation * max(dot(normal, light), 0.0) * diffuseColor.xyz * spotLight.diffuse.xyz;
 		specular += intensity * attenuation * pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * spotLight.specular.xyz;
-		ambient += attenuation * spotLight.ambient.xyz * diffuseColor.xyz;
 	}
 }
 
