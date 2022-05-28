@@ -25,22 +25,30 @@ namespace LIGHTS {
 
 struct DirectionalLight {
 	glm::vec3 direction;
-	glm::vec3 color;
+
+	glm::vec3 diffuseColor;
+	glm::vec3 specularColor;
 	glm::vec3 ambientColor;
 };
 
 struct PointLight {
 	glm::vec4 position;
-	glm::vec3 color;
+
+	glm::vec3 diffuseColor;
+	glm::vec3 specularColor;
 	glm::vec3 ambientColor;
+
 	float linear, quadratic;
 };
 
 struct SpotLight {
 	glm::vec3 position;
 	glm::vec3 direction;
-	glm::vec3 color;
+
+	glm::vec3 diffuseColor;
+	glm::vec3 specularColor;
 	glm::vec3 ambientColor;
+
 	float linear, quadratic;
 	float innerCone, outerCone;
 };

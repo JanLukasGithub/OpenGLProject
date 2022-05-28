@@ -40,15 +40,15 @@ struct SpotLight {
 	// Needs to be normalized
 	vec3 direction;
 	
+	vec3 diffuse;
+	vec3 specular;
+	vec3 ambient;
+	
 	float linear;
 	float quadratic;
 	
 	float innerCone;
 	float outerCone;
-	
-	vec3 diffuse;
-	vec3 specular;
-	vec3 ambient;
 };
 
 uniform mat4 u_modelView;

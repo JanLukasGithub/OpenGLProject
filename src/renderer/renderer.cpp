@@ -80,23 +80,24 @@ void Renderer::initSDL() {
 void Renderer::initLights() {
     m_shader3d->bind();
 
+    delete m_lights;
     m_lights = new Lights();
 
     m_sun = DirectionalLight{
-        // Direction
-        glm::vec3(-1.0f),
-        // Color
-        glm::vec3(0.8f, 0.8f, 0.8f),
-        // Ambient color
-        glm::vec3(0.16f, 0.16f, 0.16f) };
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_directionalLight.diffuse"), 1, (float*)&m_sun.color.r);
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_directionalLight.specular"), 1, (float*)&m_sun.color.r);
+        .direction = glm::vec3(-1.0f),
+        .diffuseColor = glm::vec3(0.8f, 0.8f, 0.8f),
+        .specularColor = glm::vec3(0.8f, 0.8f, 0.8f),
+        .ambientColor = glm::vec3(0.16f, 0.16f, 0.16f) };
+    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_directionalLight.diffuse"), 1, (float*)&m_sun.diffuseColor.r);
+    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_directionalLight.specular"), 1, (float*)&m_sun.specularColor.r);
     glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_directionalLight.ambient"), 1, (float*)&m_sun.ambientColor.r);
 
     m_pointLight = PointLight{
         // Position
         glm::vec4(0.0f, 0.0f, 10.0f, 1.0f),
-        // Color
+        // Diffuse color
+        glm::vec3(0.2f, 0.2f, 1.0f),
+        // Specular color
         glm::vec3(0.2f, 0.2f, 1.0f),
         // Ambient color
         glm::vec3(0.04f, 0.04f, 0.2f),
@@ -104,8 +105,8 @@ void Renderer::initLights() {
         0.027f,
         // Quadratic attenuation
         0.0026f };
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.diffuse"), 1, (float*)&m_pointLight.color.r);
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.specular"), 1, (float*)&m_pointLight.color.r);
+    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.diffuse"), 1, (float*)&m_pointLight.diffuseColor.r);
+    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.specular"), 1, (float*)&m_pointLight.specularColor.r);
     glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.ambient"), 1, (float*)&m_pointLight.ambientColor.r);
 
     glUniform1f(glGetUniformLocation(m_shader3d->getShaderId(), "u_pointLight.linear"), m_pointLight.linear);
@@ -116,7 +117,9 @@ void Renderer::initLights() {
         glm::vec3(0.0f, 0.0f, 0.0f),
         // Direction
         glm::vec3(0.0f, 0.0f, 1.0f),
-        // Color
+        // Diffuse color
+        glm::vec3(1.0f, 1.0f, 1.0f),
+        // Specular color
         glm::vec3(1.0f, 1.0f, 1.0f),
         // Ambient color
         glm::vec3(0.2f, 0.2f, 0.2f),
@@ -132,8 +135,8 @@ void Renderer::initLights() {
     glUniform3fv(LIGHTS::spotLightPositionUniformLocation, 1, (float*)&m_flashlight.position.x);
     glUniform3fv(LIGHTS::spotLightDirectionUniformLocation, 1, (float*)&m_flashlight.direction.x);
 
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.diffuse"), 1, (float*)&m_flashlight.color.r);
-    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.specular"), 1, (float*)&m_flashlight.color.r);
+    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.diffuse"), 1, (float*)&m_flashlight.diffuseColor.r);
+    glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.specular"), 1, (float*)&m_flashlight.specularColor.r);
     glUniform3fv(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.ambient"), 1, (float*)&m_flashlight.ambientColor.r);
 
     glUniform1f(glGetUniformLocation(m_shader3d->getShaderId(), "u_spotLight.linear"), m_flashlight.linear);
