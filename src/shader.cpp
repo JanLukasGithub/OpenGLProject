@@ -97,6 +97,14 @@ GLuint Shader::createShader(const std::string& vertexShaderFileName, const std::
 
     glLinkProgram(program);
 
+    GLint linkStatus{ 0 };
+
+    glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
+
+    if (!linkStatus) {
+        std::cerr << "Couldn't link shader!" << std::endl;
+    }
+
     glDetachShader(program, vs);
     glDetachShader(program, fs);
 
@@ -130,6 +138,14 @@ GLuint Shader::createShader(const std::string& vertexShaderFileName, const std::
     glAttachShader(program, fs);
 
     glLinkProgram(program);
+
+    GLint linkStatus{ 0 };
+
+    glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
+
+    if (!linkStatus) {
+        std::cerr << "Couldn't link shader!" << std::endl;
+    }
 
     glDetachShader(program, vs);
     glDetachShader(program, gs);
