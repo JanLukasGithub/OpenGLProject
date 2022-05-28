@@ -47,6 +47,41 @@ public:
         glDeleteBuffers(1, &m_bufferId);
     }
 
+    ShaderBuffer& operator=(const ShaderBuffer& buf) {
+        if (this == &buf)
+            return *this;
+
+        glDeleteBuffers(1, &m_bufferId);
+
+        m_numElementsSize = buf.m_numElementsSize;
+        m_numElementsCapacity = buf.m_numElementsCapacity;
+        m_bufferBinding = buf.m_bufferBinding;
+
+        genBuffer(nullptr);
+
+        glBindBuffer(GL_COPY_READ_BUFFER, buf.m_bufferId);
+
+        glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_SHADER_STORAGE_BUFFER, 0, 0, m_numElementsSize);
+
+        return *this;
+    }
+
+    ShaderBuffer& operator=(ShaderBuffer&& buf) {
+        if (this == &buf)
+            return *this;
+
+        glDeleteBuffers(1, &m_bufferId);
+
+        m_bufferId = buf.m_bufferId;
+        m_bufferBinding = buf.m_bufferBinding;
+        m_numElementsCapacity = buf.m_numElementsCapacity;
+        m_numElementsSize = buf.m_numElementsSize;
+
+        buf.m_bufferId = 0;
+
+        return *this;
+    }
+
     void add(const T data[], const uint64 numElements) {
         GLuint oldBufferId = m_bufferId;
         uint64 oldNumElements = m_numElementsSize;
