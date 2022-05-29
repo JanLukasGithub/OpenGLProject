@@ -35,18 +35,16 @@ struct PointLight {
 };
 
 struct SpotLight {
-	vec4 position;
-	vec4 direction;
-
-	vec4 diffuse;
-	vec4 specular;
-	vec4 ambient;
-
+	vec3 position;
 	float linear;
+	vec3 direction;
 	float quadratic;
-
+	vec3 diffuse;
 	float innerCone;
+	vec3 specular;
 	float outerCone;
+	vec3 ambient;
+	float alignment1;
 };
 
 layout(std430, binding = 1) buffer directionalLightBlock {

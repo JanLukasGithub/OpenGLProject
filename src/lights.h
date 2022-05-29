@@ -29,15 +29,16 @@ struct PointLight {
 };
 
 struct SpotLight {
-	glm::vec4 position;
-	glm::vec4 direction;
-
-	glm::vec4 diffuseColor;
-	glm::vec4 specularColor;
-	glm::vec4 ambientColor;
-
-	float linear, quadratic;
-	float innerCone, outerCone;
+	glm::vec3 position;
+	float linear;
+	glm::vec3 direction;
+	float quadratic;
+	glm::vec3 diffuseColor;
+	float innerCone;
+	glm::vec3 specularColor;
+	float outerCone;
+	glm::vec3 ambientColor;
+	float alignment1 = 0.0f;
 };
 
 // Wrapper around 3 ShaderBuffers. To add or remove lights, access the buffers and use their interface

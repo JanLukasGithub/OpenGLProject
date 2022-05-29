@@ -92,23 +92,26 @@ void Renderer::initLights() {
 
     m_pointLight = PointLight{
         .position = glm::vec4(0.0f, 0.0f, 10.0f, 1.0f),
-        .diffuseColor = glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
-        .specularColor = glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
-        .ambientColor = glm::vec4(0.04f, 0.04f, 0.2f, 1.0f),
         .linear = 0.027f,
-        .quadratic = 0.0026f
+        .diffuseColor = glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
+        .quadratic = 0.0026f,
+        .specularColor = glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
+        .alignment1 = 0.0f,
+        .ambientColor = glm::vec4(0.04f, 0.04f, 0.2f, 1.0f),
+        .alignment2 = 0.0f
     };
 
     m_flashlight = SpotLight{
         .position = glm::vec4(0.0f),
-        .direction = glm::normalize(glm::vec4(0.0f, 0.0f, 1.0f, 0.0f)),
-        .diffuseColor = glm::vec4(1.0f),
-        .specularColor = glm::vec4(1.0f),
-        .ambientColor = glm::vec4(0.2f),
         .linear = 0.027f,
+        .direction = glm::normalize(glm::vec4(0.0f, 0.0f, 1.0f, 0.0f)),
         .quadratic = 0.0026f,
+        .diffuseColor = glm::vec4(1.0f),
         .innerCone = 1.0f,
-        .outerCone = 0.9f
+        .specularColor = glm::vec4(1.0f),
+        .outerCone = 0.9f,
+        .ambientColor = glm::vec4(0.2f),
+        .alignment1 = 0.0f
     };
 
     m_lights->getDirectionalLightBuffer().add(m_sun);
@@ -129,9 +132,8 @@ void Renderer::initCamera() {
 }
 
 void Renderer::initMatrices() {
-    m_modelMatrix = glm::scale(m_modelMatrix, glm::vec3(1.0f));
-    m_modelViewProj = m_camera.getViewProjection() * m_modelMatrix;
-    m_modelView = m_camera.getView() * m_modelMatrix;
+    m_viewProj = m_camera.getViewProjection();
+    m_view = m_camera.getView();
 }
 
 void Renderer::initUniforms() {
@@ -158,10 +160,10 @@ void Renderer::startFrame() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    m_modelViewProj = m_camera.getViewProjection() * m_modelMatrix;
-    m_modelView = m_camera.getView() * m_modelMatrix;
+    m_viewProj = m_camera.getViewProjection();
+    m_view = m_camera.getView();
 
-    m_pointLight.position = m_pointLight.position * glm::rotate(glm::mat4(1.0f), m_delta, { 0.0f, 1.0f, 0.0f });
+    m_pointLight.position = glm::vec4(m_pointLight.position, 1.0f) * glm::rotate(glm::mat4(1.0f), m_delta, { 0.0f, 1.0f, 0.0f });
 }
 
 void Renderer::setup3DRender() {
@@ -170,11 +172,14 @@ void Renderer::setup3DRender() {
 
     m_shader3d->bind();
 
-    glm::mat4 invModelView = glm::transpose(glm::inverse(m_modelView));
+    glm::mat4 invView = glm::transpose(glm::inverse(m_view));
 
     DirectionalLight transformedSun{
-        // .direction = -(glm::vec3(glm::transpose(glm::inverse(m_camera.getView())) * glm::vec4(m_sun.direction, 1.0f))) * glm::mat3(modelView),
-        .direction = -(glm::transpose(glm::inverse(m_camera.getView())) * m_sun.direction) * m_modelView,
+        .direction = -glm::transpose(glm::inverse(m_camera.getView())) * m_sun.direction * m_camera.getView(),
+
+        // When the camera rotates 180°, the direction needs to rotate 180° as well
+
+        // .direction = m_sun.direction * -m_camera.getView(),
         .diffuseColor = m_sun.diffuseColor,
         .specularColor = m_sun.specularColor,
         .ambientColor = m_sun.ambientColor
@@ -182,12 +187,14 @@ void Renderer::setup3DRender() {
     m_lights->getDirectionalLightBuffer().set(transformedSun, 0);
 
     PointLight transformedPoint{
-        .position = m_camera.getView() * m_pointLight.position,
-        .diffuseColor = m_pointLight.diffuseColor,
-        .specularColor = m_pointLight.specularColor,
-        .ambientColor = m_pointLight.ambientColor,
+        .position = m_camera.getView() * glm::vec4(m_pointLight.position, 1.0f),
         .linear = m_pointLight.linear,
-        .quadratic = m_pointLight.quadratic
+        .diffuseColor = m_pointLight.diffuseColor,
+        .quadratic = m_pointLight.quadratic,
+        .specularColor = m_pointLight.specularColor,
+        .alignment1 = 0.0f,
+        .ambientColor = m_pointLight.ambientColor,
+        .alignment2 = 0.0f
     };
     m_lights->getPointLightBuffer().set(transformedPoint, 0);
 
@@ -195,9 +202,9 @@ void Renderer::setup3DRender() {
 
     m_lights->bind();
 
-    glUniformMatrix4fv(m_modelViewProjUniformLocation, 1, GL_FALSE, &m_modelViewProj[0][0]);
-    glUniformMatrix4fv(m_modelViewUniformLocation, 1, GL_FALSE, &m_modelView[0][0]);
-    glUniformMatrix4fv(m_invModelViewUniformLocation, 1, GL_FALSE, &invModelView[0][0]);
+    glUniformMatrix4fv(m_modelViewProjUniformLocation, 1, GL_FALSE, &m_viewProj[0][0]);
+    glUniformMatrix4fv(m_modelViewUniformLocation, 1, GL_FALSE, &m_view[0][0]);
+    glUniformMatrix4fv(m_invModelViewUniformLocation, 1, GL_FALSE, &invView[0][0]);
 }
 
 void Renderer::setupFontRender() {
@@ -227,8 +234,8 @@ void Renderer::setupTerrainRender() {
 
     m_lights->bind();
 
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &m_modelViewProj[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelView"), 1, GL_FALSE, &m_modelView[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &m_viewProj[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelView"), 1, GL_FALSE, &m_view[0][0]);
 }
 
 void Renderer::endFrame() {
