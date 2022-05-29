@@ -175,7 +175,7 @@ void Renderer::setup3DRender() {
     m_shader3d->bind();
 
     DirectionalLight transformedSun{
-        .direction = glm::normalize(m_invView * m_sun.direction),
+        .direction = glm::vec4(glm::normalize(glm::mat3(m_invView) * glm::vec3(m_sun.direction)), 1.0f),
         .diffuseColor = m_sun.diffuseColor,
         .specularColor = m_sun.specularColor,
         .ambientColor = m_sun.ambientColor
@@ -193,8 +193,6 @@ void Renderer::setup3DRender() {
         .alignment2 = 0.0f
     };
     m_lights->getPointLightBuffer().set(transformedPoint, 0);
-
-    m_lights->getSpotLightBuffer().set(m_flashlight, 0);
 
     m_lights->bind();
 
