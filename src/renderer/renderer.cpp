@@ -84,7 +84,7 @@ void Renderer::initLights() {
     m_lights = new Lights();
 
     m_sun = DirectionalLight{
-        .direction = glm::normalize(glm::vec4(1.0f)),
+        .direction = glm::normalize(glm::vec4(-1.0f)),
         .diffuseColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f),
         .specularColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f),
         .ambientColor = glm::vec4(0.16f, 0.16f, 0.16f, 1.0f)
@@ -127,7 +127,7 @@ void Renderer::initCounter() {
 }
 
 void Renderer::initCamera() {
-    m_camera.translate(glm::vec3(0.0f, 75.0f, 0.0f));
+    m_camera.translate(glm::vec3(0.0f, 0.0f, 0.0f));
     m_camera.update();
 }
 

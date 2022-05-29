@@ -78,7 +78,7 @@ void directionalLight() {
 	for (int i = 0; i < b_directionalLights.directionalLights.length(); i++) {
 		DirectionalLight dirLight = b_directionalLights.directionalLights[i];
 
-		vec3 light = dirLight.direction.xyz;
+		vec3 light = -dirLight.direction.xyz;
 		vec3 reflection = reflect(dirLight.direction.xyz, normal);
 
 		ambient += diffuseColor.xyz * dirLight.ambient.xyz;
