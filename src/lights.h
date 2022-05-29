@@ -18,15 +18,14 @@ struct DirectionalLight {
 };
 
 struct PointLight {
-	glm::vec4 position;
-
-	glm::vec4 diffuseColor;
-	glm::vec4 specularColor;
-	glm::vec4 ambientColor;
-
-	float linear, quadratic;
-	// Needed for the amount of bytes to be a multiple of 16 (namely 80)
-	float alignment1 = 0, alignment2 = 0;
+	glm::vec3 position;
+	float linear;
+	glm::vec3 diffuseColor;
+	float quadratic;
+	glm::vec3 specularColor;
+	float alignment1 = 0;
+	glm::vec3 ambientColor;
+	float alignment2 = 0;
 };
 
 struct SpotLight {
