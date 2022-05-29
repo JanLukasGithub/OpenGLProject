@@ -5,23 +5,23 @@ FpsCamera::FpsCamera(float fov, float width, float height) : Camera(fov, width, 
 }
 
 void FpsCamera::onMouseMoved(float xRel, float yRel) {
-	yaw += xRel * mouseSensitivity;
-	pitch -= yRel * mouseSensitivity;
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	else if (pitch < -89.0f)
-		pitch = -89.0f;
+	m_yaw += xRel * mouseSensitivity;
+	m_pitch -= yRel * mouseSensitivity;
+	if (m_pitch > 89.0f)
+		m_pitch = 89.0f;
+	else if (m_pitch < -89.0f)
+		m_pitch = -89.0f;
 
 	glm::vec3 front;
-	front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-	front.y = sin(glm::radians(pitch));
-	front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-	lookAt = glm::normalize(front);
+	front.x = cos(glm::radians(m_pitch)) * cos(glm::radians(m_yaw));
+	front.y = sin(glm::radians(m_pitch));
+	front.z = cos(glm::radians(m_pitch)) * sin(glm::radians(m_yaw));
+	m_lookAt = glm::normalize(front);
 	update();
 }
 
 void FpsCamera::update() {
-	Camera::m_view = glm::lookAt(Camera::m_position, Camera::m_position + lookAt, up);
+	Camera::m_view = glm::lookAt(Camera::m_position, Camera::m_position + m_lookAt, m_up);
 	Camera::update();
 }
 
@@ -43,13 +43,13 @@ void FpsCamera::handleInputs(SdlEventHandler* handler, float32 delta) {
 
 void FpsCamera::moveFront(float amount) {
 	Camera::translate(
-		glm::normalize(glm::vec3(1.0f, 0.0f, 1.0f) * lookAt) * amount
+		glm::normalize(glm::vec3(1.0f, 0.0f, 1.0f) * m_lookAt) * amount
 		* cameraSpeed);
 	update();
 }
 
 void FpsCamera::moveRight(float amount) {
 	Camera::translate(
-		glm::normalize(glm::cross(lookAt, up)) * amount * cameraSpeed);
+		glm::normalize(glm::cross(m_lookAt, m_up)) * amount * cameraSpeed);
 	update();
 }

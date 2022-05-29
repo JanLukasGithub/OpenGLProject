@@ -13,6 +13,6 @@ void FlyingCamera::handleInputs(SdlEventHandler* handler, float32 delta) {
 }
 
 void FlyingCamera::moveUp(float amount) {
-    translate(up * amount * verticalSpeed);
+    translate(m_up * amount * verticalSpeed);
     update();
 }

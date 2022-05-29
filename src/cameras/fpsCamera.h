@@ -5,11 +5,12 @@
 
 class FpsCamera : public Camera {
 protected:
-	float yaw{ -90.0f };
-	float pitch{ 0.0f };
-	glm::vec3 lookAt{};
-	const float mouseSensitivity = 0.3f;
-	glm::vec3 up{ 0.0f, 1.0f, 0.0f };
+	static constexpr float mouseSensitivity = 0.3f;
+
+	float m_yaw{ -90.0f };
+	float m_pitch{ 0.0f };
+	glm::vec3 m_lookAt{};
+	glm::vec3 m_up{ 0.0f, 1.0f, 0.0f };
 
 public:
 	static constexpr float cameraSpeed = 5.0f;
