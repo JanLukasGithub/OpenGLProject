@@ -126,8 +126,8 @@ void spotLight() {
 void main() {
 	view = normalize(-v_position);
 	
-	normal = int(u_hasNormalMap) * texture(u_normalMap, v_textureCoords).rgb + int(!u_hasNormalMap) * vec3(0.5, 0.5, 1.0);
-	normal = normalize(v_tbn * normalize(normal * 2.0 - 1.0));
+	normal = int(u_hasNormalMap) * normalize(v_tbn * normalize(texture(u_normalMap, v_textureCoords).rgb * 2.0 - 1.0))
+			+ int(!u_hasNormalMap) * transpose(v_tbn)[2];
 	
 	diffuseColor = int(u_hasDiffuseMap) * texture(u_diffuseMap, v_textureCoords) + int(!u_hasDiffuseMap) * vec4(u_material.diffuse, 1.0);
 	if (diffuseColor.w < 0.9) {
