@@ -78,7 +78,7 @@ void directionalLight() {
 	for (int i = 0; i < b_directionalLights.directionalLights.length(); i++) {
 		DirectionalLight dirLight = b_directionalLights.directionalLights[i];
 
-		vec3 light = normalize(dirLight.direction.xyz);
+		vec3 light = dirLight.direction.xyz;
 		vec3 reflection = reflect(dirLight.direction.xyz, normal);
 
 		ambient += diffuseColor.xyz * dirLight.ambient.xyz;
@@ -109,7 +109,7 @@ void spotLight() {
 
 		vec3 light = normalize(spotLight.position.xyz - v_position);
 		vec3 reflection = reflect(-light, normal);
-		float theta = dot(light, normalize(spotLight.direction.xyz));
+		float theta = dot(light, spotLight.direction.xyz);
 		
 		float distance = length(spotLight.position.xyz - v_position);
 		float attenuation = 1.0f / ((1.0f) + (spotLight.linear * distance) + (spotLight.quadratic * distance * distance));
