@@ -23,9 +23,10 @@ public:
 	virtual void translate(glm::vec3 vec3);
 	virtual void handleInputs(SdlEventHandler* handler, float32 delta);
 
-	glm::mat4 getViewProjection();
-	glm::mat4 getView();
-	glm::vec3 getPosition();
+	const glm::mat4& getProjection() const noexcept;
+	const glm::mat4& getViewProjection() const noexcept;
+	const glm::mat4& getView() const noexcept;
+	const glm::vec3& getPosition() const noexcept;
 };
 
 #endif

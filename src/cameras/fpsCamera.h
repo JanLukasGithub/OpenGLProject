@@ -23,6 +23,8 @@ public:
 
 	void moveFront(float amount);
 	void moveRight(float amount);
+
+	const glm::vec3& getLookAt() const noexcept;
 };
 
 #endif

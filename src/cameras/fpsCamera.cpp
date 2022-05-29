@@ -12,11 +12,10 @@ void FpsCamera::onMouseMoved(float xRel, float yRel) {
 	else if (m_pitch < -89.0f)
 		m_pitch = -89.0f;
 
-	glm::vec3 front;
-	front.x = cos(glm::radians(m_pitch)) * cos(glm::radians(m_yaw));
-	front.y = sin(glm::radians(m_pitch));
-	front.z = cos(glm::radians(m_pitch)) * sin(glm::radians(m_yaw));
-	m_lookAt = glm::normalize(front);
+	m_lookAt.x = cos(glm::radians(m_pitch)) * cos(glm::radians(m_yaw));
+	m_lookAt.y = sin(glm::radians(m_pitch));
+	m_lookAt.z = cos(glm::radians(m_pitch)) * sin(glm::radians(m_yaw));
+	m_lookAt = glm::normalize(m_lookAt);
 	update();
 }
 
@@ -52,4 +51,8 @@ void FpsCamera::moveRight(float amount) {
 	Camera::translate(
 		glm::normalize(glm::cross(m_lookAt, m_up)) * amount * cameraSpeed);
 	update();
+}
+
+const glm::vec3& FpsCamera::getLookAt() const noexcept {
+	return m_lookAt;
 }
