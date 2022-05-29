@@ -134,6 +134,7 @@ void Renderer::initCamera() {
 void Renderer::initMatrices() {
     m_viewProj = m_camera.getViewProjection();
     m_view = m_camera.getView();
+    m_invView = glm::transpose(glm::inverse(m_view));
 }
 
 void Renderer::initUniforms() {
@@ -162,6 +163,7 @@ void Renderer::startFrame() {
 
     m_viewProj = m_camera.getViewProjection();
     m_view = m_camera.getView();
+    m_invView = glm::transpose(glm::inverse(m_view));
 
     m_pointLight.position = glm::vec4(m_pointLight.position, 1.0f) * glm::rotate(glm::mat4(1.0f), m_delta, { 0.0f, 1.0f, 0.0f });
 }
@@ -172,10 +174,8 @@ void Renderer::setup3DRender() {
 
     m_shader3d->bind();
 
-    glm::mat4 invView = glm::transpose(glm::inverse(m_view));
-
     DirectionalLight transformedSun{
-        .direction = glm::normalize(invView * m_sun.direction),
+        .direction = glm::normalize(m_invView * m_sun.direction),
         .diffuseColor = m_sun.diffuseColor,
         .specularColor = m_sun.specularColor,
         .ambientColor = m_sun.ambientColor
@@ -200,7 +200,7 @@ void Renderer::setup3DRender() {
 
     glUniformMatrix4fv(m_modelViewProjUniformLocation, 1, GL_FALSE, &m_viewProj[0][0]);
     glUniformMatrix4fv(m_modelViewUniformLocation, 1, GL_FALSE, &m_view[0][0]);
-    glUniformMatrix4fv(m_invModelViewUniformLocation, 1, GL_FALSE, &invView[0][0]);
+    glUniformMatrix4fv(m_invModelViewUniformLocation, 1, GL_FALSE, &m_invView[0][0]);
 }
 
 void Renderer::setupFontRender() {
