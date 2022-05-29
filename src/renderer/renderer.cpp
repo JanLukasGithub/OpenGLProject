@@ -84,7 +84,7 @@ void Renderer::initLights() {
     m_lights = new Lights();
 
     m_sun = DirectionalLight{
-        .direction = glm::normalize(glm::vec4(-1.0f)),
+        .direction = glm::normalize(glm::vec4(1.0f)),
         .diffuseColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f),
         .specularColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f),
         .ambientColor = glm::vec4(0.16f, 0.16f, 0.16f, 1.0f)
@@ -175,11 +175,7 @@ void Renderer::setup3DRender() {
     glm::mat4 invView = glm::transpose(glm::inverse(m_view));
 
     DirectionalLight transformedSun{
-        .direction = -glm::transpose(glm::inverse(m_camera.getView())) * m_sun.direction * m_camera.getView(),
-
-        // When the camera rotates 180°, the direction needs to rotate 180° as well
-
-        // .direction = m_sun.direction * -m_camera.getView(),
+        .direction = glm::normalize(invView * m_sun.direction),
         .diffuseColor = m_sun.diffuseColor,
         .specularColor = m_sun.specularColor,
         .ambientColor = m_sun.ambientColor
