@@ -230,8 +230,9 @@ void Renderer::setupTerrainRender() {
 
     m_lights->bind();
 
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &m_viewProj[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelView"), 1, GL_FALSE, &m_view[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_viewProj"), 1, GL_FALSE, &m_viewProj[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_view"), 1, GL_FALSE, &m_view[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_invView"), 1, GL_FALSE, &m_invView[0][0]);
 }
 
 void Renderer::endFrame() {
