@@ -127,7 +127,7 @@ void Renderer::initCounter() {
 }
 
 void Renderer::initCamera() {
-    m_camera.translate(glm::vec3(0.0f, 0.0f, 5.0f));
+    m_camera.translate(glm::vec3(0.0f, 75.0f, 0.0f));
     m_camera.update();
 }
 
