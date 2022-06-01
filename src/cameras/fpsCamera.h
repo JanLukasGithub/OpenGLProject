@@ -12,8 +12,11 @@ protected:
 	glm::vec3 m_lookAt{};
 	glm::vec3 m_up{ 0.0f, 1.0f, 0.0f };
 
+	float m_currentSpeed{ cameraSpeed };
+
 public:
-	static constexpr float cameraSpeed = 5.0f;
+	static constexpr float cameraSpeed = 50.0f;
+	static constexpr float sprintingCameraSpeed = 100.0f;
 
 	FpsCamera(float fov, float width, float height);
 

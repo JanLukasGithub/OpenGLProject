@@ -5,7 +5,7 @@
 
 class FlyingCamera : public FpsCamera {
 public:
-    static constexpr float verticalSpeed = 5.0f;
+    static constexpr float verticalSpeed = 50.0f;
 
     FlyingCamera(float fov, float width, float height);
 
