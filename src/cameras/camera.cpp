@@ -18,14 +18,18 @@ void Camera::translate(glm::vec3 vec3) {
 
 void Camera::handleInputs(SdlEventHandler* handler, float32 delta) {}
 
-glm::mat4 Camera::getViewProjection() {
+const glm::mat4& Camera::getProjection() const noexcept {
+	return m_projection;
+}
+
+const glm::mat4& Camera::getViewProjection() const noexcept {
 	return m_viewProj;
 }
 
-glm::mat4 Camera::getView() {
+const glm::mat4& Camera::getView() const noexcept {
 	return m_view;
 }
 
-glm::vec3 Camera::getPosition() {
+const glm::vec3& Camera::getPosition() const noexcept {
 	return m_position;
 }

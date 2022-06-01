@@ -19,8 +19,6 @@ uniform mat4 u_modelViewProj;
 uniform mat4 u_modelView;
 uniform mat4 u_invModelView;
 
-uniform bool u_hasNormalMap;
-
 void main() {
     vec4 worldSpacePosition = b_modelMats.matrices[gl_InstanceID] * vec4(a_position, 1.0f);
 
@@ -30,9 +28,8 @@ void main() {
 
     vec3 t = normalize(mat3(u_invModelView) * a_tangent);
     vec3 n = normalize(mat3(u_invModelView) * a_normal);
-    t = normalize(t - dot(t, n) * n); // Reorthogonalize with Gram-Schmidt process
     vec3 b = normalize(mat3(u_invModelView) * cross(n, t));
-    v_tbn = transpose(mat3(t, b, n)) * int(u_hasNormalMap) + mat3(1.0) * int(!u_hasNormalMap);
+    v_tbn = transpose(mat3(t, b, n));
     
     v_textureCoords = a_textureCoords;
 }

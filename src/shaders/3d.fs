@@ -16,11 +16,15 @@ struct Material {
 };
 
 struct DirectionalLight {
-	vec4 direction;
+	vec3 direction;
+	float alignment1;
 
-	vec4 diffuse;
-	vec4 specular;
-	vec4 ambient;
+	vec3 diffuse;
+	float alignment2;
+	vec3 specular;
+	float alignment3;
+	vec3 ambient;
+	float alignment4;
 };
 
 struct PointLight {
@@ -78,12 +82,12 @@ void directionalLight() {
 	for (int i = 0; i < b_directionalLights.directionalLights.length(); i++) {
 		DirectionalLight dirLight = b_directionalLights.directionalLights[i];
 
-		vec3 light = normalize(dirLight.direction.xyz);
-		vec3 reflection = reflect(dirLight.direction.xyz, normal);
+		vec3 light = -dirLight.direction;
+		vec3 reflection = reflect(dirLight.direction, normal);
 
-		ambient += diffuseColor.xyz * dirLight.ambient.xyz;
-		diffuse += max(dot(normal, light), 0.0) * diffuseColor.xyz * dirLight.diffuse.xyz;
-		specular += pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * dirLight.specular.xyz;
+		ambient += diffuseColor.xyz * dirLight.ambient;
+		diffuse += max(dot(normal, light), 0.0) * diffuseColor.xyz * dirLight.diffuse;
+		specular += pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * dirLight.specular;
 	}
 }
 
@@ -109,7 +113,7 @@ void spotLight() {
 
 		vec3 light = normalize(spotLight.position.xyz - v_position);
 		vec3 reflection = reflect(-light, normal);
-		float theta = dot(light, normalize(spotLight.direction.xyz));
+		float theta = dot(light, spotLight.direction.xyz);
 		
 		float distance = length(spotLight.position.xyz - v_position);
 		float attenuation = 1.0f / ((1.0f) + (spotLight.linear * distance) + (spotLight.quadratic * distance * distance));
@@ -126,8 +130,8 @@ void spotLight() {
 void main() {
 	view = normalize(-v_position);
 	
-	normal = int(u_hasNormalMap) * texture(u_normalMap, v_textureCoords).rgb + int(!u_hasNormalMap) * vec3(0.5, 0.5, 1.0);
-	normal = normalize(v_tbn * normalize(normal * 2.0 - 1.0));
+	normal = int(u_hasNormalMap) * normalize(v_tbn * normalize(texture(u_normalMap, v_textureCoords).rgb * 2.0 - 1.0))
+			+ int(!u_hasNormalMap) * transpose(v_tbn)[2];
 	
 	diffuseColor = int(u_hasDiffuseMap) * texture(u_diffuseMap, v_textureCoords) + int(!u_hasDiffuseMap) * vec4(u_material.diffuse, 1.0);
 	if (diffuseColor.w < 0.9) {

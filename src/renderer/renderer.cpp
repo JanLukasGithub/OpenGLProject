@@ -84,7 +84,7 @@ void Renderer::initLights() {
     m_lights = new Lights();
 
     m_sun = DirectionalLight{
-        .direction = glm::normalize(glm::vec4(-1.0f)),
+        .direction = glm::normalize(glm::vec3(-1.0f)),
         .diffuseColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f),
         .specularColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f),
         .ambientColor = glm::vec4(0.16f, 0.16f, 0.16f, 1.0f)
@@ -96,9 +96,7 @@ void Renderer::initLights() {
         .diffuseColor = glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
         .quadratic = 0.0026f,
         .specularColor = glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
-        .alignment1 = 0.0f,
         .ambientColor = glm::vec4(0.04f, 0.04f, 0.2f, 1.0f),
-        .alignment2 = 0.0f
     };
 
     m_flashlight = SpotLight{
@@ -111,7 +109,6 @@ void Renderer::initLights() {
         .specularColor = glm::vec4(1.0f),
         .outerCone = 0.9f,
         .ambientColor = glm::vec4(0.2f),
-        .alignment1 = 0.0f
     };
 
     m_lights->getDirectionalLightBuffer().add(m_sun);
@@ -127,13 +124,14 @@ void Renderer::initCounter() {
 }
 
 void Renderer::initCamera() {
-    m_camera.translate(glm::vec3(0.0f, 0.0f, 5.0f));
+    m_camera.translate(glm::vec3(0.0f, 0.0f, 0.0f));
     m_camera.update();
 }
 
 void Renderer::initMatrices() {
     m_viewProj = m_camera.getViewProjection();
     m_view = m_camera.getView();
+    m_invView = glm::transpose(glm::inverse(m_view));
 }
 
 void Renderer::initUniforms() {
@@ -162,6 +160,7 @@ void Renderer::startFrame() {
 
     m_viewProj = m_camera.getViewProjection();
     m_view = m_camera.getView();
+    m_invView = glm::transpose(glm::inverse(m_view));
 
     m_pointLight.position = glm::vec4(m_pointLight.position, 1.0f) * glm::rotate(glm::mat4(1.0f), m_delta, { 0.0f, 1.0f, 0.0f });
 }
@@ -172,14 +171,8 @@ void Renderer::setup3DRender() {
 
     m_shader3d->bind();
 
-    glm::mat4 invView = glm::transpose(glm::inverse(m_view));
-
     DirectionalLight transformedSun{
-        .direction = -glm::transpose(glm::inverse(m_camera.getView())) * m_sun.direction * m_camera.getView(),
-
-        // When the camera rotates 180°, the direction needs to rotate 180° as well
-
-        // .direction = m_sun.direction * -m_camera.getView(),
+        .direction = glm::normalize(glm::mat3(m_invView) * m_sun.direction),
         .diffuseColor = m_sun.diffuseColor,
         .specularColor = m_sun.specularColor,
         .ambientColor = m_sun.ambientColor
@@ -187,7 +180,7 @@ void Renderer::setup3DRender() {
     m_lights->getDirectionalLightBuffer().set(transformedSun, 0);
 
     PointLight transformedPoint{
-        .position = m_camera.getView() * glm::vec4(m_pointLight.position, 1.0f),
+        .position = glm::mat3(m_camera.getView()) * m_pointLight.position,
         .linear = m_pointLight.linear,
         .diffuseColor = m_pointLight.diffuseColor,
         .quadratic = m_pointLight.quadratic,
@@ -198,13 +191,11 @@ void Renderer::setup3DRender() {
     };
     m_lights->getPointLightBuffer().set(transformedPoint, 0);
 
-    m_lights->getSpotLightBuffer().set(m_flashlight, 0);
-
     m_lights->bind();
 
     glUniformMatrix4fv(m_modelViewProjUniformLocation, 1, GL_FALSE, &m_viewProj[0][0]);
     glUniformMatrix4fv(m_modelViewUniformLocation, 1, GL_FALSE, &m_view[0][0]);
-    glUniformMatrix4fv(m_invModelViewUniformLocation, 1, GL_FALSE, &invView[0][0]);
+    glUniformMatrix4fv(m_invModelViewUniformLocation, 1, GL_FALSE, &m_invView[0][0]);
 }
 
 void Renderer::setupFontRender() {
@@ -234,8 +225,9 @@ void Renderer::setupTerrainRender() {
 
     m_lights->bind();
 
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelViewProj"), 1, GL_FALSE, &m_viewProj[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_modelView"), 1, GL_FALSE, &m_view[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_viewProj"), 1, GL_FALSE, &m_viewProj[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_view"), 1, GL_FALSE, &m_view[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderTerrain->getShaderId(), "u_invView"), 1, GL_FALSE, &m_invView[0][0]);
 }
 
 void Renderer::endFrame() {

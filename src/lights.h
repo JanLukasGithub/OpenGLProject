@@ -10,11 +10,15 @@
 #include "buffer/shaderBuffer.h"
 
 struct DirectionalLight {
-	glm::vec4 direction;
+	glm::vec3 direction;
+	float alignment1 = 0;
 
-	glm::vec4 diffuseColor;
-	glm::vec4 specularColor;
-	glm::vec4 ambientColor;
+	glm::vec3 diffuseColor;
+	float alignment2 = 0;
+	glm::vec3 specularColor;
+	float alignment3 = 0;
+	glm::vec3 ambientColor;
+	float alignment4 = 0;
 };
 
 struct PointLight {

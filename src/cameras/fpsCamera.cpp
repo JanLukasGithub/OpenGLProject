@@ -12,11 +12,10 @@ void FpsCamera::onMouseMoved(float xRel, float yRel) {
 	else if (m_pitch < -89.0f)
 		m_pitch = -89.0f;
 
-	glm::vec3 front;
-	front.x = cos(glm::radians(m_pitch)) * cos(glm::radians(m_yaw));
-	front.y = sin(glm::radians(m_pitch));
-	front.z = cos(glm::radians(m_pitch)) * sin(glm::radians(m_yaw));
-	m_lookAt = glm::normalize(front);
+	m_lookAt.x = cos(glm::radians(m_pitch)) * cos(glm::radians(m_yaw));
+	m_lookAt.y = sin(glm::radians(m_pitch));
+	m_lookAt.z = cos(glm::radians(m_pitch)) * sin(glm::radians(m_yaw));
+	m_lookAt = glm::normalize(m_lookAt);
 	update();
 }
 
@@ -38,18 +37,28 @@ void FpsCamera::handleInputs(SdlEventHandler* handler, float32 delta) {
 	if (handler->keyPressed(SDLK_d))
 		moveRight(delta);
 
+	if (handler->keyJustPressed(SDLK_LCTRL))
+		m_currentSpeed = sprintingCameraSpeed;
+
+	if (handler->keyJustReleased(SDLK_LCTRL))
+		m_currentSpeed = cameraSpeed;
+
 	onMouseMoved(handler->mouseXMovement(), handler->mouseYMovement());
 }
 
 void FpsCamera::moveFront(float amount) {
 	Camera::translate(
 		glm::normalize(glm::vec3(1.0f, 0.0f, 1.0f) * m_lookAt) * amount
-		* cameraSpeed);
+		* m_currentSpeed);
 	update();
 }
 
 void FpsCamera::moveRight(float amount) {
 	Camera::translate(
-		glm::normalize(glm::cross(m_lookAt, m_up)) * amount * cameraSpeed);
+		glm::normalize(glm::cross(m_lookAt, m_up)) * amount * m_currentSpeed);
 	update();
+}
+
+const glm::vec3& FpsCamera::getLookAt() const noexcept {
+	return m_lookAt;
 }
