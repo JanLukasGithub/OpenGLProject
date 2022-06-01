@@ -15,8 +15,8 @@ protected:
 	float m_currentSpeed{ cameraSpeed };
 
 public:
-	static constexpr float cameraSpeed = 50.0f;
-	static constexpr float sprintingCameraSpeed = 100.0f;
+	static constexpr float cameraSpeed = 150.0f;
+	static constexpr float sprintingCameraSpeed = 300.0f;
 
 	FpsCamera(float fov, float width, float height);
 
