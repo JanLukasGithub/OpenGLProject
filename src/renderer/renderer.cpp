@@ -84,7 +84,7 @@ void Renderer::initLights() {
     m_lights = new Lights();
 
     m_sun = DirectionalLight{
-        .direction = glm::normalize(glm::vec4(-1.0f)),
+        .direction = glm::normalize(glm::vec3(-1.0f)),
         .diffuseColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f),
         .specularColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f),
         .ambientColor = glm::vec4(0.16f, 0.16f, 0.16f, 1.0f)
@@ -96,9 +96,7 @@ void Renderer::initLights() {
         .diffuseColor = glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
         .quadratic = 0.0026f,
         .specularColor = glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
-        .alignment1 = 0.0f,
         .ambientColor = glm::vec4(0.04f, 0.04f, 0.2f, 1.0f),
-        .alignment2 = 0.0f
     };
 
     m_flashlight = SpotLight{
@@ -111,7 +109,6 @@ void Renderer::initLights() {
         .specularColor = glm::vec4(1.0f),
         .outerCone = 0.9f,
         .ambientColor = glm::vec4(0.2f),
-        .alignment1 = 0.0f
     };
 
     m_lights->getDirectionalLightBuffer().add(m_sun);
@@ -175,7 +172,7 @@ void Renderer::setup3DRender() {
     m_shader3d->bind();
 
     DirectionalLight transformedSun{
-        .direction = glm::vec4(glm::normalize(glm::mat3(m_invView) * glm::vec3(m_sun.direction)), 1.0f),
+        .direction = glm::normalize(glm::mat3(m_invView) * m_sun.direction),
         .diffuseColor = m_sun.diffuseColor,
         .specularColor = m_sun.specularColor,
         .ambientColor = m_sun.ambientColor
@@ -183,7 +180,7 @@ void Renderer::setup3DRender() {
     m_lights->getDirectionalLightBuffer().set(transformedSun, 0);
 
     PointLight transformedPoint{
-        .position = m_camera.getView() * glm::vec4(m_pointLight.position, 1.0f),
+        .position = glm::mat3(m_camera.getView()) * m_pointLight.position,
         .linear = m_pointLight.linear,
         .diffuseColor = m_pointLight.diffuseColor,
         .quadratic = m_pointLight.quadratic,

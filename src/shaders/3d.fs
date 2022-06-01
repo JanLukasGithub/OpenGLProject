@@ -16,11 +16,15 @@ struct Material {
 };
 
 struct DirectionalLight {
-	vec4 direction;
+	vec3 direction;
+	float alignment1;
 
-	vec4 diffuse;
-	vec4 specular;
-	vec4 ambient;
+	vec3 diffuse;
+	float alignment2;
+	vec3 specular;
+	float alignment3;
+	vec3 ambient;
+	float alignment4;
 };
 
 struct PointLight {
@@ -78,12 +82,12 @@ void directionalLight() {
 	for (int i = 0; i < b_directionalLights.directionalLights.length(); i++) {
 		DirectionalLight dirLight = b_directionalLights.directionalLights[i];
 
-		vec3 light = -dirLight.direction.xyz;
-		vec3 reflection = reflect(dirLight.direction.xyz, normal);
+		vec3 light = -dirLight.direction;
+		vec3 reflection = reflect(dirLight.direction, normal);
 
-		ambient += diffuseColor.xyz * dirLight.ambient.xyz;
-		diffuse += max(dot(normal, light), 0.0) * diffuseColor.xyz * dirLight.diffuse.xyz;
-		specular += pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * dirLight.specular.xyz;
+		ambient += diffuseColor.xyz * dirLight.ambient;
+		diffuse += max(dot(normal, light), 0.0) * diffuseColor.xyz * dirLight.diffuse;
+		specular += pow(max(dot(reflection, view), 0.000001), u_material.shininess) * u_material.specular * dirLight.specular;
 	}
 }
 
