@@ -25,14 +25,15 @@ Terrain::Terrain(const int offsetX, const int offsetZ, const std::string& filena
 m_offsetZ{ offsetZ } {
     int32 bytesPerPixel = 0;
 
+    stbi_set_flip_vertically_on_load(false);
+
     stbi_uc* textureBuffer = stbi_load(filename.c_str(), &m_sizeX, &m_sizeZ, &bytesPerPixel, 1);
     if (!textureBuffer) {
         std::cerr << "Couldn't load height map at " << filename << "! Aborting!" << std::endl;
         throw std::exception();
     }
     if (bytesPerPixel != 1) {
-        std::cerr << "Height map loaded from " << filename << " uses " << bytesPerPixel << " bit per pixel! Aborting!" << std::endl;
-        throw std::exception();
+        std::cerr << "Height map loaded from " << filename << " uses " << bytesPerPixel << " bytes per pixel, where only 1 is supported/necessary!" << std::endl;
     }
 
     std::vector<float16> heightMap{};
