@@ -27,7 +27,7 @@
 #include "models/modelUtils.h"
 #include "font/font.h"
 #include "renderer/renderer.h"
-#include "terrain/terrain.h"
+#include "terrain/terrainManager.h"
 
 int numModels = 0;
 
@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
 
 	SdlEventHandler* handler = new SdlEventHandler();
 
-	Terrain terrain{0, 0, "assets/heightMaps/heightmapCologne.png"};
+	TerrainManager terrain{"assets/heightMaps/heightmapNRW.png", 1000};
 
 	bool isEscMenuOpen = false;
 	bool running = true;
