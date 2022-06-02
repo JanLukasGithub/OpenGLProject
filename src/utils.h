@@ -104,6 +104,8 @@ std::vector<std::vector<T>> getRectFrom2dArray(const std::vector<std::vector<T>>
 
 		memcpy(result[x].data(), &original[xStart + x][yStart], lengthY * sizeof(T));
 	}
+
+	return result;
 }
 
 #endif
