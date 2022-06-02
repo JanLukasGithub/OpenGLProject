@@ -8,6 +8,8 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
+#include <cstring>
 
 #include "../lib/glm/glm.hpp"
 
@@ -79,6 +81,29 @@ void debugOutput(const T t) {
 #ifdef _DEBUG
 	std::cout << t;
 #endif
+}
+
+/**
+ * original = { {1, 2, 3},
+ * 		{3, 4, 5},
+ * {5, 6, 7}}
+ *
+ * result = getRectFrom2dArray(original, 1, 1, 2, 2);
+ *
+ * result = {{4, 5}, {6, 7}}
+ *
+ * xStart and yStart are indices (start at 0), lengthX and lengthY determine how big the resulting vector will be
+ */
+template<typename T>
+std::vector<std::vector<T>> getRectFrom2dArray(const std::vector<std::vector<T>>& original, uint64 xStart, uint64 yStart, uint64 lengthX, uint64 lengthY) {
+	std::vector<std::vector<T>> result{};
+	result.resize(lengthX);
+
+	for (int x = 0; x < lengthX; x++) {
+		result[x].resize(lengthY);
+
+		memcpy(result[x].data(), &original[xStart + x][yStart], lengthY * sizeof(T));
+	}
 }
 
 #endif
