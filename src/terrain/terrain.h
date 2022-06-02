@@ -41,6 +41,10 @@ public:
     Terrain(Terrain&& terrain) noexcept;
     virtual ~Terrain() noexcept;
 
+    Terrain& operator=(Terrain&& terrain);
+
+    bool operator==(const Terrain& ter);
+
     // Renders this part of the terrain
     virtual void render() const noexcept override;
 

@@ -53,6 +53,29 @@ m_sizeZ{ terrain.m_sizeZ }, m_iboBufferId{ terrain.m_iboBufferId }, m_vboBufferI
     terrain.m_vao = 0;
 }
 
+Terrain& Terrain::operator=(Terrain&& terrain) {
+    if (*this == terrain)
+        return *this;
+
+    glDeleteBuffers(1, &m_iboBufferId);
+    glDeleteBuffers(1, &m_vboBufferId);
+    glDeleteVertexArrays(1, &m_vao);
+
+    this->m_iboBufferId = terrain.m_iboBufferId;
+    this->m_vboBufferId = terrain.m_vboBufferId;
+    this->m_vao = terrain.m_vao;
+    
+    terrain.m_iboBufferId = 0;
+    terrain.m_vboBufferId = 0;
+    terrain.m_vao = 0;
+
+    return *this;
+}
+
+bool Terrain::operator==(const Terrain& ter) {
+    return m_vao == ter.m_vao && m_vboBufferId == ter.m_vboBufferId && m_iboBufferId == ter.m_iboBufferId;
+}
+
 Terrain::~Terrain() noexcept {
     glDeleteBuffers(1, &m_iboBufferId);
     glDeleteBuffers(1, &m_vboBufferId);
