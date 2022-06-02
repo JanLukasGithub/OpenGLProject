@@ -12,9 +12,9 @@ public:
 
     void render() const noexcept override;
 protected:
-   std::vector<std::vector<Terrain>> m_terrainChunks;
+    std::vector<std::vector<Terrain>> m_terrainChunks;
 
-   static stbi_uc* loadImage(const std::string& filename, int* sizeX, int* sizeZ);
+    static stbi_uc* loadImage(const std::string& filename, int* sizeX, int* sizeZ);
 };
 
 #endif
