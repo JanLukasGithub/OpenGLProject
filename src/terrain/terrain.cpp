@@ -21,6 +21,19 @@ m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
     init(heightMap);
 }
 
+Terrain::Terrain(const int offsetX, const int offsetZ, const std::vector<std::vector<float16>>& heightMap) noexcept : m_offsetX{ offsetX },
+m_offsetZ{ offsetZ }, m_sizeX{ heightMap.size() }, m_sizeZ{ m_sizeX > 0 ? heightMap[0].size() : 0 } {
+    float16 arrayHeightMap[m_sizeX * m_sizeZ]{};
+
+    for (int i = 0; i < m_sizeX; i++) {
+        for (int j = 0; j < m_sizeZ; j++) {
+            arrayHeightMap[i * m_sizeZ + j] = heightMap[i][j];
+        }
+    }
+
+    init(arrayHeightMap);
+}
+
 Terrain::Terrain(const int offsetX, const int offsetZ, const std::string& filename) : m_offsetX{ offsetX },
 m_offsetZ{ offsetZ } {
     int32 bytesPerPixel = 0;

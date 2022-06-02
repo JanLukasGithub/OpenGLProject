@@ -36,6 +36,8 @@ public:
     Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float heightMap[]) noexcept;
     // The height map uses half floats. Use glm::detail::toFloat16() and glm::detail::toFloat32() to convert from/to half floats
     Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float16 heightMap[]) noexcept;
+    // The height map uses half floats. Use glm::detail::toFloat16() and glm::detail::toFloat32() to convert from/to half floats
+    Terrain(const int offsetX, const int offsetZ, const std::vector<std::vector<float16>>& heightMap) noexcept;
     // Loads height map from an image height map file
     Terrain(const int offsetX, const int offsetZ, const std::string& filename);
     Terrain(Terrain&& terrain) noexcept;
