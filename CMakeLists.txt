@@ -21,6 +21,9 @@ set(SOURCES ${SOURCES1} ${SOURCES2} ${SOURCES3} ${SOURCES4})
 # source files
 add_executable(${PROJECT_NAME} ${SOURCES})
 
+# add tests
+include(CTest)
+
 # get glew
 find_package(GLEW REQUIRED)
 target_link_libraries(${PROJECT_NAME} GLEW::GLEW)
