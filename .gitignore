@@ -7,6 +7,9 @@
 # build files
 /build/
 
+# testing files
+/Testing/
+
 # vscode files
 /.vscode/
 
