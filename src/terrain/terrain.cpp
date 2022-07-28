@@ -67,7 +67,7 @@ m_sizeZ{ terrain.m_sizeZ }, m_iboBufferId{ terrain.m_iboBufferId }, m_vboBufferI
 }
 
 Terrain& Terrain::operator=(Terrain&& terrain) {
-    if (*this == terrain)
+    if (this == &terrain)
         return *this;
 
     glDeleteBuffers(1, &m_iboBufferId);
@@ -77,6 +77,10 @@ Terrain& Terrain::operator=(Terrain&& terrain) {
     this->m_iboBufferId = terrain.m_iboBufferId;
     this->m_vboBufferId = terrain.m_vboBufferId;
     this->m_vao = terrain.m_vao;
+    this->m_offsetX = terrain.m_offsetX;
+    this->m_offsetZ = terrain.m_offsetZ;
+    this->m_sizeX = terrain.m_sizeX;
+    this->m_sizeZ = terrain.m_sizeZ;
     
     terrain.m_iboBufferId = 0;
     terrain.m_vboBufferId = 0;

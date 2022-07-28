@@ -20,13 +20,13 @@ public:
     static void initUniforms(const Shader* shader);
 
 private:
-    // Vertex Buffer 
+    // Vertex Buffer
     GLuint m_vao, m_vboBufferId;
     // Index Buffer
     GLuint m_iboBufferId;
 
     // Offset of the smallest corner from 0, 0, 0
-    const int m_offsetX, m_offsetZ;
+    int m_offsetX, m_offsetZ;
 
     // Width and length of the terrain chunk this represents
     int m_sizeX, m_sizeZ;
