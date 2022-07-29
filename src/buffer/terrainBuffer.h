@@ -19,7 +19,9 @@ public:
     Terrain_Buffer& operator=(Terrain_Buffer&& tbo);
 
     Terrain_Buffer& bind();
+    const Terrain_Buffer& bind() const;
     Terrain_Buffer& unbind();
+    const Terrain_Buffer& unbind() const;
 
 private:
     void init(const float16* const height_map);

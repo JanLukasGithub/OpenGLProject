@@ -149,7 +149,19 @@ Terrain_Buffer& Terrain_Buffer::bind() {
 	return *this;
 }
 
+const Terrain_Buffer& Terrain_Buffer::bind() const {
+	glBindVertexArray(m_vao_id);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id);
+	return *this;
+}
+
 Terrain_Buffer& Terrain_Buffer::unbind() {
+	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	return *this;
+}
+
+const Terrain_Buffer& Terrain_Buffer::unbind() const {
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	return *this;
