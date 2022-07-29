@@ -51,12 +51,12 @@ IndexBuffer& IndexBuffer::operator=(IndexBuffer&& ibo) {
 	return *this;
 }
 
-IndexBuffer* IndexBuffer::bind() noexcept {
+IndexBuffer& IndexBuffer::bind() noexcept {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_bufferId);
-	return this;
+	return *this;
 }
 
-IndexBuffer* IndexBuffer::unbind() noexcept {
+IndexBuffer& IndexBuffer::unbind() noexcept {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	return this;
+	return *this;
 }

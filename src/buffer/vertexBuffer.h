@@ -20,8 +20,8 @@ public:
 	VertexBuffer& operator=(const VertexBuffer& vbo);
 	VertexBuffer& operator=(VertexBuffer&& vbo);
 
-	VertexBuffer* bind() noexcept;
-	VertexBuffer* unbind() noexcept;
+	VertexBuffer& bind() noexcept;
+	VertexBuffer& unbind() noexcept;
 };
 
 #endif

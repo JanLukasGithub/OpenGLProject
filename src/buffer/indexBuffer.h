@@ -19,8 +19,8 @@ public:
 	IndexBuffer& operator=(const IndexBuffer& ibo);
 	IndexBuffer& operator=(IndexBuffer&& ibo);
 
-	IndexBuffer* bind() noexcept;
-	IndexBuffer* unbind() noexcept;
+	IndexBuffer& bind() noexcept;
+	IndexBuffer& unbind() noexcept;
 };
 
 #endif

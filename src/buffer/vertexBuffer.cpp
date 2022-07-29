@@ -92,12 +92,12 @@ VertexBuffer& VertexBuffer::operator=(VertexBuffer&& vbo) {
 	return *this;
 }
 
-VertexBuffer* VertexBuffer::bind() noexcept {
+VertexBuffer& VertexBuffer::bind() noexcept {
 	glBindVertexArray(m_vao);
-	return this;
+	return *this;
 }
 
-VertexBuffer* VertexBuffer::unbind() noexcept {
+VertexBuffer& VertexBuffer::unbind() noexcept {
 	glBindVertexArray(0);
-	return this;
+	return *this;
 }
