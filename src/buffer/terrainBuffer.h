@@ -23,6 +23,8 @@ public:
     Terrain_Buffer& unbind();
     const Terrain_Buffer& unbind() const;
 
+    uint32 get_num_indices() const noexcept;
+
 private:
     void init(const float16* const height_map);
     void init_vertex_buffer(const float16* const height_map);
@@ -37,6 +39,7 @@ private:
 
     uint32 m_size_x;
     uint32 m_size_z;
+    uint32 m_num_indices;
 };
 
 #endif
