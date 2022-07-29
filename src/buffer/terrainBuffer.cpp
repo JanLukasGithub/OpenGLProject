@@ -86,6 +86,8 @@ void Terrain_Buffer::destruct() {
     glDeleteBuffers(1, &m_ibo_id);
 }
 
+Terrain_Buffer::Terrain_Buffer() : m_size_x{ 0 }, m_size_z{ 0 }, m_ibo_id{ 0 }, m_vao_id{ 0 }, m_vbo_id { 0 } {}
+
 Terrain_Buffer::Terrain_Buffer(const float16* const height_map, const uint32 size_x, const uint32 size_z) : m_size_x{ size_x }, m_size_z{ size_z } {
     init(height_map);
 }

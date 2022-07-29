@@ -9,6 +9,7 @@
 
 class Terrain_Buffer {
 public:
+    Terrain_Buffer();
     Terrain_Buffer(const float16* const height_map, const uint32 size_x, const uint32 size_z);
     Terrain_Buffer(const Terrain_Buffer& tbo);
     Terrain_Buffer(Terrain_Buffer&& tbo);
