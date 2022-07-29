@@ -3,11 +3,10 @@
 
 #include "../../lib/stb_image.h"
 
-#include "../../lib/glm/detail/type_half.hpp"
-
 #include "../renderer/IRenderable.h"
 #include "../utils.h"
 #include "../shader.h"
+#include "../buffer/terrainBuffer.h"
 
 #include <vector>
 
@@ -20,10 +19,8 @@ public:
     static void initUniforms(const Shader* shader);
 
 private:
-    // Vertex Buffer
-    GLuint m_vao, m_vboBufferId;
-    // Index Buffer
-    GLuint m_iboBufferId;
+    // Vertex and index buffer
+    Terrain_Buffer m_buffer;
 
     // Offset of the smallest corner from 0, 0, 0
     int m_offsetX, m_offsetZ;
@@ -45,28 +42,21 @@ public:
 
     Terrain& operator=(Terrain&& terrain);
 
-    bool operator==(const Terrain& ter);
-
     // Renders this part of the terrain
     virtual void render() const noexcept override;
 
     // Has to read from VRAM -> bad performance
     // Returns NaN when x and/or z are out of bounds
-    float getHeightAt(int x, int z) const;
+    // float getHeightAt(int x, int z) const;
 
     // Has to write to VRAM -> bad performance
     // Does nothing when x and/or z are out of bounds
-    void setHeightAt(int x, int z, float value) const;
+    // void setHeightAt(int x, int z, float value) const;
 
     int getSizeX() const noexcept;
     int getSizeZ() const noexcept;
     int getOffsetX() const noexcept;
     int getOffsetZ() const noexcept;
-
-private:
-    void init(const float16* const heightMap) noexcept;
-    void initVertexBuffer(const float16* const heightMap) noexcept;
-    void initIndexBuffer() noexcept;
 };
 
 #endif

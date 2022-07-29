@@ -12,13 +12,13 @@ m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
     for (int i = 0; i < sizeX * sizeZ; i++) {
         halfFloatHeightMap[i] = glm::detail::toFloat16(heightMap[i]);
     }
-
-    init(halfFloatHeightMap);
+    
+    m_buffer = Terrain_Buffer(halfFloatHeightMap, m_sizeX, m_sizeZ);
 }
 
 Terrain::Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float16 heightMap[]) noexcept : m_offsetX{ offsetX },
 m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
-    init(heightMap);
+    m_buffer = Terrain_Buffer(heightMap, m_sizeX, m_sizeZ);
 }
 
 Terrain::Terrain(const int offsetX, const int offsetZ, const std::vector<std::vector<float16>>& heightMap) noexcept : m_offsetX{ offsetX },
@@ -30,8 +30,8 @@ m_offsetZ{ offsetZ }, m_sizeX{ heightMap.size() }, m_sizeZ{ m_sizeX > 0 ? height
             arrayHeightMap[i * m_sizeZ + j] = heightMap[i][j];
         }
     }
-
-    init(arrayHeightMap);
+    
+    m_buffer = Terrain_Buffer(arrayHeightMap, m_sizeX, m_sizeZ);
 }
 
 Terrain::Terrain(const int offsetX, const int offsetZ, const std::string& filename) : m_offsetX{ offsetX },
@@ -55,119 +55,60 @@ m_offsetZ{ offsetZ } {
     for (int i = 0; i < m_sizeX * m_sizeZ; i++) {
         heightMap[i] = glm::detail::toFloat16((float)textureBuffer[i]);
     }
-
-    init(heightMap.data());
+    
+    m_buffer = Terrain_Buffer(heightMap.data(), m_sizeX, m_sizeZ);
 }
 
 Terrain::Terrain(Terrain&& terrain) noexcept : m_offsetX{ terrain.m_offsetX }, m_offsetZ{ terrain.m_offsetZ }, m_sizeX{ terrain.m_sizeX },
-m_sizeZ{ terrain.m_sizeZ }, m_iboBufferId{ terrain.m_iboBufferId }, m_vboBufferId{ terrain.m_vboBufferId }, m_vao{ terrain.m_vao } {
-    terrain.m_iboBufferId = 0;
-    terrain.m_vboBufferId = 0;
-    terrain.m_vao = 0;
-}
+m_sizeZ{ terrain.m_sizeZ }, m_buffer{ terrain.m_buffer } {}
 
 Terrain& Terrain::operator=(Terrain&& terrain) {
     if (this == &terrain)
         return *this;
 
-    glDeleteBuffers(1, &m_iboBufferId);
-    glDeleteBuffers(1, &m_vboBufferId);
-    glDeleteVertexArrays(1, &m_vao);
-
-    this->m_iboBufferId = terrain.m_iboBufferId;
-    this->m_vboBufferId = terrain.m_vboBufferId;
-    this->m_vao = terrain.m_vao;
     this->m_offsetX = terrain.m_offsetX;
     this->m_offsetZ = terrain.m_offsetZ;
     this->m_sizeX = terrain.m_sizeX;
     this->m_sizeZ = terrain.m_sizeZ;
-    
-    terrain.m_iboBufferId = 0;
-    terrain.m_vboBufferId = 0;
-    terrain.m_vao = 0;
+    this->m_buffer = terrain.m_buffer;
 
     return *this;
 }
 
-bool Terrain::operator==(const Terrain& ter) {
-    return m_vao == ter.m_vao && m_vboBufferId == ter.m_vboBufferId && m_iboBufferId == ter.m_iboBufferId;
-}
-
-Terrain::~Terrain() noexcept {
-    glDeleteBuffers(1, &m_iboBufferId);
-    glDeleteBuffers(1, &m_vboBufferId);
-    glDeleteVertexArrays(1, &m_vao);
-}
+Terrain::~Terrain() noexcept {}
 
 void Terrain::render() const noexcept {
     glUniform1i(sizeUniformLocation, m_sizeX);
     glUniform2i(offsetUniformLocation, m_offsetX, m_offsetZ);
 
-    glBindVertexArray(m_vao);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboBufferId);
+    m_buffer.bind();
 
-    for (int i = 0; i < m_sizeZ - 1; i++) {
-        glDrawElements(GL_TRIANGLE_STRIP, m_sizeX * 2, GL_UNSIGNED_INT, (void*)(i * m_sizeX * 2 * sizeof(uint32)));
-    }
+    glDrawElements(GL_TRIANGLE_STRIP, m_buffer.get_num_indices(), GL_UNSIGNED_INT, 0);
 }
 
-void Terrain::init(const float16* const heightMap) noexcept {
-    initVertexBuffer(heightMap);
+// float Terrain::getHeightAt(int x, int z) const {
+//     if (x >= m_sizeX || z >= m_sizeZ || x < 0 || z < 0)
+//         return NAN;
 
-    initIndexBuffer();
-}
+//     float16 storeTo{};
 
-void Terrain::initVertexBuffer(const float16* const heightMap) noexcept {
-    glGenVertexArrays(1, &m_vao);
-    glBindVertexArray(m_vao);
+//     glBindBuffer(GL_ARRAY_BUFFER, m_vboBufferId);
+//     glGetBufferSubData(GL_ARRAY_BUFFER, (z * m_sizeX + x) * sizeof(storeTo), sizeof(storeTo), &storeTo);
 
-    glGenBuffers(1, &m_vboBufferId);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vboBufferId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(*heightMap) * m_sizeX * m_sizeZ, heightMap, GL_STATIC_DRAW);
+//     return glm::detail::toFloat32(storeTo);
+// }
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 1, GL_HALF_FLOAT, GL_FALSE, 0, 0);
+// void Terrain::setHeightAt(int x, int z, float value) const {
+//     if (x >= m_sizeX || z >= m_sizeZ || x < 0 || z < 0)
+//         return;
 
-    glBindVertexArray(0);
-}
+//     float16 halfFloatValue{ glm::detail::toFloat16(value) };
 
-void Terrain::initIndexBuffer() noexcept {
-    glGenBuffers(1, &m_iboBufferId);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboBufferId);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_sizeX * (m_sizeZ - 1) * sizeof(uint32) * 2, nullptr, GL_DYNAMIC_DRAW);
-
-    // A buffer with m_sizeX * 2 indices per strip, tightly packed together m_sizeZ - 1 times
-    for (uint32 z = 0; z < m_sizeZ - 1; z++) {
-        for (uint32 x = z * m_sizeX; x < (z + 1) * m_sizeX; x++) {
-            uint32 values[] = { x, x + m_sizeX };
-            glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, x * sizeof(values), sizeof(values), &values);
-        }
-    }
-}
-
-float Terrain::getHeightAt(int x, int z) const {
-    if (x >= m_sizeX || z >= m_sizeZ || x < 0 || z < 0)
-        return NAN;
-
-    float16 storeTo{};
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_vboBufferId);
-    glGetBufferSubData(GL_ARRAY_BUFFER, (z * m_sizeX + x) * sizeof(storeTo), sizeof(storeTo), &storeTo);
-
-    return glm::detail::toFloat32(storeTo);
-}
-
-void Terrain::setHeightAt(int x, int z, float value) const {
-    if (x >= m_sizeX || z >= m_sizeZ || x < 0 || z < 0)
-        return;
-
-    float16 halfFloatValue{ glm::detail::toFloat16(value) };
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_vboBufferId);
-    // Ensures that the data can be written immediately instead of waiting for rendering to finish
-    glInvalidateBufferData(m_vboBufferId);
-    glBufferSubData(GL_ARRAY_BUFFER, (z * m_sizeX + x) * sizeof(halfFloatValue), sizeof(halfFloatValue), &halfFloatValue);
-}
+//     glBindBuffer(GL_ARRAY_BUFFER, m_vboBufferId);
+//     // Ensures that the data can be written immediately instead of waiting for rendering to finish
+//     glInvalidateBufferData(m_vboBufferId);
+//     glBufferSubData(GL_ARRAY_BUFFER, (z * m_sizeX + x) * sizeof(halfFloatValue), sizeof(halfFloatValue), &halfFloatValue);
+// }
 
 int Terrain::getOffsetX() const noexcept { return m_offsetX; }
 int Terrain::getOffsetZ() const noexcept { return m_offsetZ; }
