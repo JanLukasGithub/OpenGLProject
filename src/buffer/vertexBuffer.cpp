@@ -42,17 +42,62 @@ VertexBuffer::VertexBuffer(const VertexBuffer& vbo) noexcept : m_size{ vbo.m_siz
 	glBindVertexArray(0);
 }
 
+VertexBuffer::VertexBuffer(VertexBuffer&& vbo) noexcept : m_size{vbo.m_size}, m_bufferId{ vbo.m_bufferId }, m_vao{ vbo.m_vao } {
+	vbo.m_bufferId = 0;
+	vbo.m_vao = 0;
+}
+
 VertexBuffer::~VertexBuffer() noexcept {
 	glDeleteBuffers(1, &m_bufferId);
 	glDeleteVertexArrays(1, &m_vao);
 }
 
-VertexBuffer* VertexBuffer::bind() noexcept {
+VertexBuffer& VertexBuffer::operator=(const VertexBuffer& vbo) {
+	if (&vbo == this)
+		return *this;
+
+	glDeleteBuffers(1, &m_bufferId);
+	glDeleteVertexArrays(1, &m_vao);
+
+	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
-	return this;
+
+	glBindBuffer(GL_COPY_READ_BUFFER, vbo.m_bufferId);
+
+	glGenBuffers(1, &m_bufferId);
+	glBindBuffer(GL_ARRAY_BUFFER, m_bufferId);
+	glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_ARRAY_BUFFER, 0, 0, m_size);
+
+	initVertexAttribArray();
+
+	glBindVertexArray(0);
+
+	return *this;
 }
 
-VertexBuffer* VertexBuffer::unbind() noexcept {
+VertexBuffer& VertexBuffer::operator=(VertexBuffer&& vbo) {
+	if (&vbo == this)
+		return *this;
+
+	glDeleteBuffers(1, &m_bufferId);
+	glDeleteVertexArrays(1, &m_vao);
+
+	m_size = vbo.m_size;
+	m_bufferId = vbo.m_bufferId;
+	m_vao = vbo.m_vao;
+
+	vbo.m_bufferId = 0;
+	vbo.m_vao = 0;
+
+	return *this;
+}
+
+VertexBuffer& VertexBuffer::bind() noexcept {
+	glBindVertexArray(m_vao);
+	return *this;
+}
+
+VertexBuffer& VertexBuffer::unbind() noexcept {
 	glBindVertexArray(0);
-	return this;
+	return *this;
 }

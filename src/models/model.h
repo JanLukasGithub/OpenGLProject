@@ -19,6 +19,8 @@
 #include "../renderer/IRenderable.h"
 #include "../buffer/shaderBuffer.h"
 
+#define BUFFER_BINDING_MODEL_MAT 0
+
 // Representation of a model file (.obj or similar) in code. Allows you to create Models
 class Model : IRenderable {
 private:

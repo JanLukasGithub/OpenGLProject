@@ -14,10 +14,14 @@ private:
 public:
 	VertexBuffer(const void* data, const uint64 numVertices) noexcept;
 	VertexBuffer(const VertexBuffer& vbo) noexcept;
+	VertexBuffer(VertexBuffer&& vbo) noexcept;
 	virtual ~VertexBuffer() noexcept;
 
-	VertexBuffer* bind() noexcept;
-	VertexBuffer* unbind() noexcept;
+	VertexBuffer& operator=(const VertexBuffer& vbo);
+	VertexBuffer& operator=(VertexBuffer&& vbo);
+
+	VertexBuffer& bind() noexcept;
+	VertexBuffer& unbind() noexcept;
 };
 
 #endif
