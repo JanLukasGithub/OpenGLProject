@@ -3,7 +3,7 @@ My OpenGL project. Feel free to suggest improvements/new features. All assets an
 
 # Compilation
 Go in the build folder and use cmake to build.
-Required libraries are [OpenGL](https://www.opengl.org/), [SDL](https://www.libsdl.org/), [Glew](http://glew.sourceforge.net/) and [assimp](https://github.com/assimp/assimp)
+Required libraries are [OpenGL](https://www.opengl.org/), [SDL](https://www.libsdl.org/), [Glew](http://glew.sourceforge.net/), [assimp](https://github.com/assimp/assimp) and [boost](https://github.com/boostorg/boost)
 
 I have not yet tested this on Windows.
 

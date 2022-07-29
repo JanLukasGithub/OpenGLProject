@@ -9,6 +9,7 @@
 #include "../buffer/terrainBuffer.h"
 
 #include <vector>
+#include <boost/multi_array.hpp>
 
 // Represents a part of the terrain. Multiple instances can be used
 class Terrain : IRenderable {
@@ -34,7 +35,7 @@ public:
     // The height map uses half floats. Use glm::detail::toFloat16() and glm::detail::toFloat32() to convert from/to half floats
     Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float16 heightMap[]);
     // The height map uses half floats. Use glm::detail::toFloat16() and glm::detail::toFloat32() to convert from/to half floats
-    Terrain(const int offsetX, const int offsetZ, const std::vector<std::vector<float16>>& heightMap);
+    Terrain(const int offsetX, const int offsetZ, const boost::multi_array<float16, 2>& heightMap);
     // Loads height map from an image height map file
     Terrain(const int offsetX, const int offsetZ, const std::string& filename);
     Terrain(const Terrain& terrain);

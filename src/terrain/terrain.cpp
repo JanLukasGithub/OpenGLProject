@@ -12,7 +12,7 @@ m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
     for (int i = 0; i < sizeX * sizeZ; i++) {
         halfFloatHeightMap[i] = glm::detail::toFloat16(heightMap[i]);
     }
-    
+
     m_buffer = Terrain_Buffer(halfFloatHeightMap, m_sizeX, m_sizeZ);
 }
 
@@ -21,17 +21,10 @@ m_offsetZ{ offsetZ }, m_sizeX{ sizeX }, m_sizeZ{ sizeZ } {
     m_buffer = Terrain_Buffer(heightMap, m_sizeX, m_sizeZ);
 }
 
-Terrain::Terrain(const int offsetX, const int offsetZ, const std::vector<std::vector<float16>>& heightMap) : m_offsetX{ offsetX },
-m_offsetZ{ offsetZ }, m_sizeX{ heightMap.size() }, m_sizeZ{ m_sizeX > 0 ? heightMap[0].size() : 0 } {
-    float16 arrayHeightMap[m_sizeX * m_sizeZ]{};
+Terrain::Terrain(const int offsetX, const int offsetZ, const boost::multi_array<float16, 2>& heightMap) : m_offsetX{ offsetX },
+m_offsetZ{ offsetZ }, m_sizeX{ heightMap.size() }, m_sizeZ{ heightMap[0].size() } {
 
-    for (int i = 0; i < m_sizeX; i++) {
-        for (int j = 0; j < m_sizeZ; j++) {
-            arrayHeightMap[i * m_sizeZ + j] = heightMap[i][j];
-        }
-    }
-    
-    m_buffer = Terrain_Buffer(arrayHeightMap, m_sizeX, m_sizeZ);
+    m_buffer = Terrain_Buffer(heightMap.data(), m_sizeX, m_sizeZ);
 }
 
 Terrain::Terrain(const int offsetX, const int offsetZ, const std::string& filename) : m_offsetX{ offsetX },
@@ -50,20 +43,22 @@ m_offsetZ{ offsetZ } {
     }
 
     std::vector<float16> heightMap{};
-    heightMap.resize(m_sizeX* m_sizeZ);
+    heightMap.resize(m_sizeX * m_sizeZ);
 
     for (int i = 0; i < m_sizeX * m_sizeZ; i++) {
         heightMap[i] = glm::detail::toFloat16((float)textureBuffer[i]);
     }
-    
+
     m_buffer = Terrain_Buffer(heightMap.data(), m_sizeX, m_sizeZ);
 }
 
 Terrain::Terrain(const Terrain& terrain) : m_offsetX{ terrain.m_offsetX }, m_offsetZ{ terrain.m_offsetZ }, m_sizeX{ terrain.m_sizeX },
-m_sizeZ{ terrain.m_sizeZ }, m_buffer{ terrain.m_buffer } {}
+m_sizeZ{ terrain.m_sizeZ }, m_buffer{ terrain.m_buffer } {
+}
 
 Terrain::Terrain(Terrain&& terrain) : m_offsetX{ terrain.m_offsetX }, m_offsetZ{ terrain.m_offsetZ }, m_sizeX{ terrain.m_sizeX },
-m_sizeZ{ terrain.m_sizeZ }, m_buffer{ terrain.m_buffer } {}
+m_sizeZ{ terrain.m_sizeZ }, m_buffer{ terrain.m_buffer } {
+}
 
 Terrain& Terrain::operator=(const Terrain& terrain) {
     if (this == &terrain)
