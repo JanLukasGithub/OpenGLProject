@@ -11,6 +11,6 @@ const int DISTANCE_BETWEEN_POINTS = 8;
 
 void main() {
     // Using gl_VertexID we can get the info which vertex is rendered, so we don't have to store that manually which would take up a lot of memory
-    gl_Position = vec4((u_offset.x + (gl_VertexID % u_size)) * DISTANCE_BETWEEN_POINTS, a_height,
+    gl_Position = vec4((u_offset.x + (gl_VertexID % u_size)) * DISTANCE_BETWEEN_POINTS, a_height * DISTANCE_BETWEEN_POINTS,
                                         (u_offset.y + (gl_VertexID / u_size)) * DISTANCE_BETWEEN_POINTS, 1.0);
 }
