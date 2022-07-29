@@ -39,7 +39,9 @@ m_offsetZ{ offsetZ } {
         throw std::exception();
     }
     if (bytesPerPixel != 1) {
-        std::cerr << "Height map loaded from " << filename << " uses " << bytesPerPixel << " bytes per pixel, where only 1 is supported/necessary!" << std::endl;
+        debugOutput("Height map loaded from " + filename + " uses ");
+        debugOutput(bytesPerPixel);
+        debugOutputEndl(" bytes per pixel, where only 1 is supported/necessary!");
     }
 
     std::vector<float16> heightMap{};
