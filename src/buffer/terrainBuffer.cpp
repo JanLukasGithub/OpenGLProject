@@ -30,7 +30,7 @@ void Terrain_Buffer::init_index_buffer() {
 
     // for each row
     for (int row = 0; row < num_rows; row++) {
-        int32 subtract = (row % 2 == 0) ? -3 : -5;
+        int32 subtract = (row % 2 == 0) ? -(m_size_x - 1) : -(m_size_x + 1);
 
         // for each value
         for (int element_in_row = 0; element_in_row < num_elements_per_row; element_in_row++) {
