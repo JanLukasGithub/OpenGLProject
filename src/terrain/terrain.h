@@ -30,16 +30,18 @@ private:
 
 public:
     // High memory usage as the heightMap has to be copied as it uses half floats internally
-    Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float heightMap[]) noexcept;
+    Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float heightMap[]);
     // The height map uses half floats. Use glm::detail::toFloat16() and glm::detail::toFloat32() to convert from/to half floats
-    Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float16 heightMap[]) noexcept;
+    Terrain(const int offsetX, const int offsetZ, const int sizeX, const int sizeZ, const float16 heightMap[]);
     // The height map uses half floats. Use glm::detail::toFloat16() and glm::detail::toFloat32() to convert from/to half floats
-    Terrain(const int offsetX, const int offsetZ, const std::vector<std::vector<float16>>& heightMap) noexcept;
+    Terrain(const int offsetX, const int offsetZ, const std::vector<std::vector<float16>>& heightMap);
     // Loads height map from an image height map file
     Terrain(const int offsetX, const int offsetZ, const std::string& filename);
-    Terrain(Terrain&& terrain) noexcept;
+    Terrain(const Terrain& terrain);
+    Terrain(Terrain&& terrain);
     virtual ~Terrain() noexcept;
 
+    Terrain& operator=(const Terrain& terrain);
     Terrain& operator=(Terrain&& terrain);
 
     // Renders this part of the terrain
