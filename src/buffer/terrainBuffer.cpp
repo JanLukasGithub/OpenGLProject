@@ -23,10 +23,10 @@ void Terrain_Buffer::init_vertex_buffer(const float16* const height_map) {
 void Terrain_Buffer::init_index_buffer() {
     size_t num_rows = m_size_z - 1;
     size_t num_elements_per_row = (2 * m_size_x) - 1;
-    size_t num_ibo_elements = (num_elements_per_row * num_rows) + 1;
 
-    std::vector<uint32> ibo_elements(num_ibo_elements);
-    ibo_elements[0] = 0;
+    std::vector<uint32> ibo_elements{};
+    ibo_elements.reserve((num_elements_per_row * num_rows) + 1);
+    ibo_elements.push_back(0);
 
     // for each row
     for (int row = 0; row < num_rows; row++) {
@@ -34,21 +34,15 @@ void Terrain_Buffer::init_index_buffer() {
 
         // for each value
         for (int element_in_row = 0; element_in_row < num_elements_per_row; element_in_row++) {
-            size_t prev_element = element_in_row + row * num_elements_per_row;
             int32 diff = (element_in_row % 2 == 0) ? m_size_x : subtract;
 
-            ibo_elements[1 + prev_element] = ibo_elements[prev_element] + diff;
+            ibo_elements.push_back(ibo_elements.back() + diff);
         }
     }
 
-    for (const uint32& ui : ibo_elements) {
-        std::cout << ui << " ";
-    }
-    std::cout << std::endl;
-
     glGenBuffers(1, &m_ibo_id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, num_ibo_elements * sizeof(ibo_elements[0]), ibo_elements.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, ibo_elements.size() * sizeof(ibo_elements[0]), ibo_elements.data(), GL_STATIC_DRAW);
 }
 
 void Terrain_Buffer::copy_vertex_buffer(const GLuint old_vbo_id) {
