@@ -4,7 +4,7 @@
 layout(location = 0) out vec4 f_color;
 
 // v_ means vertex
-in vec3 v_position;
+in vec3 v_view_space_position;
 in vec2 v_textureCoords;
 in mat3 v_tbn;
 
@@ -95,10 +95,10 @@ void pointLight() {
 	for (int i = 0; i < b_pointLights.pointLights.length(); i++) {
 		PointLight pointLight = b_pointLights.pointLights[i];
 
-		vec3 light = normalize(pointLight.position.xyz - v_position);
+		vec3 light = normalize(pointLight.position.xyz - v_view_space_position);
 		vec3 reflection = reflect(-light, normal);
 		
-		float distance = length(pointLight.position.xyz - v_position);
+		float distance = length(pointLight.position.xyz - v_view_space_position);
 		float attenuation = 1.0f / ((1.0f) + (pointLight.linear * distance) + (pointLight.quadratic * distance * distance));
 		
 		ambient += attenuation * diffuseColor.xyz * pointLight.ambient.xyz;
@@ -111,11 +111,11 @@ void spotLight() {
 	for (int i = 0; i < b_spotLights.spotLights.length(); i++) {
 		SpotLight spotLight = b_spotLights.spotLights[i];
 
-		vec3 light = normalize(spotLight.position.xyz - v_position);
+		vec3 light = normalize(spotLight.position.xyz - v_view_space_position);
 		vec3 reflection = reflect(-light, normal);
 		float theta = dot(light, spotLight.direction.xyz);
 		
-		float distance = length(spotLight.position.xyz - v_position);
+		float distance = length(spotLight.position.xyz - v_view_space_position);
 		float attenuation = 1.0f / ((1.0f) + (spotLight.linear * distance) + (spotLight.quadratic * distance * distance));
 		
 		float epsilon = spotLight.innerCone - spotLight.outerCone;
@@ -128,7 +128,7 @@ void spotLight() {
 }
 
 void main() {
-	view = normalize(-v_position);
+	view = normalize(-v_view_space_position);
 	
 	normal = int(u_hasNormalMap) * normalize(v_tbn * normalize(texture(u_normalMap, v_textureCoords).rgb * 2.0 - 1.0))
 			+ int(!u_hasNormalMap) * transpose(v_tbn)[2];

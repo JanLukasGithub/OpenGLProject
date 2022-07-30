@@ -7,7 +7,7 @@ layout(location = 2) in vec3 a_tangent;
 layout(location = 3) in vec2 a_textureCoords;
 
 // v_ means vertex
-out vec3 v_position;
+out vec3 v_view_space_position;
 out vec2 v_textureCoords;
 out mat3 v_tbn;
 
@@ -20,14 +20,14 @@ uniform mat4 u_view;
 uniform mat4 u_inv_view;
 
 void main() {
-    vec4 worldSpacePosition = b_modelMats.matrices[gl_InstanceID] * vec4(a_position, 1.0f);
+    vec4 world_space_position = b_modelMats.matrices[gl_InstanceID] * vec4(a_position, 1.0f);
 
-    gl_Position = u_view_proj * worldSpacePosition;
+    gl_Position = u_view_proj * world_space_position;
     
-    v_position = vec3(u_view * worldSpacePosition);
+    v_view_space_position = vec3(u_view * world_space_position);
 
-    vec3 t = normalize(mat3(u_inv_view) * a_tangent);
-    vec3 n = normalize(mat3(u_inv_view) * a_normal);
+    vec3 t = normalize(vec3(u_inv_view * vec4(a_tangent, 1.0f)));
+    vec3 n = normalize(vec3(u_inv_view * vec4(a_normal, 1.0f)));
     vec3 b = normalize(mat3(u_inv_view) * cross(n, t));
     v_tbn = transpose(mat3(t, b, n));
     
