@@ -15,20 +15,20 @@ layout(std430, binding = 0) buffer matricesBlock {
     mat4 matrices[];
 } b_modelMats;
 
-uniform mat4 u_modelViewProj;
-uniform mat4 u_modelView;
-uniform mat4 u_invModelView;
+uniform mat4 u_view_proj;
+uniform mat4 u_view;
+uniform mat4 u_inv_view;
 
 void main() {
     vec4 worldSpacePosition = b_modelMats.matrices[gl_InstanceID] * vec4(a_position, 1.0f);
 
-    gl_Position = u_modelViewProj * worldSpacePosition;
+    gl_Position = u_view_proj * worldSpacePosition;
     
-    v_position = vec3(u_modelView * worldSpacePosition);
+    v_position = vec3(u_view * worldSpacePosition);
 
-    vec3 t = normalize(mat3(u_invModelView) * a_tangent);
-    vec3 n = normalize(mat3(u_invModelView) * a_normal);
-    vec3 b = normalize(mat3(u_invModelView) * cross(n, t));
+    vec3 t = normalize(mat3(u_inv_view) * a_tangent);
+    vec3 n = normalize(mat3(u_inv_view) * a_normal);
+    vec3 b = normalize(mat3(u_inv_view) * cross(n, t));
     v_tbn = transpose(mat3(t, b, n));
     
     v_textureCoords = a_textureCoords;

@@ -71,9 +71,9 @@ private:
     glm::mat4 m_invView{ 1.0f };
 
     // Uniform locations. Not static because only one instance of this class should exist
-    int m_modelViewProjUniformLocation;
-    int m_modelViewUniformLocation;
-    int m_invModelViewUniformLocation;
+    int m_view_proj_uniform_location;
+    int m_view_uniform_location;
+    int m_inv_view_uniform_location;
 
 public:
     Renderer();

@@ -135,9 +135,9 @@ void Renderer::initMatrices() {
 }
 
 void Renderer::initUniforms() {
-    m_modelViewProjUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelViewProj");
-    m_modelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_modelView");
-    m_invModelViewUniformLocation = glGetUniformLocation(m_shader3d->getShaderId(), "u_invModelView");
+    m_view_proj_uniform_location = glGetUniformLocation(m_shader3d->getShaderId(), "u_view_proj");
+    m_view_uniform_location = glGetUniformLocation(m_shader3d->getShaderId(), "u_view");
+    m_inv_view_uniform_location = glGetUniformLocation(m_shader3d->getShaderId(), "u_inv_view");
 
     Mesh::initUniforms(m_shader3d);
     Font::initUniforms(m_shaderFont);
@@ -193,9 +193,9 @@ void Renderer::setup3DRender() {
 
     m_lights->bind();
 
-    glUniformMatrix4fv(m_modelViewProjUniformLocation, 1, GL_FALSE, &m_viewProj[0][0]);
-    glUniformMatrix4fv(m_modelViewUniformLocation, 1, GL_FALSE, &m_view[0][0]);
-    glUniformMatrix4fv(m_invModelViewUniformLocation, 1, GL_FALSE, &m_invView[0][0]);
+    glUniformMatrix4fv(m_view_proj_uniform_location, 1, GL_FALSE, &m_viewProj[0][0]);
+    glUniformMatrix4fv(m_view_uniform_location, 1, GL_FALSE, &m_view[0][0]);
+    glUniformMatrix4fv(m_inv_view_uniform_location, 1, GL_FALSE, &m_invView[0][0]);
 }
 
 void Renderer::setupFontRender() {
