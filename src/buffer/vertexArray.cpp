@@ -1,11 +1,34 @@
 #include "vertexArray.h"
 
+void init_vertex_attrib_array() {
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, sizeof(Vertex::position) / sizeof(float), GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, sizeof(Vertex::normal) / sizeof(float), GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, sizeof(Vertex::tangent) / sizeof(float), GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
+
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, sizeof(Vertex::textureCoords) / sizeof(float), GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoords));
+}
+
+void init_model_attrib_array() {
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, sizeof(glm::mat4) / sizeof(float), GL_FLOAT, GL_FALSE, sizeof(glm::mat4), 0);
+    glVertexAttribDivisor(4, 1);
+}
+
 Vertex_Array::Vertex_Array(std::vector<Vertex> vertex_data, std::vector<glm::mat4> model_mats) {
     glGenVertexArrays(1, &m_vao_id);
     glBindVertexArray(m_vao_id);
 
     m_vbo = VertexBuffer(vertex_data.data(), vertex_data.size());
+    init_vertex_attrib_array();
+
     m_mbo = Model_Buffer(model_mats);
+    init_model_attrib_array();
 
     glBindVertexArray(0);
 }
