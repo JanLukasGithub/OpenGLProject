@@ -14,6 +14,8 @@ void initVertexAttribArray() {
 	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoords));
 }
 
+VertexBuffer::VertexBuffer() {}
+
 VertexBuffer::VertexBuffer(const void* data, const uint64 numVertices) noexcept : m_size{ sizeof(Vertex) * numVertices } {
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);

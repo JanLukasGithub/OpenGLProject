@@ -12,6 +12,7 @@ private:
 	GLsizeiptr m_size{ 0 };
 
 public:
+	VertexBuffer();
 	VertexBuffer(const void* data, const uint64 numVertices) noexcept;
 	VertexBuffer(const VertexBuffer& vbo) noexcept;
 	VertexBuffer(VertexBuffer&& vbo) noexcept;
