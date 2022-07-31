@@ -106,3 +106,8 @@ glm::mat4 Model_Buffer::get(GLsizeiptr index) {
 
     return store_to;
 }
+
+Model_Buffer& Model_Buffer::bind() {
+    glBindBuffer(GL_ARRAY_BUFFER, m_buffer_id);
+    return *this;
+}

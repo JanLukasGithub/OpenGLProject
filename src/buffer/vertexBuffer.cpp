@@ -54,3 +54,8 @@ VertexBuffer& VertexBuffer::operator=(VertexBuffer&& vbo) {
 
 	return *this;
 }
+
+VertexBuffer& VertexBuffer::bind() {
+	glBindBuffer(GL_ARRAY_BUFFER, m_bufferId);
+	return *this;
+}

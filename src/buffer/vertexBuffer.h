@@ -19,6 +19,8 @@ public:
 
 	VertexBuffer& operator=(const VertexBuffer& vbo);
 	VertexBuffer& operator=(VertexBuffer&& vbo);
+
+	VertexBuffer& bind();
 };
 
 #endif
