@@ -26,6 +26,8 @@ IndexBuffer& IndexBuffer::operator=(const IndexBuffer& ibo) {
 	if (&ibo == this)
 		return *this;
 
+	m_size = ibo.m_size;
+
 	glDeleteBuffers(1, &m_bufferId);
 
 	glBindBuffer(GL_COPY_READ_BUFFER, ibo.m_bufferId);
