@@ -54,6 +54,7 @@ void Terrain_Buffer::copy_vertex_buffer(const GLuint old_vbo_id) {
 
     glGenBuffers(1, &m_vbo_id);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float16) * m_size_x * m_size_z, nullptr, GL_STATIC_DRAW);
     glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_ARRAY_BUFFER, 0, 0, sizeof(float16) * m_size_x * m_size_z);
 
     glEnableVertexAttribArray(0);
@@ -71,6 +72,7 @@ void Terrain_Buffer::copy_index_buffer(const GLuint old_ibo_id) {
 
     glGenBuffers(1, &m_ibo_id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, num_ibo_elements * sizeof(uint32), nullptr, GL_STATIC_DRAW);
     glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_ELEMENT_ARRAY_BUFFER, 0, 0, num_ibo_elements * sizeof(uint32));
 }
 

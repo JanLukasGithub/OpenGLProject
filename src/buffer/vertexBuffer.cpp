@@ -13,6 +13,7 @@ VertexBuffer::VertexBuffer(const VertexBuffer& vbo) noexcept : m_size{ vbo.m_siz
 
 	glGenBuffers(1, &m_bufferId);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufferId);
+	glBufferData(GL_ARRAY_BUFFER, m_size, nullptr, GL_STATIC_DRAW);
 	glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_ARRAY_BUFFER, 0, 0, m_size);
 }
 
@@ -36,6 +37,7 @@ VertexBuffer& VertexBuffer::operator=(const VertexBuffer& vbo) {
 
 	glGenBuffers(1, &m_bufferId);
 	glBindBuffer(GL_ARRAY_BUFFER, m_bufferId);
+	glBufferData(GL_ARRAY_BUFFER, m_size, nullptr, GL_STATIC_DRAW);
 	glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_ARRAY_BUFFER, 0, 0, m_size);
 
 	return *this;

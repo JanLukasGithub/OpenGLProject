@@ -11,6 +11,7 @@ IndexBuffer::IndexBuffer(const IndexBuffer& ibo) noexcept : m_size{ ibo.m_size }
 
 	glGenBuffers(1, &m_bufferId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_bufferId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_size, nullptr, GL_STATIC_DRAW);
 	glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_ELEMENT_ARRAY_BUFFER, 0, 0, m_size);
 }
 
@@ -34,6 +35,7 @@ IndexBuffer& IndexBuffer::operator=(const IndexBuffer& ibo) {
 
 	glGenBuffers(1, &m_bufferId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_bufferId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_size, nullptr, GL_STATIC_DRAW);
 	glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_ELEMENT_ARRAY_BUFFER, 0, 0, m_size);
 
 	return *this;
