@@ -29,6 +29,8 @@ public:
     Model_Buffer& bind();
     const Model_Buffer& bind() const;
 
+    GLsizeiptr get_size() const;
+
 private:
     GLuint m_buffer_id{ 0 };
     GLsizeiptr m_size{ 0 };

@@ -116,3 +116,7 @@ const Model_Buffer& Model_Buffer::bind() const {
     glBindBuffer(GL_ARRAY_BUFFER, m_buffer_id);
     return *this;
 }
+
+GLsizeiptr Model_Buffer::get_size() const {
+    return m_size;
+}
