@@ -9,9 +9,9 @@
 #include "utils.h"
 #include "buffer/shaderBuffer.h"
 
-#define BUFFER_BINDING_DIRECTIONAL_LIGHT 1
-#define BUFFER_BINDING_POINT_LIGHT 2
-#define BUFFER_BINDING_SPOT_LIGHT 3
+#define BUFFER_BINDING_DIRECTIONAL_LIGHT 0
+#define BUFFER_BINDING_POINT_LIGHT 1
+#define BUFFER_BINDING_SPOT_LIGHT 2
 
 struct DirectionalLight {
 	glm::vec3 direction;

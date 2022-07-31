@@ -51,15 +51,15 @@ struct SpotLight {
 	float alignment1;
 };
 
-layout(std430, binding = 1) buffer directionalLightBlock {
+layout(std430, binding = 0) buffer directionalLightBlock {
     DirectionalLight directionalLights[];
 } b_directionalLights;
 
-layout(std430, binding = 2) buffer pointLightBlock {
+layout(std430, binding = 1) buffer pointLightBlock {
     PointLight pointLights[];
 } b_pointLights;
 
-layout(std430, binding = 3) buffer spotLightBlock {
+layout(std430, binding = 2) buffer spotLightBlock {
     SpotLight spotLights[];
 } b_spotLights;
 
