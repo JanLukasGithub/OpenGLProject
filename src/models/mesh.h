@@ -7,6 +7,7 @@
 #include "../../lib/glm/glm.hpp"
 
 #include "../shader.h"
+#include "../buffer/vertexArray.h"
 #include "../buffer/vertexBuffer.h"
 #include "../buffer/indexBuffer.h"
 #include "../utils.h"
@@ -31,7 +32,7 @@ private:
 	bool m_hasDiffuseMap;
 
 	uint64 m_numIndices;
-	VertexBuffer* m_vbo;
+	Vertex_Array* m_vao;
 	IndexBuffer* m_ibo;
 	int m_materialIndex;
 

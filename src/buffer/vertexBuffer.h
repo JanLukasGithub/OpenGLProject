@@ -8,7 +8,6 @@
 class VertexBuffer {
 private:
 	GLuint m_bufferId{ 0 };
-	GLuint m_vao{ 0 };
 	GLsizeiptr m_size{ 0 };
 
 public:
@@ -20,9 +19,6 @@ public:
 
 	VertexBuffer& operator=(const VertexBuffer& vbo);
 	VertexBuffer& operator=(VertexBuffer&& vbo);
-
-	VertexBuffer& bind() noexcept;
-	VertexBuffer& unbind() noexcept;
 };
 
 #endif
