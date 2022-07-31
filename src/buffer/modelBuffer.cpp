@@ -38,6 +38,8 @@ Model_Buffer& Model_Buffer::operator=(const Model_Buffer& mbo) {
     if (this == &mbo)
         return *this;
 
+    m_size = mbo.m_size;
+
     glDeleteBuffers(1, &m_buffer_id);
 
 	glBindBuffer(GL_COPY_READ_BUFFER, mbo.m_buffer_id);

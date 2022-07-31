@@ -46,6 +46,8 @@ VertexBuffer& VertexBuffer::operator=(const VertexBuffer& vbo) {
 	if (&vbo == this)
 		return *this;
 
+	m_size = vbo.m_size;
+
 	glDeleteBuffers(1, &m_bufferId);
 
 	glBindBuffer(GL_COPY_READ_BUFFER, vbo.m_bufferId);
