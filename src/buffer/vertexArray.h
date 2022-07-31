@@ -7,6 +7,7 @@
 
 #include "../utils.h"
 #include "vertexBuffer.h"
+#include "modelBuffer.h"
 
 class Vertex_Array {
 public:
@@ -24,7 +25,7 @@ private:
     GLuint m_vao_id;
 
     VertexBuffer m_vbo;
-    // ModelBuffer mbo;
+    Model_Buffer m_mbo;
 };
 
 #endif
