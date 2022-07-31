@@ -21,6 +21,9 @@ public:
     Vertex_Array& bind();
     Vertex_Array& unbind();
 
+    VertexBuffer& get_vertex_buffer();
+    Model_Buffer& get_model_buffer();
+
 private:
     GLuint m_vao_id;
 

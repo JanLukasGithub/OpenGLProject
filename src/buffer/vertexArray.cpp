@@ -50,3 +50,11 @@ Vertex_Array& Vertex_Array::unbind() {
     glBindVertexArray(0);
     return *this;
 }
+
+VertexBuffer& Vertex_Array::get_vertex_buffer() {
+    return m_vbo;
+}
+
+Model_Buffer& Vertex_Array::get_model_buffer() {
+    return m_mbo;
+}
