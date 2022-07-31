@@ -111,3 +111,8 @@ Model_Buffer& Model_Buffer::bind() {
     glBindBuffer(GL_ARRAY_BUFFER, m_buffer_id);
     return *this;
 }
+
+const Model_Buffer& Model_Buffer::bind() const {
+    glBindBuffer(GL_ARRAY_BUFFER, m_buffer_id);
+    return *this;
+}

@@ -27,6 +27,7 @@ public:
     glm::mat4 get(GLsizeiptr index);
 
     Model_Buffer& bind();
+    const Model_Buffer& bind() const;
 
 private:
     GLuint m_buffer_id{ 0 };
