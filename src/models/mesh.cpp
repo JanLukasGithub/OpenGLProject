@@ -11,8 +11,8 @@ void Mesh::initUniforms(Shader* shader) {
 	hasDiffuseMapLocation = glGetUniformLocation(shader->getShaderId(), "u_hasDiffuseMap");
 }
 
-Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<uint32>& indices, int materialIndex) : m_numIndices{ indices.size() },
-m_vao{ new Vertex_Array(vertices, std::vector<glm::mat4>()) }, m_ibo{ new IndexBuffer(indices.data(),
+Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<uint32>& indices, int materialIndex, const Model_Buffer& mbo) : m_numIndices{ indices.size() },
+m_vao{ new Vertex_Array(vertices, mbo) }, m_ibo{ new IndexBuffer(indices.data(),
 m_numIndices, sizeof(indices[0])) }, m_hasNormalMap{ Material::materials[materialIndex].normalMapName.compare("") != 0 }, m_materialIndex{ materialIndex },
 m_hasDiffuseMap{ Material::materials[materialIndex].diffuseMapName.compare("") != 0 } {}
 

@@ -9,6 +9,8 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include <GL/glew.h>
+
 #include "../../lib/stb_image.h"
 #include "../../lib/glm/glm.hpp"
 #include "../../lib/glm/gtc/matrix_transform.hpp"
@@ -18,6 +20,7 @@
 #include "material.h"
 #include "../renderer/IRenderable.h"
 #include "../buffer/shaderBuffer.h"
+#include "../buffer/modelBuffer.h"
 
 #define BUFFER_BINDING_MODEL_MAT 0
 
@@ -70,8 +73,8 @@ private:
     std::vector<Mesh> m_meshes{};
     // Holds the indices of the materials
     std::vector<uint32> m_materialIndices{};
-    // Buffer to store model locations to
-    ShaderBuffer<glm::mat4> m_modelMatBuffer;
+    // Buffer to store model mats to
+    Model_Buffer m_model_mat_buffer;
 
 public:
     // Move constructor
@@ -80,11 +83,11 @@ public:
     virtual ~Model() noexcept;
 
     // Adds an instance
-    void addInstance() noexcept;
+    GLsizeiptr addInstance() noexcept;
     // Adds an instance at the specified position
-    void addInstance(const glm::vec3 position) noexcept;
+    GLsizeiptr addInstance(const glm::vec3 position) noexcept;
     // Adds an instance using the specified model matrix
-    void addInstance(const glm::mat4 modelMat) noexcept;
+    GLsizeiptr addInstance(const glm::mat4 modelMat) noexcept;
 
     // Renders all models in the list
     void renderModels() const noexcept;

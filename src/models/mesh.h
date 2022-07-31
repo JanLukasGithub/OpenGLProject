@@ -37,7 +37,7 @@ private:
 	int m_materialIndex;
 
 public:
-	Mesh(std::vector<Vertex>& vertices, std::vector<uint32>& indices, int materialIndex);
+	Mesh(std::vector<Vertex>& vertices, std::vector<uint32>& indices, int materialIndex, const Model_Buffer& mbo);
 	Mesh(const Mesh& mesh);
 	Mesh(Mesh&& mesh);
 	virtual ~Mesh();

@@ -31,33 +31,31 @@ const int Model::getListSize() noexcept {
     return modelFiles.size();
 }
 
-Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ std::move(model.m_meshes) }, m_modelMatBuffer{ std::move(model.m_modelMatBuffer) } {}
+Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ std::move(model.m_meshes) }, m_model_mat_buffer{ std::move(model.m_model_mat_buffer) } {}
 
-Model::Model(const std::string& filename) : m_filename{ filename }, m_modelMatBuffer{ BUFFER_BINDING_MODEL_MAT } {
+Model::Model(const std::string& filename) : m_filename{ filename } {
     readModelFromFile();
 }
 
 Model::~Model() noexcept {}
 
-void Model::addInstance() noexcept {
+GLsizeiptr Model::addInstance() noexcept {
     glm::mat4 modelMat{ 1.0f };
-    m_modelMatBuffer.add(modelMat);
+    return m_model_mat_buffer.add(modelMat);
 }
 
-void Model::addInstance(const glm::vec3 position) noexcept {
+GLsizeiptr Model::addInstance(const glm::vec3 position) noexcept {
     glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), position);
-    m_modelMatBuffer.add(modelMat);
+    return m_model_mat_buffer.add(modelMat);
 }
 
-void Model::addInstance(const glm::mat4 modelMat) noexcept {
-    m_modelMatBuffer.add(modelMat);
+GLsizeiptr Model::addInstance(const glm::mat4 modelMat) noexcept {
+    return m_model_mat_buffer.add(modelMat);
 }
 
 void Model::renderModels() const noexcept {
-    m_modelMatBuffer.bind();
-
     for (int i = 0; i < m_meshes.size(); i++) {
-        m_meshes[i].render(m_modelMatBuffer.getSize());
+        m_meshes[i].render(m_model_mat_buffer.get_size());
     }
 }
 
@@ -233,5 +231,5 @@ void Model::processMesh(aiMesh* mesh) {
 
     int globalMaterialIndex = m_materialIndices[mesh->mMaterialIndex];
 
-    m_meshes.push_back(Mesh(vertices, indices, globalMaterialIndex));
+    m_meshes.push_back(Mesh(vertices, indices, globalMaterialIndex, m_model_mat_buffer));
 }
