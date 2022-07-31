@@ -47,28 +47,14 @@ std::string getFilePath(const std::string& path);
 /* Only prints out information if compiled with debug flags.
  * Automatically adds a std::endl at the end */
 template<typename T>
-void debugOutputEndl(const T* t) {
-#ifdef _DEBUG
-	std::cout << t << std::endl;
-#endif
-}
-
-/* Only prints out information if compiled with debug flags.
- * Automatically adds a std::endl at the end */
-template<typename T>
 void debugOutputEndl(const T t) {
 #ifdef _DEBUG
 	std::cout << t << std::endl;
 #endif
 }
 
-/* Only prints out information if compiled with debug flags. */
-template<typename T>
-void debugOutput(const T* t) {
-#ifdef _DEBUG
-	std::cout << t;
-#endif
-}
+template<>
+void debugOutputEndl<glm::mat4>(const glm::mat4 t);
 
 /* Only prints out information if compiled with debug flags. */
 template<typename T>
@@ -77,5 +63,8 @@ void debugOutput(const T t) {
 	std::cout << t;
 #endif
 }
+
+template<>
+void debugOutput<glm::mat4>(const glm::mat4 t);
 
 #endif
