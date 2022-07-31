@@ -38,7 +38,10 @@ Vertex_Array::Vertex_Array(const Vertex_Array& vao) {
     glBindVertexArray(m_vao_id);
 
     m_vbo = vao.m_vbo;
+    init_vertex_attrib_array();
+
     m_mbo = vao.m_mbo;
+    init_model_attrib_array();
 
     glBindVertexArray(0);
 }
@@ -49,6 +52,22 @@ Vertex_Array::Vertex_Array(Vertex_Array&& vao) : m_vbo{ std::move(vao.m_vbo) }, 
 
 Vertex_Array::~Vertex_Array() {
     glDeleteVertexArrays(1, &m_vao_id);
+}
+
+Vertex_Array& Vertex_Array::operator=(const Vertex_Array& vao) {
+    if (this == &vao)
+        return *this;
+    
+    glGenVertexArrays(1, &m_vao_id);
+    glBindVertexArray(m_vao_id);
+
+    m_vbo = vao.m_vbo;
+    init_vertex_attrib_array();
+
+    m_mbo = vao.m_mbo;
+    init_model_attrib_array();
+    
+    return *this;
 }
 
 Vertex_Array& Vertex_Array::operator=(Vertex_Array&& vao) {

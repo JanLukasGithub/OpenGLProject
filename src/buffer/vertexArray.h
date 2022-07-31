@@ -16,6 +16,7 @@ public:
     Vertex_Array(Vertex_Array&& vao);
     virtual ~Vertex_Array();
     
+    Vertex_Array& operator=(const Vertex_Array& vao);
     Vertex_Array& operator=(Vertex_Array&& vao);
 
     Vertex_Array& bind();
