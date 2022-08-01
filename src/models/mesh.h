@@ -11,6 +11,7 @@
 #include "../buffer/vertexBuffer.h"
 #include "../buffer/indexBuffer.h"
 #include "../utils.h"
+#include "../texture/textureManager.h"
 #include "material.h"
 
 class Mesh {

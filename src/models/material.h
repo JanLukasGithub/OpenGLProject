@@ -9,28 +9,17 @@
 #include "../../lib/glm/glm.hpp"
 
 struct Material {
-public:
 	// List of all materials loaded
 	inline static std::vector<Material> materials{};
 
-	glm::vec3 diffuse;
-	glm::vec3 specular;
-	glm::vec3 emissive;
-	float shininess;
-	std::string diffuseMapName;
-	std::string normalMapName;
-	GLuint diffuseMap;
-	GLuint normalMap;
+	glm::vec3 diffuse{ 0 };
+	glm::vec3 specular{ 0 };
+	glm::vec3 emissive{ 0 };
+	float shininess{ 0.0f };
+	uint32 diffuse_map_index{ 0 };
+	uint32 normal_map_index{ 0 };
 
-	Material(const Material& mat) noexcept;
-	Material() noexcept;
-
-	/**
-	 * @brief compares this material to another one ignoring the 'diffuseMap' and 'normalMap' members, but not 'diffuseMapName' and 'normalMapName'
-	 * 
-	 * @return true if all members except for 'diffuseMap' and 'normalMap' are equal, false otherwise
-	 */
-	bool operator==(const Material& mat);
+	bool operator==(const Material&) const = default;
 };
 
 #endif

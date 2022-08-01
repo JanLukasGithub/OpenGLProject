@@ -11,13 +11,13 @@
 
 #include <GL/glew.h>
 
-#include "../../lib/stb_image.h"
 #include "../../lib/glm/glm.hpp"
 #include "../../lib/glm/gtc/matrix_transform.hpp"
 
 #include "../utils.h"
 #include "mesh.h"
 #include "material.h"
+#include "../texture/textureManager.h"
 #include "../renderer/IRenderable.h"
 #include "../buffer/shaderBuffer.h"
 #include "../buffer/modelBuffer.h"
@@ -110,8 +110,6 @@ private:
     float getFloat(aiMaterial* mat, const char* pKey, unsigned int type, unsigned int idx);
     // Gets a tetxure from the aiMaterial
     std::string getTexturePath(aiMaterial* mat, aiTextureType type);
-    // Loads a texture from the given path to the gpu storing its id in textureId
-    void loadTexture(std::string& path, GLuint* textureId);
     // Processes the nodes recursively
     void processNodes(const aiScene* scene, aiNode* node);
     // Processes the mesh
