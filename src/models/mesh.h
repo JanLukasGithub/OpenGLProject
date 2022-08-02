@@ -12,7 +12,7 @@
 #include "../buffer/indexBuffer.h"
 #include "../utils.h"
 #include "../texture/textureManager.h"
-#include "../material/material.h"
+#include "../material/materialManager.h"
 
 class Mesh {
 private:

@@ -95,44 +95,8 @@ void Model::processMaterials(const aiScene* scene) {
     for (uint32 i = 0; i < numMaterials; i++) {
         aiMaterial* aiMat = scene->mMaterials[i];
 
-        Material mat{ aiMat, m_filename };
-
-        std::vector<Material>::iterator found = std::find(Material::materials.begin(), Material::materials.end(), mat);
-        if (found != Material::materials.end()) {
-            m_materialIndices.push_back(found - Material::materials.begin());
-            continue;
-        }
-
-        Material::materials.push_back(mat);
-        m_materialIndices.push_back(Material::materials.size() - 1);
+        m_materialIndices.push_back(Material_Manager::get_material_index(aiMat, m_filename));
     }
-}
-
-glm::vec3 Model::getColor(aiMaterial* mat, const char* pKey, unsigned int type, unsigned int idx) {
-    aiColor3D color(0.0f, 0.0f, 0.0f);
-    if (AI_SUCCESS != mat->Get(pKey, type, idx, color)) {
-        debugOutputEndl("No color found, using default color black!");
-    }
-    return glm::vec3(color.r, color.g, color.b);
-}
-
-float Model::getFloat(aiMaterial* mat, const char* pKey, unsigned int type, unsigned int idx) {
-    float value(0.0f);
-    if (AI_SUCCESS != mat->Get(pKey, type, idx, value)) {
-        debugOutputEndl("No value, using default value 0!");
-    }
-    return value;
-}
-
-std::string Model::getTexturePath(aiMaterial* mat, aiTextureType type) {
-    if (mat->GetTextureCount(type) > 0) {
-        aiString textureNameBuffer{ };
-        mat->GetTexture(type, 0, &textureNameBuffer);
-        return getFilePath(m_filename) + textureNameBuffer.C_Str();
-    }
-
-    debugOutputEndl("No texture found, using default texture!");
-    return std::string("");
 }
 
 void Model::processNodes(const aiScene* scene, aiNode* node) {

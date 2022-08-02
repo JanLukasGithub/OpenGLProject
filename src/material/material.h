@@ -15,9 +15,6 @@
 #include "../texture/textureManager.h"
 
 struct Material {
-	// List of all materials loaded
-	inline static std::vector<Material> materials{};
-
 	Material();
 	Material(aiMaterial* mat, const std::string& model_filename);
 

@@ -16,7 +16,7 @@
 
 #include "../utils.h"
 #include "mesh.h"
-#include "../material/material.h"
+#include "../material/materialManager.h"
 #include "../texture/textureManager.h"
 #include "../renderer/IRenderable.h"
 #include "../buffer/shaderBuffer.h"
@@ -104,12 +104,6 @@ private:
     void readModelFromFile();
     // Processes the materials
     void processMaterials(const aiScene* scene);
-    // Gets a vec3 from the aiMaterial, most commonly a color. Use AI_MATKEY_COLOR_XXX for the 3 last arguments
-    glm::vec3 getColor(aiMaterial* mat, const char* pKey, unsigned int type, unsigned int idx);
-    // Gets a single float from the aiMaterial. Use AI_MATKEY_COLOR_XXX for the 3 last arguments
-    float getFloat(aiMaterial* mat, const char* pKey, unsigned int type, unsigned int idx);
-    // Gets a tetxure from the aiMaterial
-    std::string getTexturePath(aiMaterial* mat, aiTextureType type);
     // Processes the nodes recursively
     void processNodes(const aiScene* scene, aiNode* node);
     // Processes the mesh

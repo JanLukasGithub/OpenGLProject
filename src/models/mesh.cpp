@@ -13,8 +13,8 @@ void Mesh::initUniforms(Shader* shader) {
 
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<uint32>& indices, int materialIndex, const Model_Buffer& mbo) : m_numIndices{ indices.size() },
 m_vao{ new Vertex_Array(vertices, mbo) }, m_ibo{ new IndexBuffer(indices.data(),
-m_numIndices, sizeof(indices[0])) }, m_hasNormalMap{ Material::materials[materialIndex].normal_map_index != 0 },
-m_materialIndex{ materialIndex }, m_hasDiffuseMap{ Material::materials[materialIndex].diffuse_map_index != 0 } {}
+m_numIndices, sizeof(indices[0])) }, m_hasNormalMap{ Material_Manager::get_from_index(materialIndex).normal_map_index != 0 },
+m_materialIndex{ materialIndex }, m_hasDiffuseMap{ Material_Manager::get_from_index(materialIndex).diffuse_map_index != 0 } {}
 
 Mesh::Mesh(const Mesh& mesh) : m_numIndices{ mesh.m_numIndices }, m_vao{ new Vertex_Array(*mesh.m_vao) }, m_ibo{ new IndexBuffer(*mesh.m_ibo) }, 
 m_hasNormalMap{ mesh.m_hasNormalMap }, m_materialIndex{ mesh.m_materialIndex }, m_hasDiffuseMap{ mesh.m_hasDiffuseMap } {}
@@ -31,7 +31,7 @@ Mesh::~Mesh() {
 }
 
 void Mesh::render(GLsizei num) const {
-	Material material = Material::materials[m_materialIndex];
+	Material material = Material_Manager::get_from_index(m_materialIndex);
 
 	m_vao->bind();
 	m_ibo->bind();
