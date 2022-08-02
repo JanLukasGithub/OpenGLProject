@@ -16,7 +16,7 @@
 
 #include "../utils.h"
 #include "mesh.h"
-#include "material.h"
+#include "../material/material.h"
 #include "../texture/textureManager.h"
 #include "../renderer/IRenderable.h"
 #include "../buffer/shaderBuffer.h"

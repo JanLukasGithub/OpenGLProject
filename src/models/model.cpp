@@ -95,16 +95,7 @@ void Model::processMaterials(const aiScene* scene) {
     for (uint32 i = 0; i < numMaterials; i++) {
         aiMaterial* aiMat = scene->mMaterials[i];
 
-        Material mat = {
-            .diffuse = getColor(aiMat, AI_MATKEY_COLOR_DIFFUSE),
-            .specular = getColor(aiMat, AI_MATKEY_COLOR_SPECULAR) * getFloat(aiMat, AI_MATKEY_SHININESS_STRENGTH),
-            .emissive = getColor(aiMat, AI_MATKEY_COLOR_EMISSIVE),
-
-            .shininess = getFloat(aiMat, AI_MATKEY_SHININESS),
-
-            .diffuse_map_index = Texture_Manager::get_texture_index(getTexturePath(aiMat, aiTextureType_DIFFUSE)),
-            .normal_map_index = Texture_Manager::get_texture_index(getTexturePath(aiMat, aiTextureType_NORMALS))
-        };
+        Material mat{ aiMat, m_filename };
 
         std::vector<Material>::iterator found = std::find(Material::materials.begin(), Material::materials.end(), mat);
         if (found != Material::materials.end()) {
