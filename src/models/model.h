@@ -75,6 +75,7 @@ private:
     Model_Buffer m_model_mat_buffer;
 
 public:
+    Model(const std::string& filename);
     // Move constructor
     Model(Model&& model);
     // Deconstructor
@@ -97,9 +98,6 @@ public:
     friend bool operator==(const Model& model1, const Model& model2);
 
 private:
-    // Private constructor to force use of addModelFile(filename)
-    Model(const std::string& filename);
-
     // Reads model from file using assimp
     void readModelFromFile();
     // Processes the materials
