@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <string>
 
-#include "model.h"
+#include "modelManager.h"
 
 namespace utils {
 // Loads models from the specified path recursively

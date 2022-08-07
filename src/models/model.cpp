@@ -1,36 +1,5 @@
 #include "model.h"
 
-Model& Model::addModelFile(const std::string& filename) {
-    Model* model = getFromList(filename);
-    if (model)
-        return *model;
-
-    modelFiles.push_back(Model(filename));
-    return modelFiles[modelFiles.size() - 1];
-}
-
-const int32 Model::indexOf(const std::string& filename) noexcept {
-    std::vector<Model>::iterator found = std::find(modelFiles.begin(), modelFiles.end(), filename);
-    return found == modelFiles.end() ? -1 : found.base() - modelFiles.data();
-}
-
-const int32 Model::indexOf(const Model& model) noexcept {
-    return indexOf(model.m_filename);
-}
-
-Model& Model::getFromList(const int32 index) noexcept {
-    return modelFiles[index];
-}
-
-Model* Model::getFromList(const std::string& filename) noexcept {
-    int index = indexOf(filename);
-    return index == -1 ? nullptr : &modelFiles[index];
-}
-
-const int Model::getListSize() noexcept {
-    return modelFiles.size();
-}
-
 Model::Model(Model&& model) : m_filename{ model.m_filename }, m_meshes{ std::move(model.m_meshes) }, m_model_mat_buffer{ std::move(model.m_model_mat_buffer) } {}
 
 Model::Model(const std::string& filename) : m_filename{ filename } {

@@ -14,7 +14,7 @@ void utils::loadModelsFrom(const std::string& path) noexcept {
             return;
 
         try {
-            Model::addModelFile(path);
+            Model_Manager::get_model_index(path);
         }
         catch (const std::exception& e) {
             std::cerr << "Error occurred while loading model " << path << "!" << std::endl;
@@ -25,7 +25,7 @@ void utils::loadModelsFrom(const std::string& path) noexcept {
 
 bool utils::loadModelInstance(const std::string& filename, const glm::vec3 position) noexcept {
     try {
-        Model::addModelFile(filename).addInstance(position);
+        Model_Manager::get_from_index(Model_Manager::get_model_index(filename)).addInstance(position);
         return true;
     }
     catch (const std::exception& e) {

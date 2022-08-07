@@ -23,7 +23,7 @@
 
 #include "utils.h"
 #include "sdlEventHandler.h"
-#include "models/model.h"
+#include "models/modelManager.h"
 #include "models/modelUtils.h"
 #include "font/font.h"
 #include "renderer/renderer.h"
@@ -103,8 +103,8 @@ int main(int argc, char** argv) {
 		renderer->startFrame();
 		renderer->setup3DRender();
 
-		for (int i = 0; i < Model::getListSize(); i++) {
-			Model::getFromList(i).renderModels();
+		for (int i = 0; i < Model_Manager::get_num_models(); i++) {
+			Model_Manager::get_from_index(i).renderModels();
 		}
 
 		renderer->setupTerrainRender();
