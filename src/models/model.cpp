@@ -26,6 +26,10 @@ void Model::set_instance(const GLsizeiptr index, const glm::mat4& model_mat) {
     m_model_mat_buffer.set(index, model_mat);
 }
 
+void Model::remove_instance(const GLsizeiptr index) {
+    m_model_mat_buffer.remove(index);
+}
+
 void Model::renderModels() const noexcept {
     for (int i = 0; i < m_meshes.size(); i++) {
         m_meshes[i].render(m_model_mat_buffer.get_size());

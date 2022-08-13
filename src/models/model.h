@@ -51,6 +51,9 @@ public:
     // Set an instance's model mat
     void set_instance(const GLsizeiptr index, const glm::mat4& model_mat);
 
+    // Remove an instance
+    void remove_instance(const GLsizeiptr index);
+
     // Renders all models in the list
     void renderModels() const noexcept;
     virtual void render() const noexcept override;
