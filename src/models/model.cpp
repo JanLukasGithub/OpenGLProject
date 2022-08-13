@@ -23,10 +23,16 @@ GLsizeiptr Model::addInstance(const glm::mat4 modelMat) noexcept {
 }
 
 void Model::set_instance(const GLsizeiptr index, const glm::mat4& model_mat) {
+    if (index == -1)
+        return;
+
     m_model_mat_buffer.set(index, model_mat);
 }
 
 void Model::remove_instance(const GLsizeiptr index) {
+    if (index == -1)
+        return;
+    
     m_model_mat_buffer.remove(index);
 }
 
