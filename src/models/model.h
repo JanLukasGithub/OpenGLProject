@@ -48,6 +48,9 @@ public:
     // Adds an instance using the specified model matrix
     GLsizeiptr addInstance(const glm::mat4 modelMat) noexcept;
 
+    // Set an instance's model mat
+    void set_instance(const GLsizeiptr index, const glm::mat4& model_mat);
+
     // Renders all models in the list
     void renderModels() const noexcept;
     virtual void render() const noexcept override;
