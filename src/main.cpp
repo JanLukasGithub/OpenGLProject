@@ -29,14 +29,12 @@
 #include "renderer/renderer.h"
 #include "terrain/terrain.h"
 
-std::vector<Model_Instance> models{};
-
 /**
  * @brief asks the user for a model to load in std::cin and loads the model
  *
  * @return false iff user input was "none", "n" or "", true otherwise
  */
-bool cliModelLoad() {
+bool cliModelLoad(std::vector<Model_Instance>& models) {
 	std::string* modelname = new std::string();
 	std::cout << "Please input the filename of the model you want to load or \"none\", \"n\" or \"\" to abort" << std::endl;
 	std::cin >> *modelname;
@@ -50,12 +48,14 @@ bool cliModelLoad() {
 }
 
 int main(int argc, char** argv) {
+	std::vector<Model_Instance> models{};
+	
 	Renderer* renderer = new Renderer();
 
 	utils::loadModelsFrom("assets/models/");
 
 	if (argc < 2) {
-		while (cliModelLoad());
+		while (cliModelLoad(models));
 	} else {
 		for (int i = 1; i < argc; i++) {
 			models.push_back(Model_Instance(Model_Manager::get_model_index(argv[i]), glm::vec3(5.0f * models.size(), 0.0f, 0.0f)));
