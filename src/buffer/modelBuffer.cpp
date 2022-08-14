@@ -66,7 +66,7 @@ Model_Buffer& Model_Buffer::operator=(Model_Buffer&& mbo) {
 }
 
 void Model_Buffer::set(GLsizeiptr index, glm::mat4 value) {
-    if (index >= m_size)
+    if (index >= m_size || index < 0)
         return;
 
     glBindBuffer(GL_ARRAY_BUFFER, m_buffer_id);
@@ -104,7 +104,7 @@ GLsizeiptr Model_Buffer::add(glm::mat4 value) {
 }
 
 void Model_Buffer::remove(GLsizeiptr index) {
-    if (index >= m_size)
+    if (index >= m_size || index < 0)
         return;
 
     glBindBuffer(GL_ARRAY_BUFFER, m_buffer_id);
