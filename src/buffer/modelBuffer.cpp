@@ -104,18 +104,14 @@ GLsizeiptr Model_Buffer::add(glm::mat4 value) {
 }
 
 void Model_Buffer::remove(GLsizeiptr index) {
-    set(index, glm::mat4(0));
-    m_free_space.push_back(index);
-}
-
-glm::mat4 Model_Buffer::get(GLsizeiptr index) {
-    glm::mat4 store_to;
+    if (index >= m_size)
+        return;
 
     glBindBuffer(GL_ARRAY_BUFFER, m_buffer_id);
 
-    glGetBufferSubData(GL_ARRAY_BUFFER, index * sizeof(glm::mat4), sizeof(glm::mat4), &store_to);
+    glBufferSubData(GL_ARRAY_BUFFER, index * sizeof(glm::mat4), sizeof(glm::mat4), nullptr);
 
-    return store_to;
+    m_free_space.push_back(index);
 }
 
 Model_Buffer& Model_Buffer::bind() {

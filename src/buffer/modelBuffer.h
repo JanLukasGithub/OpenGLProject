@@ -23,8 +23,6 @@ public:
     GLsizeiptr add(glm::mat4 value);
     /** Remove the model mat at the index from the buffer */
     void remove(GLsizeiptr index);
-    /** Get the model mat at the index */
-    glm::mat4 get(GLsizeiptr index);
 
     Model_Buffer& bind();
     const Model_Buffer& bind() const;
