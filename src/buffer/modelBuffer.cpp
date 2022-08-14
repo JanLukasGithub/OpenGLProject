@@ -6,12 +6,6 @@ Model_Buffer::Model_Buffer() {
     glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_DYNAMIC_DRAW);
 }
 
-Model_Buffer::Model_Buffer(std::vector<glm::mat4> model_mats) : m_size(model_mats.size()) {
-    glGenBuffers(1, &m_buffer_id);
-    glBindBuffer(GL_ARRAY_BUFFER, m_buffer_id);
-    glBufferData(GL_ARRAY_BUFFER, m_size * sizeof(glm::mat4), model_mats.data(), GL_DYNAMIC_DRAW);
-}
-
 Model_Buffer::Model_Buffer(const Model_Buffer& mbo) : m_size{ mbo.m_size }, m_free_space{ mbo.m_free_space } {
     glBindBuffer(GL_COPY_READ_BUFFER, mbo.m_buffer_id);
 

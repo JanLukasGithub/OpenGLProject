@@ -9,7 +9,6 @@
 class Model_Buffer {
 public:
     Model_Buffer();
-    Model_Buffer(std::vector<glm::mat4> model_mats);
     Model_Buffer(const Model_Buffer& mbo);
     Model_Buffer(Model_Buffer&& mbo);
     virtual ~Model_Buffer();
