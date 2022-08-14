@@ -91,6 +91,10 @@ int main(int argc, char** argv) {
 			models.push_back(Model_Instance(Model_Manager::get_model_index("assets/models/QuadrupedTank/QuadrupedTank.obj"), renderer->getCamera().getPosition()));
 		}
 
+		if (handler->keyPressed(SDLK_k) && !models.empty()) {
+			models.pop_back();
+		}
+
 		if (handler->keyJustPressed(SDLK_ESCAPE)) {
 			SDL_SetRelativeMouseMode(isEscMenuOpen ? SDL_TRUE : SDL_FALSE);
 			isEscMenuOpen = !isEscMenuOpen;
