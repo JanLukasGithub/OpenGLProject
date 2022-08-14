@@ -33,7 +33,6 @@ private:
     uint32 m_model_index;
     glm::mat4 m_model_mat;
     GLsizeiptr m_instance_index;
-    
 };
 
 #endif
