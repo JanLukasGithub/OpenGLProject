@@ -30,7 +30,7 @@ public:
 
 private:
     GLuint m_buffer_id{ 0 };
-    GLsizeiptr m_size{ 0 };
+    GLsizeiptr m_capacity{ 0 };
 
     std::vector<GLsizeiptr> m_free_space{};
 };
