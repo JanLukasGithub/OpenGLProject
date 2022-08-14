@@ -26,6 +26,8 @@ Model_Buffer::Model_Buffer(Model_Buffer&& mbo) : m_size{ mbo.m_size }, m_buffer_
 }
 
 Model_Buffer::~Model_Buffer() {
+    m_size = 0;
+
     glDeleteBuffers(1, &m_buffer_id);
 }
 
@@ -64,6 +66,9 @@ Model_Buffer& Model_Buffer::operator=(Model_Buffer&& mbo) {
 }
 
 void Model_Buffer::set(GLsizeiptr index, glm::mat4 value) {
+    if (index >= m_size)
+        return;
+
     glBindBuffer(GL_ARRAY_BUFFER, m_buffer_id);
 
     glBufferSubData(GL_ARRAY_BUFFER, index * sizeof(glm::mat4), sizeof(glm::mat4), &value);
