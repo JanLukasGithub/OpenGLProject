@@ -25,11 +25,12 @@
 #include "sdlEventHandler.h"
 #include "models/modelManager.h"
 #include "models/modelUtils.h"
+#include "models/modelInstance.h"
 #include "font/font.h"
 #include "renderer/renderer.h"
 #include "terrain/terrain.h"
 
-int numModels = 0;
+std::vector<Model_Instance> models{};
 
 /**
  * @brief asks the user for a model to load in std::cin and loads the model
@@ -44,7 +45,7 @@ bool cliModelLoad() {
 	if (modelname->compare("none") * modelname->compare("n") * modelname->compare("") == 0)
 		return false;
 
-	numModels += utils::loadModelInstance(modelname->c_str(), glm::vec3(5.0f * numModels, 0.0f, 0.0f));
+	models.push_back(Model_Instance(Model_Manager::get_model_index(*modelname), glm::vec3(5.0f * models.size(), 0.0f, 0.0f)));
 
 	return true;
 }
@@ -58,7 +59,7 @@ int main(int argc, char** argv) {
 		while (cliModelLoad());
 	} else {
 		for (int i = 1; i < argc; i++) {
-			numModels += utils::loadModelInstance(argv[i], glm::vec3(5.0f * numModels, 0.0f, 0.0f));
+			models.push_back(Model_Instance(Model_Manager::get_model_index(argv[i]), glm::vec3(5.0f * models.size(), 0.0f, 0.0f)));
 		}
 	}
 
@@ -88,7 +89,7 @@ int main(int argc, char** argv) {
 		}
 
 		if (handler->keyPressed(SDLK_l)) {
-			numModels += utils::loadModelInstance("assets/models/QuadrupedTank/QuadrupedTank.obj", renderer->getCamera().getPosition());
+			models.push_back(Model_Instance(Model_Manager::get_model_index("assets/models/QuadrupedTank/QuadrupedTank.obj"), renderer->getCamera().getPosition()));
 		}
 
 		if (handler->keyJustPressed(SDLK_ESCAPE)) {
@@ -115,7 +116,7 @@ int main(int argc, char** argv) {
 
 		// Draw FPS and numModels
 		font->drawString(5.0f, 20.0f, std::to_string(renderer->getFPS()).c_str());
-		font->drawString(5.0f, 40.0f, std::to_string(numModels).c_str());
+		font->drawString(5.0f, 40.0f, std::to_string(models.size()).c_str());
 
 		renderer->setup2DRender();
 
