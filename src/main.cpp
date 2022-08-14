@@ -104,7 +104,7 @@ int main(int argc, char** argv) {
 		renderer->setup3DRender();
 
 		for (int i = 0; i < Model_Manager::get_num_models(); i++) {
-			Model_Manager::get_from_index(i).renderModels();
+			Model_Manager::get_from_index(i).render_models();
 		}
 
 		renderer->setupTerrainRender();
