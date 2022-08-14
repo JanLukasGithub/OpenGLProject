@@ -23,7 +23,6 @@
 
 #include "utils.h"
 #include "sdlEventHandler.h"
-#include "models/modelManager.h"
 #include "models/modelUtils.h"
 #include "models/modelInstance.h"
 #include "font/font.h"
