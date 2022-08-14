@@ -25,7 +25,7 @@ void utils::loadModelsFrom(const std::string& path) noexcept {
 
 bool utils::loadModelInstance(const std::string& filename, const glm::vec3 position) noexcept {
     try {
-        Model_Manager::get_from_index(Model_Manager::get_model_index(filename)).addInstance(position);
+        Model_Manager::get_from_index(Model_Manager::get_model_index(filename)).add_instance(position);
         return true;
     }
     catch (const std::exception& e) {

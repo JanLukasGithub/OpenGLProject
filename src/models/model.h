@@ -24,16 +24,6 @@
 
 // Representation of a model file (.obj or similar) in code. Allows you to create Models
 class Model : IRenderable {
-private:
-    // Name of this model
-    const std::string m_filename;
-    // Meshes of this model file
-    std::vector<Mesh> m_meshes{};
-    // Holds the indices of the materials
-    std::vector<uint32> m_materialIndices{};
-    // Buffer to store model mats to
-    Model_Buffer m_model_mat_buffer;
-
 public:
     Model(const std::string& filename);
     // Move constructor
@@ -42,11 +32,14 @@ public:
     virtual ~Model() noexcept;
 
     // Adds an instance
-    GLsizeiptr addInstance() noexcept;
+    // Returns the index of the instance
+    GLsizeiptr add_instance() noexcept;
     // Adds an instance at the specified position
-    GLsizeiptr addInstance(const glm::vec3 position) noexcept;
+    // Returns the index of the instance
+    GLsizeiptr add_instance(const glm::vec3 position) noexcept;
     // Adds an instance using the specified model matrix
-    GLsizeiptr addInstance(const glm::mat4 modelMat) noexcept;
+    // Returns the index of the instance
+    GLsizeiptr add_instance(const glm::mat4 modelMat) noexcept;
 
     // Set an instance's model mat
     void set_instance(const GLsizeiptr index, const glm::mat4& model_mat);
@@ -55,7 +48,7 @@ public:
     void remove_instance(const GLsizeiptr index);
 
     // Renders all models in the list
-    void renderModels() const noexcept;
+    void render_models() const noexcept;
     virtual void render() const noexcept override;
 
     // Checks if the filename of model and filename are equal
@@ -73,8 +66,14 @@ private:
     // Processes the mesh
     void processMesh(aiMesh* mesh);
 
-public:
-    std::vector<Mesh>& getMeshes() { return m_meshes; }
+    // Name of this model
+    const std::string m_filename;
+    // Meshes of this model file
+    std::vector<Mesh> m_meshes{};
+    // Holds the indices of the materials
+    std::vector<uint32> m_materialIndices{};
+    // Buffer to store model mats to
+    Model_Buffer m_model_mat_buffer;
 };
 
 #endif

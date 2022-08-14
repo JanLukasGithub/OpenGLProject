@@ -8,17 +8,17 @@ Model::Model(const std::string& filename) : m_filename{ filename } {
 
 Model::~Model() noexcept {}
 
-GLsizeiptr Model::addInstance() noexcept {
+GLsizeiptr Model::add_instance() noexcept {
     glm::mat4 modelMat{ 1.0f };
     return m_model_mat_buffer.add(modelMat);
 }
 
-GLsizeiptr Model::addInstance(const glm::vec3 position) noexcept {
+GLsizeiptr Model::add_instance(const glm::vec3 position) noexcept {
     glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), position);
     return m_model_mat_buffer.add(modelMat);
 }
 
-GLsizeiptr Model::addInstance(const glm::mat4 modelMat) noexcept {
+GLsizeiptr Model::add_instance(const glm::mat4 modelMat) noexcept {
     return m_model_mat_buffer.add(modelMat);
 }
 
@@ -36,14 +36,14 @@ void Model::remove_instance(const GLsizeiptr index) {
     m_model_mat_buffer.remove(index);
 }
 
-void Model::renderModels() const noexcept {
+void Model::render_models() const noexcept {
     for (int i = 0; i < m_meshes.size(); i++) {
         m_meshes[i].render(m_model_mat_buffer.get_size());
     }
 }
 
 void Model::render() const noexcept {
-    renderModels();
+    render_models();
 }
 
 bool operator==(const Model& ModelFile, const std::string& filename) {
