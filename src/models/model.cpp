@@ -9,13 +9,11 @@ Model::Model(const std::string& filename) : m_filename{ filename } {
 Model::~Model() noexcept {}
 
 GLsizeiptr Model::add_instance() noexcept {
-    glm::mat4 modelMat{ 1.0f };
-    return m_model_mat_buffer.add(modelMat);
+    return m_model_mat_buffer.add(glm::mat4{ 1.0f });
 }
 
 GLsizeiptr Model::add_instance(const glm::vec3& position) noexcept {
-    glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), position);
-    return m_model_mat_buffer.add(modelMat);
+    return m_model_mat_buffer.add(glm::translate(glm::mat4{ 1.0f }, position));
 }
 
 GLsizeiptr Model::add_instance(const glm::mat4& modelMat) noexcept {
