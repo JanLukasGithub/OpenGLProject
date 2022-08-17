@@ -36,10 +36,10 @@ public:
     GLsizeiptr add_instance() noexcept;
     // Adds an instance at the specified position
     // Returns the index of the instance
-    GLsizeiptr add_instance(const glm::vec3 position) noexcept;
+    GLsizeiptr add_instance(const glm::vec3& position) noexcept;
     // Adds an instance using the specified model matrix
     // Returns the index of the instance
-    GLsizeiptr add_instance(const glm::mat4 modelMat) noexcept;
+    GLsizeiptr add_instance(const glm::mat4& modelMat) noexcept;
 
     // Set an instance's model mat
     void set_instance(const GLsizeiptr index, const glm::mat4& model_mat);

@@ -13,12 +13,12 @@ GLsizeiptr Model::add_instance() noexcept {
     return m_model_mat_buffer.add(modelMat);
 }
 
-GLsizeiptr Model::add_instance(const glm::vec3 position) noexcept {
+GLsizeiptr Model::add_instance(const glm::vec3& position) noexcept {
     glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), position);
     return m_model_mat_buffer.add(modelMat);
 }
 
-GLsizeiptr Model::add_instance(const glm::mat4 modelMat) noexcept {
+GLsizeiptr Model::add_instance(const glm::mat4& modelMat) noexcept {
     return m_model_mat_buffer.add(modelMat);
 }
 
